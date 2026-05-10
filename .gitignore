@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+
+# ChromaDB
+chromadb/
+chroma/
+
+# LangChain
+.langchain/
+
+# Build
+dist/
+build/
+*.egg-info/
+
+# Temporary files
+tmp/
+temp/
