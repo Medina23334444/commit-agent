@@ -82,7 +82,8 @@ def get_git_diff() -> str:
             r"password\s*=\s*\S+|"
             r"secret\s*=\s*\S+|"
             r"token\s*=\s*\S+|"
-            r"api_key\s*=\s*\S+)",
+            r"api_key\s*=\s*\S+|"
+            r"\$\{\{\s*secrets\.\w+\s*\}\})",
             "REDACTED_SECRET",
             diff,
             flags=re.IGNORECASE,

@@ -7,62 +7,128 @@ from langchain_core.tools import tool
 # SKILLS
 # ══════════════════════════════════════════════════════════════════════════════
 
+
 @tool
 def detect_commit_type(diff: str, archivos: str) -> str:
     """
     Detecta el tipo de commit más probable basándose en el diff y archivos modificados.
     Retorna: feat, fix, docs, style, refactor, test, chore, perf, ci, build
     """
-    diff_lower    = diff.lower()
+    diff_lower = diff.lower()
     archivos_lower = archivos.lower()
 
     # ── Reglas de clasificación ───────────────────────────────────────────────
     rules = [
         # test
-        ("test",     any(x in archivos_lower for x in ["test", "spec"]) or
-                     any(x in diff_lower for x in ["assert", "unittest", "pytest"])),
-
+        (
+            "test",
+            any(x in archivos_lower for x in ["test", "spec"])
+            or any(x in diff_lower for x in ["assert", "unittest", "pytest"]),
+        ),
         # ci
-        ("ci",       any(x in archivos_lower for x in [
-                         ".github", "ci.yml", "cd.yml", ".gitlab-ci", "jenkinsfile"
-                     ])),
-
+        (
+            "ci",
+            any(
+                x in archivos_lower
+                for x in [".github", "ci.yml", "cd.yml", ".gitlab-ci", "jenkinsfile"]
+            ),
+        ),
         # build
-        ("build",    any(x in archivos_lower for x in [
-                         "requirements", "setup.py", "pyproject", "package.json",
-                         "dockerfile", "makefile"
-                     ])),
-
+        (
+            "build",
+            any(
+                x in archivos_lower
+                for x in [
+                    "requirements",
+                    "setup.py",
+                    "pyproject",
+                    "package.json",
+                    "dockerfile",
+                    "makefile",
+                ]
+            ),
+        ),
         # docs
-        ("docs",     any(x in archivos_lower for x in [
-                         "readme", ".md", "docs/", "documentation"
-                     ])),
-
+        (
+            "docs",
+            any(
+                x in archivos_lower for x in ["readme", ".md", "docs/", "documentation"]
+            ),
+        ),
         # style
-        ("style",    any(x in diff_lower for x in [
-                         "black", "prettier", "eslint", "flake8", "isort"
-                     ]) and not any(x in diff_lower for x in ["def ", "class "])),
-
+        (
+            "style",
+            any(
+                x in diff_lower
+                for x in ["black", "prettier", "eslint", "flake8", "isort"]
+            )
+            and not any(x in diff_lower for x in ["def ", "class "]),
+        ),
         # perf
-        ("perf",     any(x in diff_lower for x in [
-                         "cache", "optimize", "performance", "speed", "latency", "async"
-                     ])),
-
+        (
+            "perf",
+            any(
+                x in diff_lower
+                for x in [
+                    "cache",
+                    "optimize",
+                    "performance",
+                    "speed",
+                    "latency",
+                    "async",
+                ]
+            ),
+        ),
         # fix
-        ("fix",      any(x in diff_lower for x in [
-                         "fix", "bug", "error", "exception", "traceback",
-                         "raise", "try:", "except", "null", "none"
-                     ])),
-
+        (
+            "fix",
+            any(
+                x in diff_lower
+                for x in [
+                    "fix",
+                    "bug",
+                    "error",
+                    "exception",
+                    "traceback",
+                    "raise",
+                    "try:",
+                    "except",
+                    "null",
+                    "none",
+                ]
+            ),
+        ),
         # feat
-        ("feat",     any(x in diff_lower for x in [
-                         "def ", "class ", "return", "new", "add", "create", "implement"
-                     ])),
-
+        (
+            "feat",
+            any(
+                x in diff_lower
+                for x in [
+                    "def ",
+                    "class ",
+                    "return",
+                    "new",
+                    "add",
+                    "create",
+                    "implement",
+                ]
+            ),
+        ),
         # refactor
-        ("refactor", any(x in diff_lower for x in [
-                         "rename", "move", "restructure", "cleanup", "simplify", "extract"
-                     ])),
+        (
+            "refactor",
+            any(
+                x in diff_lower
+                for x in [
+                    "rename",
+                    "move",
+                    "restructure",
+                    "cleanup",
+                    "simplify",
+                    "extract",
+                ]
+            ),
+        ),
     ]
 
     for tipo, condicion in rules:
@@ -114,10 +180,14 @@ def summarize_changes(diff: str, archivos: str) -> str:
         return "sin cambios"
 
     # Cuenta estadísticas básicas
-    lineas_añadidas  = len([l for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++")])
-    lineas_eliminadas = len([l for l in diff.splitlines() if l.startswith("-") and not l.startswith("---")])
-    archivos_lista   = archivos.splitlines() if archivos else []
-    n_archivos       = len(archivos_lista)
+    lineas_añadidas = len(
+        [l for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++")]
+    )
+    lineas_eliminadas = len(
+        [l for l in diff.splitlines() if l.startswith("-") and not l.startswith("---")]
+    )
+    archivos_lista = archivos.splitlines() if archivos else []
+    n_archivos = len(archivos_lista)
 
     # Detecta patrones relevantes
     patrones = []
