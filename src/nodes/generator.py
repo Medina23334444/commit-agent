@@ -65,58 +65,48 @@ class GeneratorNode:
 
         mensaje = mensaje.strip()
 
-        # Elimina bloques de markdown primero
+        # 1. Elimina markdown
         mensaje = re.sub(r"```[\w]*\n?", "", mensaje)
         mensaje = re.sub(r"```", "", mensaje).strip()
 
-        # Intenta extraer de JSON
+        # 2. Detecta rechazo del modelo
+        if "I'm sorry" in mensaje or "can't assist" in mensaje:
+            raise ValueError("LLM rechazó la solicitud por filtro de seguridad.")
+
+        # 3. Intenta extraer de JSON
         try:
             data = json.loads(mensaje)
             if isinstance(data, dict):
                 for key in ["response", "message", "commit", "result"]:
                     if key in data:
                         valor = data[key]
-                        # Solo usa si parece un commit válido
                         if re.match(
                             r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)",
                             valor,
                         ):
-                            mensaje = valor
-                            break
+                            return self._truncar_primera_linea(valor)
+                return ""  # JSON existe pero sin commit válido
         except Exception:
             pass
 
-        # Toma la primera línea válida con formato Conventional Commits
-        for linea in mensaje.splitlines():
+        # 4. Elimina comillas
+        mensaje = mensaje.strip("\"'")
+
+        # 5. Busca primera línea válida y preserva el body
+        lineas = mensaje.splitlines()
+        for i, linea in enumerate(lineas):
             linea = linea.strip()
             if re.match(
                 r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)", linea
             ):
-                return self._truncar_primera_linea(linea)
+                # Preserva body si existe
+                resto = "\n".join(lineas[i + 1 :]).strip()
+                header = self._truncar_primera_linea(linea)
+                if resto:
+                    return f"{header}\n\n{resto}"
+                return header
 
-        # Si no encuentra nada válido retorna vacío para forzar error
         return ""
-
-    def _truncar_primera_linea(self, mensaje: str) -> str:
-        lineas = mensaje.strip().splitlines()
-        if not lineas:
-            return mensaje
-        primera = lineas[0]
-        if len(primera) <= 72:
-            return mensaje
-
-        # Trunca en la última palabra completa que quepa
-        truncada = primera[:72].rsplit(" ", 1)[0]
-
-        # Elimina palabras conectoras al final (y, con, de, para, el, la)
-        conectores = {"y", "con", "de", "para", "el", "la", "los", "las", "a", "o"}
-        palabras = truncada.split()
-        while palabras and palabras[-1].lower() in conectores:
-            palabras.pop()
-
-        truncada = " ".join(palabras)
-        lineas[0] = truncada
-        return "\n".join(lineas)
 
     def _truncar_primera_linea(self, mensaje: str) -> str:
         lineas = mensaje.strip().splitlines()
