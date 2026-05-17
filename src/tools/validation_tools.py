@@ -8,11 +8,21 @@ from langchain_core.tools import tool
 # ══════════════════════════════════════════════════════════════════════════════
 
 TIPOS_VALIDOS = {
-    "feat", "fix", "docs", "style", "refactor",
-    "test", "chore", "perf", "ci", "build"
+    "feat",
+    "fix",
+    "docs",
+    "style",
+    "refactor",
+    "test",
+    "chore",
+    "perf",
+    "ci",
+    "build",
 }
 
-PATRON_CONVENTIONAL = r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\(.+\))?!?: .{1,72}"
+PATRON_CONVENTIONAL = (
+    r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\(.+\))?!?: .{1,72}"
+)
 
 
 PALABRAS_VAGAS = [
@@ -34,6 +44,7 @@ PALABRAS_VAGAS = [
 # ══════════════════════════════════════════════════════════════════════════════
 # SKILLS
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 @tool
 def validate_format(message: str) -> str:
@@ -64,7 +75,9 @@ def validate_format(message: str) -> str:
         if not descripcion:
             return "INVALID: descripción vacía después de ':'"
 
-        return "INVALID: formato incorrecto. Usa <tipo>(<scope opcional>): <descripción>"
+        return (
+            "INVALID: formato incorrecto. Usa <tipo>(<scope opcional>): <descripción>"
+        )
 
     return "VALID"
 
@@ -80,7 +93,7 @@ def validate_semantic_quality(message: str, diff: str) -> str:
         return "INVALID: mensaje vacío"
 
     message_lower = message.lower()
-    diff_lower    = diff.lower() if diff else ""
+    diff_lower = diff.lower() if diff else ""
 
     # ── Detecta palabras vagas ─────────────────────────────────────────────
     for palabra in PALABRAS_VAGAS:
@@ -89,17 +102,21 @@ def validate_semantic_quality(message: str, diff: str) -> str:
             return f"INVALID: descripción vaga, usa verbos más precisos y evita '{palabra}' aislada"
 
     # ── Verifica que la descripción no sea solo el tipo repetido ──────────
-    partes      = message.split(":")
+    partes = message.split(":")
     descripcion = partes[-1].strip().lower() if partes else ""
-    tipo        = partes[0].split("(")[0].strip().lower() if partes else ""
+    tipo = partes[0].split("(")[0].strip().lower() if partes else ""
 
-    if descripcion == tipo or descripcion == f"{tipo} code" or descripcion == f"{tipo}s":
+    if (
+        descripcion == tipo
+        or descripcion == f"{tipo} code"
+        or descripcion == f"{tipo}s"
+    ):
         return f"INVALID: descripción repite el tipo '{tipo}', sé más específico"
 
     # ── Verifica consistencia básica con el diff ───────────────────────────
     if diff_lower:
-        es_feat     = "feat" in message_lower
-        es_fix      = "fix" in message_lower
+        es_feat = "feat" in message_lower
+        es_fix = "fix" in message_lower
         tiene_nuevo = any(x in diff_lower for x in ["def ", "class ", "new"])
         tiene_error = any(x in diff_lower for x in ["error", "exception", "bug", "fix"])
 
