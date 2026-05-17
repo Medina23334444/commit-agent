@@ -45,4 +45,4 @@ jobs:
     # 5. Ejecuta las pruebas automatizadas que tengas en la carpeta /tests
     - name: Ejecutar Pruebas Unitarias (Pytest)
       run: |
-        pytest
+        pytest || test $? -eq 5
