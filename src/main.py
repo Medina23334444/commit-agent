@@ -4,9 +4,7 @@ import subprocess
 from pathlib import Path
 import warnings
 
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-warnings.filterwarnings("ignore", category=PendingDeprecationWarning)
-warnings.filterwarnings("ignore", message=".*LangChain.*")
+warnings.filterwarnings("ignore")
 
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
