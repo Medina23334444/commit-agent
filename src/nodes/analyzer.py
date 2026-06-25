@@ -9,6 +9,7 @@ from tools.git_tools import (
     parse_changed_files,
     get_diff_stats
 )
+from rag.retriever import get_repo_context_rag
 
 
 class AnalyzerNode:
@@ -30,16 +31,16 @@ class AnalyzerNode:
         if diff == "NO_DIFF":
             return {
                 **state,
-                "error_type":    "NO_DIFF",
-                "error_node":    "analyzer",
+                "error_type": "NO_DIFF",
+                "error_node": "analyzer",
                 "error_message": "No hay cambios en staging. Ejecuta 'git add' primero."
             }
 
         if diff.startswith("GIT_ERROR"):
             return {
                 **state,
-                "error_type":    "GIT_ERROR",
-                "error_node":    "analyzer",
+                "error_type": "GIT_ERROR",
+                "error_node": "analyzer",
                 "error_message": diff
             }
 
@@ -51,18 +52,24 @@ class AnalyzerNode:
         archivos_raw = parse_changed_files.invoke({})
         archivos = self._parse_archivos(archivos_raw)
 
+        # ── 3.5 Búsqueda RAG ───────────────────────────────────────────────────
+        # Usamos los archivos modificados como "query" para buscar en ChromaDB
+        query_rag = f"Cambios en archivos: {', '.join(archivos[:5])}"
+        contexto_rag = get_repo_context_rag(query=query_rag, k=4)
+
         # ── 4. Obtener estadísticas ────────────────────────────────────────────
         estadisticas = self._parse_estadisticas(diff)
 
         return {
             **state,
-            "diff":          diff,
-            "rama":          rama,
-            "historial":     historial,
-            "archivos":      archivos,
-            "estadisticas":  estadisticas,
-            "error_type":    None,
-            "error_node":    None,
+            "diff": diff,
+            "rama": rama,
+            "historial": historial,
+            "archivos": archivos,
+            "estadisticas": estadisticas,
+            "contexto_repo": contexto_rag,  # <--- INYECTAS EL RAG AQUÍ
+            "error_type": None,
+            "error_node": None,
             "error_message": None,
         }
 
