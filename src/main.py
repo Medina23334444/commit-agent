@@ -2,6 +2,9 @@
 import os
 import subprocess
 from pathlib import Path
+import warnings
+
+warnings.filterwarnings("ignore")
 
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
