@@ -1,0 +1,48 @@
+name: Continuous Integration
+
+# Elige cuándo se va a ejecutar esta automatización
+on:
+  push:
+    # Se ejecuta al hacer push directo en cualquiera de estas ramas
+    branches: [ main, develop, feat_skills, feat_nodes ]
+  pull_request:
+    # Se ejecuta cuando abres un Pull Request con destino a integración o producción
+    branches: [ main, develop ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # Se ejecuta en un servidor limpio de Linux (Ubuntu)
+
+    steps:
+    # 1. Descarga el código de tu repositorio en el servidor de GitHub
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    # 2. Instala Python en el entorno virtual del servidor
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.14'
+        cache: 'pip'           # Guarda en caché las dependencias para acelerar futuras ejecuciones
+
+    # 3. Instala todas las dependencias necesarias
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        # Instala herramientas de testing Y las librerías base que el agente necesita para compilar
+        pip install flake8 pytest langchain-core langchain-ollama langgraph python-dotenv
+        # Instala las dependencias de tu proyecto si tienes el archivo requirements.txt
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+    # 4. Analiza el código en busca de errores de sintaxis o malas prácticas
+    - name: Control de Estilo y Sintaxis (Flake8)
+      run: |
+        # E9, F63, F7 y F82 detienen el proceso si hay errores graves de sintaxis o variables no definidas
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Este solo muestra advertencias de estilo (PEP 8) sin tumbar el pipeline (--exit-zero)
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    # 5. Ejecuta las pruebas automatizadas que tengas en la carpeta /tests
+    - name: Ejecutar Pruebas Unitarias (Pytest)
+      run: |
+        pytest || test $? -eq 5
