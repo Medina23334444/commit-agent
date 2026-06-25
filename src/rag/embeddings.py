@@ -1,5 +1,5 @@
 #src/rag/embeddings.py
-from langchain_community.embeddings import OllamaEmbeddings
+from langchain_ollama import OllamaEmbeddings
 
 def get_embeddings_model():
     """Inicializa el modelo de embeddings local a través de Ollama."""
