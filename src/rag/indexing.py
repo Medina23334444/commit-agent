@@ -76,8 +76,14 @@ def index_repository(reset: bool = False) -> None:
             docs_to_index.extend(guideline_docs)
 
     if docs_to_index:
-        print(f"\n📥 Indexando {len(docs_to_index)} fragmentos en ChromaDB...")
-        vector_store.add_documents(docs_to_index)
+        print(f"\n📥 Indexando {len(docs_to_index)} fragmentos en ChromaDB por lotes...")
+        
+        batch_size = 50 
+        for i in range(0, len(docs_to_index), batch_size):
+            lote = docs_to_index[i:i + batch_size]
+            vector_store.add_documents(lote)
+            print(f"   → Lote {i // batch_size + 1} indexado ({len(lote)} fragmentos)")
+            
         print("✅ Indexación completada.")
     else:
         print("❌ No se encontraron datos para indexar.")
