@@ -1,32 +1,30 @@
 # src/main.py
 import os
-import warnings
-import logging
-
 
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["HF_HUB_OFFLINE"] = "1"
+os.environ["HUGGINGFACE_HUB_VERBOSITY"] = "error"
 
+import warnings
+warnings.simplefilter("ignore")  # global, activo durante TODA la ejecución, no solo el import
 
-warnings.simplefilter("ignore")
-warnings.filterwarnings("ignore")
-
-
+import logging
 logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 logging.getLogger("langchain").setLevel(logging.ERROR)
-
+logging.getLogger("langgraph").setLevel(logging.ERROR)
 
 import subprocess
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
-
 from agent.graph import CommitGraph
 from agent.state import AgentState
+
 
 
 env_path = Path(__file__).parent.parent / ".env"
@@ -92,58 +90,53 @@ def build_initial_state() -> AgentState:
 def run():
     cwd = os.getcwd()
 
-    # 1. ELIMINADO EL 'git add .' AUTOMÁTICO (Cumple RF03)
-    # El usuario debe usar git add manualmente antes de llamar a commit-agent.
+    llm = build_llm()
 
-    llm   = build_llm()
-    graph = CommitGraph(llm).build()
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")  # refuerzo justo antes del import lazy de langgraph
+        graph = CommitGraph(llm).build()
 
-    # Bucle infinito para permitir la opción de "Regenerar" (Cumple RF08)
-    while True:
-        state = build_initial_state()
-        resultado = graph.invoke(state)
+        while True:
+            state = build_initial_state()
+            resultado = graph.invoke(state)
 
-        # 3. Manejar resultado
-        error_type = resultado.get("error_type")
+            error_type = resultado.get("error_type")
 
-        # Mensaje claro si el staging está vacío (Cumple RF03)
-        if error_type == "NO_DIFF":
-            print("ℹ️  El área de preparación (staging) está vacía. Ejecuta 'git add' primero para preparar tus cambios.")
-            return
+            if error_type == "NO_DIFF":
+                print("ℹ️  El área de preparación (staging) está vacía. Ejecuta 'git add' primero para preparar tus cambios.")
+                return
 
-        if error_type in ("API_ERROR", "GIT_ERROR"):
-            print(f"❌ Error en {resultado.get('error_node')}: {resultado.get('error_message')}")
-            return
+            if error_type in ("API_ERROR", "GIT_ERROR"):
+                print(f"❌ Error en {resultado.get('error_node')}: {resultado.get('error_message')}")
+                return
 
-        mensaje = resultado.get("message")
-        if not mensaje:
-            print("❌ No se pudo generar el mensaje.")
-            return
+            mensaje = resultado.get("message")
+            if not mensaje:
+                print("❌ No se pudo generar el mensaje.")
+                return
 
-        # 4. Confirmar y aplicar commit con 3 opciones (Cumple RF08)
-        print(f"\n💬 Propuesta de commit:\n\033[92m{mensaje}\033[0m\n")
-        
-        opcion = input("¿Qué deseas hacer? [a]ceptar, [r]egenerar, [c]ancelar (Enter=aceptar): ").strip().lower()
-        
-        if opcion == 'c':
-            print("🚫 Operación cancelada. El staging se mantiene intacto.")
-            return
-        elif opcion == 'r':
-            print("🔄 Regenerando mensaje...")
-            continue # Vuelve al inicio del bucle while y genera un mensaje nuevo
-        else:
-            # Opción por defecto o si elige 'a'
-            resultado_commit = subprocess.run(
-                ["git", "commit", "-m", mensaje],
-                cwd=cwd,
-                capture_output=True,
-                text=True
-            )
-            if resultado_commit.returncode == 0:
-                print("✅ Commit aplicado exitosamente.")
+            print(f"\n💬 Propuesta de commit:\n\033[92m{mensaje}\033[0m\n")
+
+            opcion = input("¿Qué deseas hacer? [a]ceptar, [r]egenerar, [c]ancelar (Enter=aceptar): ").strip().lower()
+
+            if opcion == 'c':
+                print("🚫 Operación cancelada. El staging se mantiene intacto.")
+                return
+            elif opcion == 'r':
+                print("🔄 Regenerando mensaje...")
+                continue
             else:
-                print(f"❌ Error al commitear: {resultado_commit.stderr}")
-            return
+                resultado_commit = subprocess.run(
+                    ["git", "commit", "-m", mensaje],
+                    cwd=cwd,
+                    capture_output=True,
+                    text=True
+                )
+                if resultado_commit.returncode == 0:
+                    print("✅ Commit aplicado exitosamente.")
+                else:
+                    print(f"❌ Error al commitear: {resultado_commit.stderr}")
+                return
 
 
 if __name__ == "__main__":
