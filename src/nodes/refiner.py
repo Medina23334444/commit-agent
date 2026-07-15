@@ -28,7 +28,6 @@ class RefinerNode:
             response = self.llm.invoke(messages)
             mensaje = response.content.strip()
             mensaje = self._limpiar_mensaje(mensaje)
-            print(f"🔄 Mensaje refinado: {mensaje}")
 
             # Agrega al historial
             nuevos_messages = [

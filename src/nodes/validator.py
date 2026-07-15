@@ -73,7 +73,6 @@ class ValidatorNode:
     def _rechazar(self, state: AgentState, critica: str) -> AgentState:
         """Rechaza el mensaje e incrementa intentos."""
         intentos = state.get("intentos", 0) + 1
-        print(f"⚠️  Mensaje rechazado (intento {intentos}): {critica}")
 
         return {
             **state,
@@ -90,7 +89,6 @@ class ValidatorNode:
 
     def _aprobar(self, state: AgentState) -> AgentState:
         """Aprueba el mensaje."""
-        print(f"✅ Mensaje aprobado: {state.get('message')}")
         return {
             **state,
             "critica":       None,

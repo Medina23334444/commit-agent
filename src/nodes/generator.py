@@ -30,10 +30,8 @@ class GeneratorNode:
         # ── 3. Invocar LLM ────────────────────────────────────────────────────
         try:
             response = self.llm.invoke(messages)
-            print(f"DEBUG raw: {repr(response.content[:200])}")  # ← agrega esto
             mensaje = response.content.strip()
             mensaje = self._limpiar_mensaje(mensaje)  # ← truncado
-            print(f"DEBUG limpio: {repr(mensaje)}")  # ← agrega esto
             # Agrega al historial de mensajes
             nuevos_messages = [
                 HumanMessage(content=user_prompt),

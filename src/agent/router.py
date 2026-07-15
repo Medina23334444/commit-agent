@@ -40,8 +40,7 @@ class Router:
         Si falla, igual continuamos con lo que tenemos.
         """
         if state.get("error_type") == "COMPREHENSION_ERROR":
-            print(f"⚠️  Comprehension falló: {state.get('error_message')} — continuando sin contexto semántico.")
-            return "continue"  # no abortamos, el generator puede trabajar sin esto
+            return "continue"  
 
         return "continue"
 
@@ -78,14 +77,11 @@ class Router:
 
         # ✅ Mensaje aprobado
         if not error_type or error_type == "VALID":
-            print(f"✅ Mensaje aprobado en {intentos} intento(s).")
             return "approved"
 
         # 🛑 Límite de intentos alcanzado
         if intentos >= MAX_REINTENTOS:
-            print(f"❌ Límite de {MAX_REINTENTOS} intentos alcanzado. Usando último mensaje generado.")
             return "abort"
 
         # 🔄 Necesita refinamiento
-        print(f"🔄 Refinando mensaje (intento {intentos + 1}/{MAX_REINTENTOS})...")
         return "refine"
