@@ -9,7 +9,6 @@ from tools.git_tools import (
     parse_changed_files,
     get_diff_stats
 )
-from rag.retriever import get_repo_context_rag
 
 
 class AnalyzerNode:
@@ -52,11 +51,6 @@ class AnalyzerNode:
         archivos_raw = parse_changed_files.invoke({})
         archivos = self._parse_archivos(archivos_raw)
 
-        # ── 3.5 Búsqueda RAG ───────────────────────────────────────────────────
-        # Usamos los archivos modificados como "query" para buscar en ChromaDB
-        query_rag = f"Cambios en archivos: {', '.join(archivos[:5])}"
-        contexto_rag = get_repo_context_rag(query=query_rag, k=4)
-
         # ── 4. Obtener estadísticas ────────────────────────────────────────────
         estadisticas = self._parse_estadisticas(diff)
 
@@ -67,7 +61,7 @@ class AnalyzerNode:
             "historial": historial,
             "archivos": archivos,
             "estadisticas": estadisticas,
-            "contexto_repo": contexto_rag,  # <--- INYECTAS EL RAG AQUÍ
+            # Se eliminó la inyección del contexto_repo (RAG) de aquí
             "error_type": None,
             "error_node": None,
             "error_message": None,
