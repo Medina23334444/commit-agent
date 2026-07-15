@@ -1,23 +1,33 @@
 # src/main.py
 import os
-import subprocess
-import logging
 import warnings
-from pathlib import Path
+import logging
 
-warnings.filterwarnings("ignore") 
+
+os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
-os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"   
-os.environ["TRANSFORMERS_VERBOSITY"] = "error"      
-os.environ["TOKENIZERS_PARALLELISM"] = "false"     
+os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+
+warnings.simplefilter("ignore")
+warnings.filterwarnings("ignore")
+
+
+logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
+logging.getLogger("langchain").setLevel(logging.ERROR)
 
+
+import subprocess
+from pathlib import Path
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
 
 from agent.graph import CommitGraph
 from agent.state import AgentState
+
 
 env_path = Path(__file__).parent.parent / ".env"
 
