@@ -16,7 +16,9 @@ dependencies = [
     "langchain-ollama",
     "langgraph",
     "python-dotenv",
-    "langchain-chroma"
+    "langchain-chroma",
+    "langchain-huggingface",   
+    "sentence-transformers" 
 ]
 
 # ESTA ES LA MAGIA DEL RF01: Crea el comando global
