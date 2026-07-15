@@ -12,7 +12,17 @@ from langchain_ollama import ChatOllama
 from agent.graph import CommitGraph
 from agent.state import AgentState
 
-load_dotenv(dotenv_path=Path(__file__).parent.parent / ".env")
+# Ubicación del archivo .env
+env_path = Path(__file__).parent.parent / ".env"
+
+# Cumplimiento del RFN06: Generación automática de configuración por defecto
+if not env_path.exists():
+    with open(env_path, "w", encoding="utf-8") as f:
+        f.write("# Configuración del Agente de Commits\n")
+        f.write("OLLAMA_HOST=http://localhost:11434\n")
+    print("⚙️ Archivo .env generado automáticamente con la configuración por defecto.")
+
+load_dotenv(dotenv_path=env_path)
 
 
 # ══════════════════════════════════════════════════════════════════════════════
