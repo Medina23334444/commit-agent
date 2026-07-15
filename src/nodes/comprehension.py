@@ -7,6 +7,7 @@ from tools.analyzer_tools import (
     detect_scope,
     summarize_changes
 )
+from rag.retriever import get_repo_context_rag
 
 
 class ComprehensionNode:
@@ -19,6 +20,7 @@ class ComprehensionNode:
     - Identifica módulos afectados (scope)
     - Genera resumen semántico del diff
     - Extrae el 'por qué' del cambio
+    - Recupera contexto semántico histórico (RAG)
     """
 
     def __init__(self, llm):
@@ -37,6 +39,10 @@ class ComprehensionNode:
         # ── 3. Generar resumen semántico ───────────────────────────────────────
         resumen = self._resumir_cambios(diff, archivos)
 
+        # ── 3.5 Búsqueda RAG (Semántica Inteligente) ───────────────────────────
+        # Ahora busca en la base de datos de commits usando el resumen real del código
+        contexto_rag = get_repo_context_rag(query=resumen, k=3)
+
         # ── 4. Inferir intención con LLM ───────────────────────────────────────
         intencion = self._inferir_intencion(diff, archivos, tipo_detectado, resumen)
 
@@ -46,6 +52,7 @@ class ComprehensionNode:
             "scope_detectado": scope_detectado,
             "resumen":         resumen,
             "intencion":       intencion,
+            "contexto_repo":   contexto_rag, 
             "error_type":      None,
             "error_node":      None,
             "error_message":   None,
@@ -94,7 +101,6 @@ class ComprehensionNode:
         resumen:        str
     ) -> str:
         try:
-            # ✅ CARGA DE PROMPTS DESDE ARCHIVOS EXTERNOS
             system_prompt = load_prompt("comprehension_system.md")
             user_prompt   = load_prompt(
                 "comprehension_user.md",
