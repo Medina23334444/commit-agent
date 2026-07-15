@@ -1,16 +1,16 @@
 # src/main.py
-import os
+import warnings
 
+warnings.showwarning = lambda *args, **kwargs: None
+warnings.filterwarnings("ignore")
+
+import os
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
 os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["HF_HUB_OFFLINE"] = "1"
-os.environ["HUGGINGFACE_HUB_VERBOSITY"] = "error"
-
-import warnings
-warnings.simplefilter("ignore")  # global, activo durante TODA la ejecución, no solo el import
 
 import logging
 logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
@@ -18,12 +18,16 @@ logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 logging.getLogger("langchain").setLevel(logging.ERROR)
 logging.getLogger("langgraph").setLevel(logging.ERROR)
 
+
 import subprocess
 from pathlib import Path
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
+
 from agent.graph import CommitGraph
 from agent.state import AgentState
+
+# ... (El resto de tu código continúa igual hacia abajo con tu env_path y def build_llm)
 
 
 
