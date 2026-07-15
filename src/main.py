@@ -1,10 +1,17 @@
 # src/main.py
 import os
 import subprocess
-from pathlib import Path
+import logging
 import warnings
+from pathlib import Path
 
-warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore") 
+os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
+os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"   
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"      
+os.environ["TOKENIZERS_PARALLELISM"] = "false"     
+
+logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
@@ -12,10 +19,8 @@ from langchain_ollama import ChatOllama
 from agent.graph import CommitGraph
 from agent.state import AgentState
 
-# Ubicación del archivo .env
 env_path = Path(__file__).parent.parent / ".env"
 
-# Cumplimiento del RFN06: Generación automática de configuración por defecto
 if not env_path.exists():
     with open(env_path, "w", encoding="utf-8") as f:
         f.write("# Configuración del Agente de Commits\n")
