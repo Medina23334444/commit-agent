@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "commit-agent"
+version = "0.1.0"
+description = "Agente inteligente para generación de Conventional Commits basado en skills invocables"
+authors = [
+    {name = "Luis Alberto Medina Chamba"}
+]
+requires-python = ">=3.10"
+# Aquí listamos las librerías base que tu agente necesita para funcionar
+dependencies = [
+    "langchain-core",
+    "langchain-ollama",
+    "langgraph",
+    "python-dotenv",
+    "langchain-chroma"
+]
+
+# ESTA ES LA MAGIA DEL RF01: Crea el comando global
+[project.scripts]
+commit-agent = "main:run"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["agent", "nodes", "prompts", "rag", "tools", "utils"]
