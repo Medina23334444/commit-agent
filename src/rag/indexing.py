@@ -1,9 +1,8 @@
-# src/rag/indexing.py
 import subprocess
 import os
 import traceback
 from rag.chunking import chunk_commits, chunk_markdown_guidelines
-from rag.vector_store import RepoVectorStore
+from rag.vector_store import get_vector_store  # ← cambio
 
 
 GUIDELINE_FILES = [
@@ -53,11 +52,11 @@ def index_repository(reset: bool = False) -> None:
         reset: Si True, limpia la colección antes de re-indexar
                (evita duplicados en runs repetidas).
     """
-    vector_store = RepoVectorStore()
+    vector_store = get_vector_store()  # ← usa el singleton, ya no instancia aparte
 
     if reset:
         print("🗑️  Limpiando índice anterior...")
-        vector_store.reset()  # Implementar en RepoVectorStore si no existe
+        vector_store.reset()
 
     docs_to_index = []
 
@@ -77,13 +76,13 @@ def index_repository(reset: bool = False) -> None:
 
     if docs_to_index:
         print(f"\n📥 Indexando {len(docs_to_index)} fragmentos en ChromaDB por lotes...")
-        
-        batch_size = 50 
+
+        batch_size = 50
         for i in range(0, len(docs_to_index), batch_size):
             lote = docs_to_index[i:i + batch_size]
             vector_store.add_documents(lote)
             print(f"   → Lote {i // batch_size + 1} indexado ({len(lote)} fragmentos)")
-            
+
         print("✅ Indexación completada.")
     else:
         print("❌ No se encontraron datos para indexar.")
