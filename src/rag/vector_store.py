@@ -5,6 +5,9 @@ from rag.embeddings import get_embeddings_model
 
 PERSIST_DIRECTORY = os.path.join(os.getcwd(), "chroma")
 
+# ─ Caché global del vector store (se carga una sola vez) ──────────────────
+_vector_store_cache = None
+
 
 class RepoVectorStore:
     def __init__(self):
@@ -38,3 +41,16 @@ class RepoVectorStore:
             )
         except Exception as e:
             print(f"⚠️ Nota: No se pudo limpiar la colección (puede que sea nueva). {e}")
+
+
+def get_vector_store():
+    """
+    Retorna la instancia de RepoVectorStore cacheada globalmente.
+    Se inicializa una sola vez en la primera llamada.
+    """
+    global _vector_store_cache
+    
+    if _vector_store_cache is None:
+        _vector_store_cache = RepoVectorStore()
+    
+    return _vector_store_cache

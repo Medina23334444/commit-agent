@@ -1,13 +1,15 @@
 # src/rag/retriever.py
-from rag.vector_store import RepoVectorStore
+from rag.vector_store import get_vector_store
 
 
 def get_repo_context_rag(query: str, k: int = 3) -> dict:
     """
     Busca contexto relevante en ChromaDB basado en un query (generalmente el resumen del diff).
     Retorna un diccionario con 'convenciones' (commits) y 'readme' (reglas).
+    
+    Usa el vector store cacheado globalmente para evitar reinicializaciones costosas.
     """
-    vector_store = RepoVectorStore()
+    vector_store = get_vector_store()  # ← Reutiliza la instancia cacheada
     retriever = vector_store.as_retriever(k=k)
 
     resultados = retriever.invoke(query)
