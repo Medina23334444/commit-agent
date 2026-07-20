@@ -28,7 +28,6 @@ def chunk_commits(commits_raw: list[dict]) -> list[Document]:
         if not _is_meaningful_commit(mensaje):
             continue
 
-        # Contenido enriquecido: más contexto semántico para el embedding
         content = (
             f"Commit message example:\n"
             f"Message: {mensaje}\n"
@@ -41,6 +40,7 @@ def chunk_commits(commits_raw: list[dict]) -> list[Document]:
             "date": commit.get("fecha", "unknown"),
             "author": commit.get("autor", "unknown"),
             "source_type": "git_commit",
+            "mensaje_original": mensaje,  # ← NUEVO: evita parsear el string en retriever.py
         }
         documents.append(Document(page_content=content, metadata=metadata))
 
