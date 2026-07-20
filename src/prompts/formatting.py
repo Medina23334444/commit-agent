@@ -1,7 +1,6 @@
 # src/prompts/formatting.py
 from agent.state import AgentState
 
-
 class PromptFormatter:
     """
     Construye prompts dinámicos inyectando el contexto del estado.
@@ -35,7 +34,8 @@ class PromptFormatter:
 
     def _seccion_repo(self, state: AgentState) -> str:
         rama = state.get("rama", "unknown")
-        historial = state.get("historial", [])
+        # LÍMITE DE HISTORIAL: Evita saturar el contexto tomando solo los últimos 5 commits
+        historial = state.get("historial", [])[:5]
         archivos = state.get("archivos", [])
         stats = state.get("estadisticas", {})
 
@@ -51,7 +51,7 @@ class PromptFormatter:
 
         return f"""CONTEXTO DEL REPOSITORIO:
 - Rama: {rama}
-- Últimos commits:
+- Últimos commits (estilo de referencia):
 {historial_str}
 - Archivos modificados:
 {archivos_str}
@@ -109,5 +109,10 @@ class PromptFormatter:
 
     Nota: El diff completo fue omitido por contener configuración de CI/CD.
     Usa el tipo 'ci' o 'build' para este cambio."""
+
+        # LÍMITE DE SEGURIDAD GLOBAL: Protege la VRAM en caso de refactors masivos o lockfiles
+        limite_caracteres = 3000
+        if len(diff) > limite_caracteres:
+            diff = diff[:limite_caracteres] + f"\n\n... [DIFF TRUNCADO: Superaba el límite de seguridad de {limite_caracteres} caracteres]"
 
         return f"DIFF:\n{diff}"
