@@ -6,28 +6,25 @@ def get_repo_context_rag(query: str, k: int = 3) -> dict:
     """
     Busca contexto relevante en ChromaDB basado en un query (generalmente el resumen del diff).
     Retorna un diccionario con 'convenciones' (commits) y 'readme' (reglas).
-    
-    Usa el vector store cacheado globalmente para evitar reinicializaciones costosas.
+
+    Usa dos búsquedas separadas (filtradas por source_type) para garantizar
+    que ambas fuentes de contexto estén representadas, en vez de competir
+    por el mismo top-k global.
     """
-    vector_store = get_vector_store()  # ← Reutiliza la instancia cacheada
-    retriever = vector_store.as_retriever(k=k)
+    vector_store = get_vector_store()
 
-    resultados = retriever.invoke(query)
+    commit_retriever = vector_store.as_retriever_by_type("git_commit", k=k)
+    guideline_retriever = vector_store.as_retriever_by_type("project_guideline", k=k)
 
-    if not resultados:
-        return {"convenciones": "", "readme": ""}
+    commits_docs = commit_retriever.invoke(query)
+    guideline_docs = guideline_retriever.invoke(query)
 
-    commits_similares = []
-    reglas_proyecto = []
+    commits_similares = [
+        f"- {doc.metadata.get('mensaje_original', doc.page_content)}"
+        for doc in commits_docs
+    ]
 
-    for doc in resultados:
-        source_type = doc.metadata.get("source_type", "")
-
-        if source_type == "git_commit":
-            mensaje = doc.page_content.split("Message: ")[-1].split("\nAuthor:")[0]
-            commits_similares.append(f"- {mensaje}")
-        else:
-            reglas_proyecto.append(doc.page_content)
+    reglas_proyecto = [doc.page_content for doc in guideline_docs]
 
     convenciones_str = (
         "Ejemplos de commits similares en este repo:\n" + "\n".join(commits_similares)
