@@ -50,6 +50,8 @@ def build_llm():
     return ChatOllama(
         model="qwen2.5-coder:7b",
         temperature=0.0,
+        keep_alive="5m",
+        num_ctx=4096    
     )
 
 def build_initial_state() -> AgentState:
