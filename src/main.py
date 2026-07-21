@@ -49,7 +49,7 @@ load_dotenv(dotenv_path=env_path)
 def build_llm():
     return ChatOllama(
         model="qwen2.5-coder:7b",
-        temperature=0.2,
+        temperature=0.0,
     )
 
 def build_initial_state() -> AgentState:
