@@ -1,7 +1,5 @@
 # src/nodes/comprehension.py
-from langchain_core.messages import HumanMessage, AIMessage
 from agent.state import AgentState
-from utils.prompt_loader import load_prompt
 from tools.analyzer_tools import (
     detect_commit_type,
     detect_scope,
@@ -15,15 +13,24 @@ class ComprehensionNode:
     Nodo 3.2 — Comprehension Node (Análisis de Intención Semántica)
 
     Responsabilidades:
-    - Detecta la intención del cambio
-    - Clasifica el tipo de commit
-    - Identifica módulos afectados (scope)
-    - Genera resumen semántico del diff
-    - Extrae el 'por qué' del cambio
+    - Clasifica el tipo de commit (heurística, sin LLM)
+    - Identifica módulos afectados / scope (heurística, sin LLM)
+    - Genera resumen estructurado del diff (heurística, sin LLM)
     - Recupera contexto semántico histórico (RAG)
+
+    NOTA DE OPTIMIZACIÓN:
+    Antes este nodo hacía una llamada LLM adicional (_inferir_intencion) solo
+    para describir el "por qué" del cambio en una oración. Esa llamada era
+    redundante: el generator ya recibe el diff completo y su system prompt
+    le pide priorizar la intención por sobre el "cómo". Se eliminó esa llamada
+    y se reutiliza `resumen` (ya calculado sin LLM) como campo de "intención"
+    para generator/validator. Esto reduce de 3 a 2 las invocaciones al LLM
+    por corrida exitosa.
     """
 
-    def __init__(self, llm):
+    def __init__(self, llm=None):
+        # Se mantiene el parámetro por compatibilidad con CommitGraph,
+        # pero ya no se usa un LLM en este nodo.
         self.llm = llm
 
     def run(self, state: AgentState) -> AgentState:
@@ -36,15 +43,14 @@ class ComprehensionNode:
         # ── 2. Detectar scope ──────────────────────────────────────────────────
         scope_detectado = self._detectar_scope(archivos)
 
-        # ── 3. Generar resumen semántico ───────────────────────────────────────
+        # ── 3. Generar resumen semántico (heurístico, sin LLM) ─────────────────
         resumen = self._resumir_cambios(diff, archivos)
 
-        # ── 3.5 Búsqueda RAG (Semántica Inteligente) ───────────────────────────
-        # Ahora busca en la base de datos de commits usando el resumen real del código
+        # ── 4. Búsqueda RAG (Semántica Inteligente) ─────────────────────────────
         contexto_rag = get_repo_context_rag(query=resumen, k=3)
 
-        # ── 4. Inferir intención con LLM ───────────────────────────────────────
-        intencion = self._inferir_intencion(diff, archivos, tipo_detectado, resumen)
+        # ── 5. "Intención" reutiliza el resumen — ya no hay llamada LLM aquí ────
+        intencion = resumen
 
         return {
             **state,
@@ -52,7 +58,7 @@ class ComprehensionNode:
             "scope_detectado": scope_detectado,
             "resumen":         resumen,
             "intencion":       intencion,
-            "contexto_repo":   contexto_rag, 
+            "contexto_repo":   contexto_rag,
             "error_type":      None,
             "error_node":      None,
             "error_message":   None,
@@ -92,29 +98,3 @@ class ComprehensionNode:
             })
         except Exception:
             return "sin resumen disponible"
-
-    def _inferir_intencion(
-        self,
-        diff:           str,
-        archivos:       str,
-        tipo_detectado: str,
-        resumen:        str
-    ) -> str:
-        try:
-            system_prompt = load_prompt("comprehension_system.md")
-            user_prompt   = load_prompt(
-                "comprehension_user.md",
-                tipo_detectado=tipo_detectado,
-                archivos=archivos,
-                resumen=resumen,
-                diff_resumido=diff[:2000] # Control de contexto para tu modelo local
-            )
-
-            response = self.llm.invoke([
-                ("system", system_prompt),
-                ("human",  user_prompt)
-            ])
-            return response.content.strip()
-        except Exception as e:
-            print(f"⚠️ Error en LLM Comprehension: {e}")
-            return "intención no disponible"
