@@ -25,33 +25,45 @@ class AnalyzerNode:
 
     def run(self, state: AgentState) -> AgentState:
         # ── 1. Obtener diff ────────────────────────────────────────────────────
-        diff = get_git_diff.invoke({})
+        # NUEVO: Verificamos si ya viene un diff inyectado desde el script de lote (CSV)
+        diff_desde_estado = state.get("diff", "")
 
-        if diff == "NO_DIFF":
-            return {
-                **state,
-                "error_type": "NO_DIFF",
-                "error_node": "analyzer",
-                "error_message": "No hay cambios en staging. Ejecuta 'git add' primero."
-            }
+        if diff_desde_estado and diff_desde_estado.strip() != "":
+            # FLUJO LOTE (CSV): Usamos el diff inyectado y evitamos llamadas locales a Git
+            diff = diff_desde_estado
+            rama = state.get("repo_path", "historico")
+            historial = []  # No aplicable para diffs sueltos
+            archivos = []   # El generador lo inferirá directamente del texto del diff
+        else:
+            # FLUJO CONSOLA (CLI): Obtenemos los datos físicamente del repositorio local
+            diff = get_git_diff.invoke({})
 
-        if diff.startswith("GIT_ERROR"):
-            return {
-                **state,
-                "error_type": "GIT_ERROR",
-                "error_node": "analyzer",
-                "error_message": diff
-            }
+            if diff == "NO_DIFF":
+                return {
+                    **state,
+                    "error_type": "NO_DIFF",
+                    "error_node": "analyzer",
+                    "error_message": "No hay cambios en staging. Ejecuta 'git add' primero."
+                }
 
-        # ── 2. Obtener contexto del repo ───────────────────────────────────────
-        contexto_raw = get_repo_context.invoke({})
-        rama, historial = self._parse_contexto(contexto_raw)
+            if diff.startswith("GIT_ERROR"):
+                return {
+                    **state,
+                    "error_type": "GIT_ERROR",
+                    "error_node": "analyzer",
+                    "error_message": diff
+                }
 
-        # ── 3. Parsear archivos modificados ────────────────────────────────────
-        archivos_raw = parse_changed_files.invoke({})
-        archivos = self._parse_archivos(archivos_raw)
+            # ── 2. Obtener contexto del repo (Solo local) ───────────────────────
+            contexto_raw = get_repo_context.invoke({})
+            rama, historial = self._parse_contexto(contexto_raw)
+
+            # ── 3. Parsear archivos modificados (Solo local) ────────────────────
+            archivos_raw = parse_changed_files.invoke({})
+            archivos = self._parse_archivos(archivos_raw)
 
         # ── 4. Obtener estadísticas ────────────────────────────────────────────
+        # Esto se ejecuta para ambos flujos, ya que solo necesita el texto del 'diff'
         estadisticas = self._parse_estadisticas(diff)
 
         return {
@@ -61,7 +73,6 @@ class AnalyzerNode:
             "historial": historial,
             "archivos": archivos,
             "estadisticas": estadisticas,
-            # Se eliminó la inyección del contexto_repo (RAG) de aquí
             "error_type": None,
             "error_node": None,
             "error_message": None,
