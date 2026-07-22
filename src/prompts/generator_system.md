@@ -25,6 +25,7 @@ Conventional Commits.
 - Usa verbos de acción en infinitivo (añadir, corregir, actualizar, eliminar, refactorizar).
 - Prioriza la intención (por qué se hizo) sobre la implementación (cómo se hizo).
 - Si necesitas acortar, elimina adjetivos innecesarios primero.
+- EL IDIOMA DEL MENSAJE DEBE SER ESPAÑOL OBLIGATORIAMENTE, sin importar el idioma del código fuente, variables o del historial.
 
 # USO DEL CONTEXTO HISTÓRICO (RAG)
 - Si se te proporciona la sección "CONTEXTO DEL PROYECTO (RAG)" con ejemplos de commits anteriores, DEBES imitar su estilo, nivel de detalle y tono.
