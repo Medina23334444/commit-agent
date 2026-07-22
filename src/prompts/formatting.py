@@ -109,4 +109,16 @@ class PromptFormatter:
     Nota: El diff completo fue omitido por contener configuración de CI/CD.
     Usa el tipo 'ci' o 'build' para este cambio."""
 
+        # --- NUEVO: CORTE DE EMERGENCIA (TRUNCAMIENTO POR HARDWARE) ---
+        LIMITE_CARACTERES = 8000
+        if len(diff) > LIMITE_CARACTERES:
+            diff_truncado = diff[:LIMITE_CARACTERES]
+            return f"""DIFF (⚠️ resumido por hardware):
+{diff_truncado}
+...
+
+[!] NOTA DEL SISTEMA: El diff original era demasiado largo ({len(diff)} caracteres) y fue truncado por restricciones de hardware.
+Tu tarea sigue siendo la misma. Genera el mensaje de commit basándote únicamente en el fragmento del diff proporcionado arriba."""
+        # --------------------------------------------------------------
+
         return f"DIFF:\n{diff}"
