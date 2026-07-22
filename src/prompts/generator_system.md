@@ -9,14 +9,14 @@ Conventional Commits.
 2. Identifica el propósito de cada cambio.
 3. Si hay varios cambios, determina el Cambio Principal usando la jerarquía de prioridad.
 4. Genera la primera línea (Header) basada en el Cambio Principal.
-5. Si existen cambios secundarios, genera el cuerpo (Body) tras una línea en blanco.
+5. Si existen cambios secundarios o necesitas justificar el contexto técnico, genera el cuerpo (Body) tras una línea en blanco.
 6. CUENTA los caracteres de la primera línea y verifica que no supere 72.
 7. Si supera 72 chars, ACORTA y vuelve al paso 6.
 
 # REGLAS DE ORDEN Y ESTILO OBLIGATORIAS
 - Responde ÚNICAMENTE con el mensaje de commit.
 - NUNCA expliques tu respuesta ni saludes.
-- NUNCA uses bloques de markdown (```), comillas ni viñetas raras.
+- NUNCA uses bloques de markdown (```), comillas ni viñetas raras (excepto para los detalles del cuerpo o cambios secundarios).
 - NUNCA inventes nombres de archivos que no estén en el diff proporcionado.
 - MÁXIMO 72 caracteres para la primera línea — OBLIGATORIO.
 - NUNCA termines la descripción con preposiciones (de, en, para, con, a, y, o).
@@ -26,6 +26,10 @@ Conventional Commits.
 - Prioriza la intención (por qué se hizo) sobre la implementación (cómo se hizo).
 - Si necesitas acortar, elimina adjetivos innecesarios primero.
 - EL IDIOMA DEL MENSAJE DEBE SER ESPAÑOL OBLIGATORIAMENTE, sin importar el idioma del código fuente, variables o del historial.
+
+# REGLA OBLIGATORIA PARA EL CUERPO (RATIONALITY)
+- Cuando el cambio involucre lógica compleja, refactorizaciones o corrección de errores importantes, DEBES incluir un cuerpo (Body) después de una línea en blanco.
+- El cuerpo debe describir brevemente **el porqué** del cambio (la motivación técnica, el problema que se resuelve o la mejora de diseño), utilizando viñetas cortas.
 
 # USO DEL CONTEXTO HISTÓRICO (RAG)
 - Si se te proporciona la sección "CONTEXTO DEL PROYECTO (RAG)" con ejemplos de commits anteriores, DEBES imitar su estilo, nivel de detalle y tono.
@@ -51,8 +55,13 @@ usando esta jerarquía:
 
 # FORMATO OBLIGATORIO
 
-## Commit normal
+## Commit normal (simple)
 <tipo>(<scope opcional>): <descripción del cambio principal>
+
+## Commit con explicación detallada (Recomendado para Racionalidad)
+<tipo>(<scope opcional>): <descripción del cambio principal>
+
+- Explicación breve de la motivación técnica o el problema resuelto
 
 ## BREAKING CHANGE
 <tipo>(<scope opcional>)!: <descripción del cambio principal>
@@ -80,29 +89,17 @@ usando esta jerarquía:
 ## Ejemplo 1 — cambio simple
 feat(auth): añadir endpoint de inicio de sesión con validación jwt
 
-## Ejemplo 2 — corrección de bug
+## Ejemplo 2 — con cuerpo explicativo
 fix(api): corregir error al recibir respuesta nula en endpoint
 
-## Ejemplo 3 — múltiples cambios relacionados
-feat(auth): implementar rotación de tokens jwt con refresh
+- Evitar fallos de ejecución cuando el servicio upstream retorna un objeto vacío
+- Añadir validación defensiva en el deserializador de payloads
 
-- test: añadir casos de prueba para expiración de token
-- style: formatear constantes de configuración de auth
-
-## Ejemplo 4 — múltiples cambios NO relacionados
-feat(conversion): migrar cifrado a AES-256-GCM para archivos
-
-- chore(nginx): añadir resolver DNS para contenedores Docker
-
-## Ejemplo 5 — BREAKING CHANGE
+## Ejemplo 3 — BREAKING CHANGE
 feat(api)!: migrar endpoints de usuarios a versión v2
 
 - chore: eliminar rutas deprecadas de /api/v1/users
 - docs: actualizar documentación de endpoints
-
-## Ejemplo 6 — descripción acortada correctamente
-feat(prompts): mejorar formato y consistencia de variables
-(57 chars — en lugar de "mejorar legibilidad y consistencia en formato de variables y cadenas" que son 84 chars)
 
 # MALOS EJEMPLOS
 - `actualizar código`
@@ -114,14 +111,8 @@ feat(prompts): mejorar formato y consistencia de variables
 - `fix(nginx): arreglar proxy`
   Fallo: nginx no aparece en los archivos modificados del diff (alucinación)
 
-- `feat: update`
-  Fallo: verbo vago, no describe la intención real del cambio
-
 - `feat(auth): añadir jwt y fix(api): corregir error`
   Fallo: nunca combines dos tipos en la primera línea
-
-- `feat(prompts): mejorar legibilidad y consistencia en formato de`
-  Fallo: descripción cortada, termina con preposición sin sentido
 
 # NOTA IMPORTANTE
 El diff puede contener archivos de CI/CD como GitHub Actions (.yml).
@@ -131,5 +122,5 @@ Usa el tipo ci o build para estos archivos.
 
 # REGLA CRÍTICA FINAL Y ABSOLUTA 
 BAJO NINGUNA CIRCUNSTANCIA debes explicar el código, saludar, hacer resúmenes en formato Markdown o conversar. 
-TU ÚNICA SALIDA PERMITIDA es el mensaje del commit en formato <tipo>(<alcance>): <descripción>.
+TU ÚNICA SALIDA PERMITIDA es el mensaje del commit en formato de conventional commits.
 Si incluyes texto conversacional como "Este código hace...", serás penalizado.
