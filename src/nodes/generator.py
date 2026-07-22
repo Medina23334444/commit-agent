@@ -78,28 +78,34 @@ class GeneratorNode:
                 for key in ["response", "message", "commit", "result"]:
                     if key in data:
                         valor = data[key]
-                        if re.match(
-                            r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)",
+                        if re.search(
+                            r"(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\([^)]+\))?!?:",
                             valor,
+                            re.IGNORECASE
                         ):
                             return self._truncar_primera_linea(valor)
-                return ""  # JSON existe pero sin commit válido
+                return ""  
         except Exception:
             pass
 
-        # 4. Elimina comillas
+        # 4. Elimina comillas envolventes
         mensaje = mensaje.strip("\"'")
 
-        # 5. Busca primera línea válida y preserva el body
+        # 5. Busca cualquier línea que CONTENGA la estructura Conventional Commits
         lineas = mensaje.splitlines()
         for i, linea in enumerate(lineas):
-            linea = linea.strip()
-            if re.match(
-                r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)", linea
-            ):
-                # Preserva body si existe
+            linea_str = linea.strip()
+            # Usamos re.search para encontrar el patrón sin importar si hay texto antes
+            match = re.search(
+                r"(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\([^)]+\))?!?:",
+                linea_str,
+                re.IGNORECASE
+            )
+            if match:
+                # Extrae desde el prefijo válido en adelante
+                linea_valida = linea_str[match.start():]
                 resto = "\n".join(lineas[i + 1 :]).strip()
-                header = self._truncar_primera_linea(linea)
+                header = self._truncar_primera_linea(linea_valida)
                 if resto:
                     return f"{header}\n\n{resto}"
                 return header
