@@ -1,4 +1,4 @@
-repositorio,commit_hash,mensaje_original,diff
+repositorio,commit_hash,mensaje_original,diff,mensaje_generado
 langchain-ai/langgraph,31f90df3e6b0268fa77fd2d118a917d420b84a68,revert(langgraph): delete TracePolicy (#8403),"diff --git a/libs/langgraph/langgraph/graph/_node.py b/libs/langgraph/langgraph/graph/_node.py
 index 4cb2676a90d..d8238c2b3e6 100644
 --- a/libs/langgraph/langgraph/graph/_node.py
@@ -309,7 +309,7 @@ index e72d0299c70..00000000000
 -    run = _node_run(tracer, ""n"")
 -    assert run.inputs == {""scrubbed_in"": True}
 -    assert run.outputs == {""value"": 6}
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,f02c0f0ce575ce1d3879b09ee3c534446c31a983,feat(langgraph): drop tags from TracePolicy (#8402),"diff --git a/libs/langgraph/langgraph/graph/state.py b/libs/langgraph/langgraph/graph/state.py
 index 297db49897..0e0df91570 100644
 --- a/libs/langgraph/langgraph/graph/state.py
@@ -398,7 +398,7 @@ index e04dcc9e5a..e72d0299c7 100644
 -    # the policy's tags land on the node's run; other nodes are unaffected
 -    assert ""langsmith:hidden_middleware"" in _node_run(tracer, ""hush"").tags
 -    assert ""langsmith:hidden_middleware"" not in _node_run(tracer, ""shown"").tags
-"
+",perf(langgraph): eliminar código innecesario y mejorar legibilidad
 langchain-ai/langgraph,8b39db3875f24151286dee9f21f937db1756da09,feat(langgraph): expose `trace_policy` on `add_node` (#8362),"diff --git a/libs/langgraph/langgraph/graph/_node.py b/libs/langgraph/langgraph/graph/_node.py
 index d8238c2b3e6..4cb2676a90d 100644
 --- a/libs/langgraph/langgraph/graph/_node.py
@@ -759,7 +759,7 @@ index 00000000000..e04dcc9e5a1
 +    # the policy's tags land on the node's run; other nodes are unaffected
 +    assert ""langsmith:hidden_middleware"" in _node_run(tracer, ""hush"").tags
 +    assert ""langsmith:hidden_middleware"" not in _node_run(tracer, ""shown"").tags
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,80633b2c53901d56a5c81e9b92360594709ea124,"chore(deps): bump mistune from 3.2.1 to 3.3.0 in /libs/langgraph (#8317)
 
 Bumps [mistune](https://github.com/lepture/mistune) from 3.2.1 to 3.3.0.
@@ -963,7 +963,7 @@ index 23785f4f2a..338f806eec 100644
  ]
  
  [[package]]
-"
+",fix(libs/langgraph): actualizar versión de mistune a 3.3.0
 langchain-ai/langgraph,eb6acf9c8be9bde289a8030db1d448fc11766ae9,"chore(deps): bump soupsieve from 2.8.1 to 2.8.4 in /libs/langgraph (#8318)
 
 Bumps [soupsieve](https://github.com/facelessuser/soupsieve) from 2.8.1
@@ -1104,7 +1104,7 @@ index 9b7a747767..23785f4f2a 100644
  ]
  
  [[package]]
-"
+",fix(libs/langgraph): actualizar versión de soupsieve a 2.8.4
 langchain-ai/langgraph,b96f6170e7eddd8f9aa31375fd8c54213e478a9a,"fix(sdk-py): support clearing cron end_time via update(end_time=None) (#8334)
 
 `CronClient.update` / `SyncCronClient.update` stripped all `None`-valued
@@ -1292,7 +1292,7 @@ index 122dda63817..7e38e25f1bb 100644
  @pytest.mark.parametrize(
      ""enabled_value"",
      [True, False],
-"
+",perf(langgraph_sdk): update function parameters and add tests for
 langchain-ai/langgraph,55ec2f21939ce7755e6398c11b541de8926245ee,"chore(cli): allow langgraph-api versions up to 1.0.0 (#8319)
 
 <!-- Replace everything above this line with a 1-2 sentence description
@@ -1346,7 +1346,7 @@ index 39082a32f7..9b7a747767 100644
      { name = ""langgraph-runtime-inmem"", marker = ""python_full_version >= '3.11' and extra == 'inmem'"", specifier = "">=0.7"" },
      { name = ""langgraph-sdk"", marker = ""python_full_version >= '3.11'"", specifier = "">=0.1.0"" },
      { name = ""pathspec"", specifier = "">=0.11.0"" },
-"
+",chore(cli): actualizar versión y dependencias
 langchain-ai/langgraph,95af6a00718588e7b7ce17310e8006d267896a77,"release(langgraph): 1.2.9 (#8316)
 
 ## Summary
@@ -1422,7 +1422,7 @@ index cf2eb99a75..786728ae45 100644
  source = { editable = ""../langgraph"" }
  dependencies = [
      { name = ""langchain-core"" },
-"
+",chore(libs/langgraph): actualizar versión a 1.2.9
 langchain-ai/langgraph,23652c54be18ce59f697aa38f10075ee91913220,"release(langgraph): 1.2.8 (#8292)
 
 ## Summary
@@ -1492,7 +1492,7 @@ index 1f66080e02..cf2eb99a75 100644
  source = { editable = ""../langgraph"" }
  dependencies = [
      { name = ""langchain-core"" },
-"
+",chore(libs/langgraph): actualizar versión a 1.2.8
 langchain-ai/langgraph,b45d96b8eb141937116ac7ec186f5066d5af2838,"fix: delta channel bug with updateState on fresh thread will force snapshot instead of stub checkpoint (#8290)
 
 Fixes langchain-ai/deepagents#3774
@@ -1772,7 +1772,7 @@ index 177e24feb4b..e7b3b6b3bfd 100644
 -        update_snapshot.parent_config[""configurable""][""checkpoint_id""]
 -        == stub_snapshot.config[""configurable""][""checkpoint_id""]
 -    )
-"
+",fix(pregel): force self-contained snapshot on fresh thread
 langchain-ai/langgraph,2390d6f940ea9cd7bfd2461efa9acb6f7b14ae04,"chore(deps): bump actions/setup-python from 6.2.0 to 6.3.0 in the minor-and-patch group (#8243)
 
 Bumps the minor-and-patch group with 1 update:
@@ -1959,7 +1959,7 @@ index ac2d4905b8..14c9d67659 100644
          with:
            python-version: '3.11'
  
-"
+",chore: actualizar versión de actions/setup-python en workflows CI/CD
 langchain-ai/langgraph,039adfd708dc00205d1a25343f97baa6acec092c,"chore(deps): bump the major group with 3 updates (#8244)
 
 Bumps the major group with 3 updates:
@@ -2824,7 +2824,7 @@ index 3a80cb2eeb7..adb024526f0 100644
        
        - name: Set up uv
          uses: ./.github/actions/uv_setup
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,5931a5f0b313feff24e2516a586c55601b868ac1,"release(langgraph): 1.2.7 (#8223)
 
 ## Summary
@@ -2892,7 +2892,7 @@ index 518f7ee27cc..0d874f42df6 100644
  source = { editable = ""../langgraph"" }
  dependencies = [
      { name = ""langchain-core"" },
-"
+",chore(libs/langgraph): actualizar versión a 1.2.7
 langchain-ai/langgraph,9a27693c64d3a0d6847dfe1c3d57e301cbf15bbf,"fix(langgraph): snapshot `DeltaChannel` overwrite supersteps (#8125)
 
 When a DeltaChannel receives an Overwrite, force that checkpoint to
@@ -3109,7 +3109,7 @@ index d8f32e587e5..0e7e512d196 100644
  # ---------------------------------------------------------------------------
  # DeltaChannel — dict reducer
  # ---------------------------------------------------------------------------
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,1b5ca0a1b1e1889879e43536fc5efd0739a3c479,"fix(langgraph): Make `Overwrite` survive JSON roundtrips (#8127)
 
 Add a `type: Literal[""__overwrite__""]` discriminator field to
@@ -3224,7 +3224,7 @@ index 9dfa7158a41..d8f32e587e5 100644
  def test_delta_channel_remove_message_and_replay() -> None:
      """"""RemoveMessage must round-trip correctly when writes are replayed.""""""
      spec = DeltaChannel(_messages_delta_reducer, list)
-"
+",test(libs/langgraph): añadir pruebas para reconocimiento de `Overwrite`
 langchain-ai/langgraph,d2f97191abc457954dff23ee1d9342516128ec01,"chore(deps): bump redis in /libs/langgraph (#7976)
 
 ## Description
@@ -3380,7 +3380,7 @@ index f4731e1c774..08b50044a6f 100644
  ]
  
  [[package]]
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,c1aad8b46053303c34151e4d05bad1ac0fd17ef5,"chore(deps-dev): bump starlette from 1.0.1 to 1.3.1 in /libs/sdk-py (#8104)
 
 Bumps [starlette](https://github.com/Kludex/starlette) from 1.0.1 to
@@ -3708,7 +3708,7 @@ index c04b5ad2651..518f7ee27cc 100644
  ]
  
  [[package]]
-"
+",fix(libs/sdk-py): actualizar versión de starlette a 1.3.1
 langchain-ai/langgraph,d5dfeaf033227776efdd21e91e5dd200125d623a,"chore(deps): bump starlette from 1.0.1 to 1.3.1 in /libs/cli (#8105)
 
 Bumps [starlette](https://github.com/Kludex/starlette) from 1.0.1 to
@@ -4036,7 +4036,7 @@ index c971c498216..81bab72a7d7 100644
  ]
  
  [[package]]
-"
+",fix(libs/cli): actualizar versión de starlette a 1.3.1
 langchain-ai/langgraph,e6574a854fcb60bb47e9f2ee463e01662a6d1a91,"chore(deps): bump langsmith from 0.8.0 to 0.8.18 in /libs/cli (#8172)
 
 Bumps [langsmith](https://github.com/langchain-ai/langsmith-sdk) from
@@ -4338,7 +4338,7 @@ index b8111fead82..c971c498216 100644
  ]
  
  [package.optional-dependencies]
-"
+",fix(libs/cli): actualizar versión de langsmith a 0.8.18 y añadir
 langchain-ai/langgraph,49110176c480046a3fd0f26cdd27e40455e60010,"chore(deps): bump langsmith from 0.8.0 to 0.8.18 in /libs/sdk-py (#8174)
 
 Bumps [langsmith](https://github.com/langchain-ai/langsmith-sdk) from
@@ -4640,7 +4640,7 @@ index 7ae99651fc7..c04b5ad2651 100644
  ]
  
  [[package]]
-"
+",fix(uv.lock): actualizar versión de langsmith y agregar dependencia
 langchain-ai/langgraph,6f438b441a52db48d0fa4acb29dcc8c3bb3fee3e,"chore(deps): bump langsmith from 0.8.0 to 0.8.18 in /libs/langgraph (#8176)
 
 Bumps [langsmith](https://github.com/langchain-ai/langsmith-sdk) from
@@ -4942,7 +4942,7 @@ index 127cff9a942..f4731e1c774 100644
  ]
  
  [package.optional-dependencies]
-"
+",fix(langgraph): actualizar versión de langsmith y agregar dependencia
 langchain-ai/langgraph,9f0c60ad506cbd3e442a5291199927006fe2600e,"chore(deps): bump langsmith from 0.8.0 to 0.8.18 in /libs/prebuilt (#8175)
 
 Bumps [langsmith](https://github.com/langchain-ai/langsmith-sdk) from
@@ -5244,7 +5244,7 @@ index e6637554a0e..5fc2e5019c2 100644
  ]
  
  [[package]]
-"
+",fix(libs/prebuilt/uv.lock): actualizar versión de langsmith y agregar
 langchain-ai/langgraph,7aee194a916222daf08162051ea020863a2d6ea9,"chore(deps): bump jupyterlab from 4.5.7 to 4.5.9 in /libs/langgraph (#8164)
 
 [![Dependabot compatibility
@@ -5310,7 +5310,7 @@ index e6d28bf9c73..127cff9a942 100644
  ]
  
  [[package]]
-"
+",perf(libs/langgraph): actualizar versión de jupyterlab a 4.5.9
 langchain-ai/langgraph,3df6f50ad545e1c81fa14bc172784185aabf11ce,"feat(cli): allow prebuild images for langgraph deploy (#8100)
 
 Fixes #
@@ -5660,7 +5660,7 @@ index ce77a2e1845..cdeb0d3f507 100644
  class TestParseEnvFromConfig:
      def test_env_dict(self, tmp_path):
          config_path = tmp_path / ""langgraph.json""
-"
+",fix(deploy.py): actualizar versión de LangChain-Anthropic y validar
 langchain-ai/langgraph,8c9d59c842454e7f4531f5e69ff9dab0af3c660f,"fix(langgraph): emit valid UUIDs for exit-mode delta task_ids for langgraph-api (#8165)
 
 Fix exit-mode DeltaChannel `PutWrites` task IDs so they remain valid RFC
@@ -5777,7 +5777,7 @@ index ae53dbbf770..3d18ce70856 100644
  def _build_graph(
      checkpointer: InMemorySaver,
      *,
-"
+",test(pregel/_checkpoint.py): añadir función `exit_delta_task_id`
 langchain-ai/langgraph,711b31550286585b3793857b2a99c8dafd98b785,"chore(deps): bump langchain-anthropic from 1.0.0a5 to 1.4.6 in /libs/cli/examples/graph_prerelease_reqs in the pip group across 1 directory (#8145)
 
 Bumps the pip group with 1 update in the
@@ -5987,7 +5987,7 @@ index 08f00a7c8cb..0ddd02255fe 100644
    ""langgraph==1.1.5""
  ]
  
-"
+",chore(cli/examples/graph_prerelease_reqs): actualizar versión
 langchain-ai/langgraph,c6eb0a20589d80e9b1964318c370a82f72889245,"chore(deps): bump js-yaml from 4.1.1 to 4.2.0 in /libs/cli/js-monorepo-example (#8143)
 
 Bumps [js-yaml](https://github.com/nodeca/js-yaml) from 4.1.1 to 4.2.0.
@@ -6114,7 +6114,7 @@ index 673d992b625..609663d4bbd 100644
    dependencies:
      argparse ""^2.0.1""
  
-"
+",chore(yarn.lock): actualizar versión de js-yaml a 4.2.0
 langchain-ai/langgraph,db3f4d7255b172950d346cba3d6c64c6c9f8c96a,"chore(deps): bump bleach from 6.3.0 to 6.4.0 in /libs/langgraph (#8107)
 
 Bumps [bleach](https://github.com/mozilla/bleach) from 6.3.0 to 6.4.0.
@@ -6277,7 +6277,7 @@ index dc982fa3afe..e6d28bf9c73 100644
  ]
  
  [package.optional-dependencies]
-"
+",fix(libs/langgraph): actualizar versión de bleach a 6.4.0
 langchain-ai/langgraph,b42e83780f9e2ea5f8679ed33055c7840744e0c4,"chore(deps): bump pyjwt from 2.12.1 to 2.13.0 in /libs/cli (#8093)
 
 Bumps [pyjwt](https://github.com/jpadilla/pyjwt) from 2.12.1 to 2.13.0.
@@ -6593,7 +6593,7 @@ index 10e65874c1c..abb0212deb2 100644
  ]
  
  [[package]]
-"
+",fix(libs/cli): actualizar versión de pyjwt a 2.13.0
 langchain-ai/langgraph,587daa31d9871ce73614d09035996e89b7a31b9b,"chore(deps): bump jupyter-server from 2.18.0 to 2.20.0 in /libs/langgraph (#8134)
 
 Bumps [jupyter-server](https://github.com/jupyter-server/jupyter_server)
@@ -6932,7 +6932,7 @@ index 803a4e197a3..58fcdb9e31a 100644
  ]
  
  [[package]]
-"
+",fix(libs/langgraph): actualizar versión de jupyter-server a 2.20.0
 langchain-ai/langgraph,510d943362a7fde63a74855ac51418d6f1bc3768,"chore(deps): bump tornado from 6.5.6 to 6.5.7 in /libs/langgraph (#8108)
 
 Bumps [tornado](https://github.com/tornadoweb/tornado) from 6.5.6 to
@@ -7103,7 +7103,7 @@ index cd164cab1f5..803a4e197a3 100644
  ]
  
  [[package]]
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,a4157ef280b236aecc331a7a17d7695d9e0e95e9,"chore(deps): bump pyjwt from 2.12.0 to 2.13.0 in /libs/langgraph (#8092)
 
 Bumps [pyjwt](https://github.com/jpadilla/pyjwt) from 2.12.0 to 2.13.0.
@@ -7436,7 +7436,7 @@ index 914da460e64..cd164cab1f5 100644
  ]
  
  [[package]]
-"
+",fix(libs/langgraph): actualizar versión de pyjwt a 2.13.0
 langchain-ai/langgraph,ce6c8b2410f9921d379c8fe8ea8087d1934c07a9,release(langgraph): 1.2.6 (#8139),"diff --git a/libs/langgraph/pyproject.toml b/libs/langgraph/pyproject.toml
 index cbe35e58934..e0ab54be20f 100644
 --- a/libs/langgraph/pyproject.toml
@@ -7489,7 +7489,7 @@ index 93b1b549276..7ae99651fc7 100644
  source = { editable = ""../langgraph"" }
  dependencies = [
      { name = ""langchain-core"" },
-"
+",chore(libs/langgraph): actualizar versión a 1.2.6
 langchain-ai/langgraph,79befe67ba2568ae2c90349b01e65d6f7a38765a,"fix: nested subgraph inherits parent checkpoint_ns (regression in 1.2.3) (#8053)
 
 Closes #8038
@@ -7921,7 +7921,7 @@ index d962727b8b3..523528561e9 100644
  def test_ensure_config_merges_metadata_across_configs() -> None:
      a = {""metadata"": {""user_id"": ""U1""}}
      b = {""metadata"": {""correlation_id"": ""C1""}}
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,9af25217c36ad031e6b1231a6bccdfdb0dc70a16,"fix: cancel running subgraphs on v3 stream abort [closes #8029] (#8057)
 
 ## Description
@@ -8226,7 +8226,11 @@ index 5ff4a03afb5..a0b038c09b1 100644
      async def test_extensions_has_native_keys(self) -> None:
          run = await _build_simple_graph().astream_events(
              {""value"": ""x"", ""items"": []}, version=""v3""
-"
+","perf: Improve `abort` method in `run_stream.py`
+
+- Refactor `_pump_next` to handle in-flight pulls gracefully.
+- Add new test cases for aborting deeply nested subgraphs.
+- Ensure proper cleanup and cancellation propagation in `abort`."
 langchain-ai/langgraph,1a9baae9592e0c21336f6e09c891ba75481fd657,"release(cli): 0.4.30 (#8101)
 
 Bump langgraph-cli to 0.4.30 to cut a CLI release from
@@ -8328,7 +8332,7 @@ index 4b1f2dd9f7e..27ed97a9b05 100644
      { name = ""langgraph-runtime-inmem"", marker = ""python_full_version >= '3.11' and extra == 'inmem'"", specifier = "">=0.7"" },
      { name = ""langgraph-sdk"", marker = ""python_full_version >= '3.11'"", specifier = "">=0.1.0"" },
      { name = ""pathspec"", specifier = "">=0.11.0"" },
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,916025d2f6d9f6ddb2628bd248bc4f3db632d9a8,"feat(cli): support compatible api version ranges (#8023)
 
 Adds `api_version` ranges for LangGraph API base image tags.
@@ -8732,7 +8736,7 @@ index ea8f5a6e2eb..c8b24020cf4 100644
  def test_config_to_docker_with_api_version():
      """"""Test config_to_docker function with api_version parameter.""""""
  
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,4cf120df491b8d6878e2a70846d62e231af9927e,"chore(deps): bump tornado from 6.5.5 to 6.5.6 in /libs/langgraph (#8063)
 
 Bumps [tornado](https://github.com/tornadoweb/tornado) from 6.5.5 to
@@ -8914,7 +8918,7 @@ index a948ba26a69..4b1f2dd9f7e 100644
  ]
  
  [[package]]
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 langchain-ai/langgraph,7ab79f9f3e94fb4357334d902f5fd69ec0088eb4,release(langgraph): 1.2.5 (#8062),"diff --git a/libs/langgraph/pyproject.toml b/libs/langgraph/pyproject.toml
 index 16179f7f5ef..cbe35e58934 100644
 --- a/libs/langgraph/pyproject.toml
@@ -8967,7 +8971,7 @@ index bf24f138308..93b1b549276 100644
  source = { editable = ""../langgraph"" }
  dependencies = [
      { name = ""langchain-core"" },
-"
+",chore(libs/langgraph): actualizar versión a 1.2.5
 langchain-ai/langgraph,93307d6a427d7f15bcba3264f3774d07af7d7dca,"release(cli): 0.4.29 (#8046)
 
 https://github.com/langchain-ai/langgraph/pull/8031","diff --git a/libs/cli/langgraph_cli/__init__.py b/libs/cli/langgraph_cli/__init__.py
@@ -8977,7 +8981,7 @@ index 4fef01e0d41..7fe0489074a 100644
 @@ -1 +1 @@
 -__version__ = ""0.4.28""
 +__version__ = ""0.4.29""
-"
+",chore(cli): actualizar versión a 0.4.29
 langchain-ai/langgraph,e05ba2965db5373c14ada7ddb3740d9b59a28206,"feat(cli): add support for passing certfile and cert key to run dev server under HTTPS (#8031)
 
 This allows running the dev server under HTTPS, which is a requirement
@@ -9082,7 +9086,7 @@ index c30a7429302..8b3ae47c6f4 100644
  def test_deploy_list_command(monkeypatch) -> None:
      runner = CliRunner()
      captured: dict[str, str] = {}
-"
+",test(cli.py): añadir opciones SSL para el comando `dev` y pruebas
 langchain-ai/langgraph,f0e814796be5e4a27f58a6979064ba35fb39bcf1,"release(cli): 0.4.28 (#8041)
 
 Bumping the version to support langgraph-api stable versions 0.10.0,
@@ -9132,7 +9136,7 @@ index 3ebed108252..2f1e6f90634 100644
      { name = ""langgraph-runtime-inmem"", marker = ""python_full_version >= '3.11' and extra == 'inmem'"", specifier = "">=0.7"" },
      { name = ""langgraph-sdk"", marker = ""python_full_version >= '3.11'"", specifier = "">=0.1.0"" },
      { name = ""pathspec"", specifier = "">=0.11.0"" },
-"
+",chore(cli): actualizar versión y dependencias para langgraph-api
 langchain-ai/langgraph,6f83cc9dc2a24c7884ae7da20c9f39f469be35d7,"chore(deps): bump starlette from 1.0.0 to 1.0.1 in /libs/cli (#8005)
 
 Bumps [starlette](https://github.com/Kludex/starlette) from 1.0.0 to
@@ -9245,7 +9249,7 @@ index 87dee0d39ae..2a6109a1a7e 100644
  ]
  
  [[package]]
-"
+",fix(libs/cli): actualizar versión de starlette a 1.0.1
 langchain-ai/langgraph,2ae62c6f870660deb620d7008035f9c4848bfc58,"chore(deps-dev): bump starlette from 1.0.0 to 1.0.1 in /libs/sdk-py (#8006)
 
 Bumps [starlette](https://github.com/Kludex/starlette) from 1.0.0 to
@@ -9358,7 +9362,7 @@ index d37eee96246..cbaef4a31e7 100644
  ]
  
  [[package]]
-"
+",fix(libs/sdk-py): actualizar versión de starlette a 1.0.1
 langchain-ai/langgraph,4a2426925769b7ca17f811d298eb51ea8734401d,"chore(deps): bump typescript from 5.9.3 to 6.0.3 in /libs/cli/js-monorepo-example (#7672)
 
 Bumps [typescript](https://github.com/microsoft/TypeScript) from 5.9.3
@@ -9550,7 +9554,7 @@ index c1bb71b86f3..673d992b625 100644
  
  unbox-primitive@^1.1.0:
    version ""1.1.0""
-"
+",style(libs/cli/js-monorepo-example): actualizar versión de TypeScript
 langchain-ai/langgraph,36fc785608bb881a985510693ab815459f4b47ff,"chore(deps-dev): bump typescript from 5.9.3 to 6.0.3 in /libs/cli/js-examples in the major group across 1 directory (#7966)
 
 Bumps the major group with 1 update in the /libs/cli/js-examples
@@ -9702,7 +9706,7 @@ index a5081704afe..6c7b345d0f1 100644
  
  uglify-js@^3.1.4:
    version ""3.19.3""
-"
+",style(libs/cli/js-examples): actualizar versión de TypeScript a 6.0.3
 langchain-ai/langgraph,f52dd907563a662e42d296e585c054f4c288c1a3,"chore(deps-dev): bump types-requests from 2.33.0.20260408 to 2.33.0.20260518 in /libs/langgraph (#7977)
 
 Bumps [types-requests](https://github.com/python/typeshed) from
@@ -9775,7 +9779,7 @@ index 0cb5859d3d3..379b2e78f0b 100644
  ]
  
  [[package]]
-"
+",fix(libs/langgraph): update `types-requests` version to 2.33.0.20260518
 langchain-ai/langgraph,eec0b3b83c8eb3c0427b4b7f89cf4fbbfb45642f,"ci: allow deps-dev scope in PR title lint (#7998)
 
 ## Problem
@@ -9818,7 +9822,7 @@ index bfc22ae3ad4..5ea23635203 100644
            requireScope: false
            ignoreLabels: |
              ignore-lint-pr-title
-"
+",chore(pr_lint.yml): añadir scope `deps-dev` para pruebas de desarrollo
 langchain-ai/langgraph,229a34bc074c9dcd8fee455cc7e587bf0ab50c49,"chore(deps): bump docker/login-action from 4.1.0 to 4.2.0 in the minor-and-patch group (#7958)
 
 Bumps the minor-and-patch group with 1 update:
@@ -9993,7 +9997,7 @@ index 939641b714e..2b5b47af56d 100644
          if: ${{ !github.event.pull_request.head.repo.fork }}
          with:
            username: ${{ secrets.DOCKERHUB_USERNAME }}
-"
+",perf(workflows): actualizar versión de acción docker/login-action
 langchain-ai/langgraph,3ecd73ea52fdde3e922abf3070c29bf194b1a292,"chore(deps): bump the minor-and-patch group in /libs/checkpoint with 3 updates (#7960)
 
 Bumps the minor-and-patch group in /libs/checkpoint with 3 updates:
@@ -10682,7 +10686,7 @@ index d37cee8e11a..69e0ea2a90a 100644
  ]
  
  [[package]]
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,e21d5327b01e8edeb47055733947a00d44f70751,"CI: fix missing CUDA v13.4 sub-package (#17288)
 
 Needed for cross-compiling WoA","diff --git a/.github/workflows/release.yaml b/.github/workflows/release.yaml
@@ -10709,7 +10713,7 @@ index 56f902feefd..004791c0a09 100644
                - '""cudart_cross""'
                - '""nvcc""'
                - '""nvcc_cross""'
-"
+","chore: añadir ""cudart"" a la lista de componentes CUDA en workflows"
 ollama/ollama,4d1b53e6fb935fb93962cc4689da3ac9320ec87d,"server: detect download stalls before the first byte (#17259)
 
 * server: detect download stalls before the first byte
@@ -10886,7 +10890,7 @@ index 00000000000..1fd8e3b80d2
 +		t.Fatalf(""downloadChunk() detected the stall after %v, want less than %v"", elapsed, 5*downloadStallTimeout)
 +	}
 +}
-"
+",fix(server): añadir timeout de inactividad para descargas y pruebas
 ollama/ollama,72116bafb3604948bf9fbf345655d804887e85ab,"llama: enable dio on linux CUDA/ROCm iGPUs (#17286)
 
 Avoid double memory consumption by enabling direct IO for iGPUs","diff --git a/llm/llama_server.go b/llm/llama_server.go
@@ -10909,7 +10913,7 @@ index 540aa5644bd..e529cfc135b 100644
  	// KV cache type
  	if launch.kvCacheType != """" {
  		params = append(params, ""--cache-type-k"", launch.kvCacheType, ""--cache-type-v"", launch.kvCacheType)
-"
+",perf(llm): añadir opción de Direct I/O para GPUs integradas
 ollama/ollama,e2c2edcc27637fbabe9ce6bb2d2d6db8e676f99e,docs: add renderer/parser fields to the API docs (#17275),"diff --git a/api/types.go b/api/types.go
 index ad50fa6f007..ce11b661f51 100644
 --- a/api/types.go
@@ -10955,7 +10959,7 @@ index e4ee55f5bab..34aa9f40e9a 100644
          license:
            oneOf:
              - type: string
-"
+",feat(api): añadir campos `renderer` y `parser` a la estructura
 ollama/ollama,de1ce45913871c5e3fa58c8da7640f911bf23c24,"cuda: add CC 10.0 for linux in CUDA v12 (#17025)
 
 Add compute capability 10.0 to the Linux CUDA v12 preset so B200-class devices can use the cuda_v12 backend with drivers that do not meet the CUDA v13 minimum.
@@ -10973,7 +10977,7 @@ index 9ac2f6aa315..db8e3677311 100644
        }
      },
      {
-"
+",perf(llama/server): actualizar arquitecturas CUDA soportadas a 100 y 120
 ollama/ollama,51fc00122b7f384e9d7725f957e586f05864c375,"build: bump Linux toolchain to GCC 13 (#17244)
 
 GCC 11 builds broken AMX code which causes the Sapphire Rapids CPU backend to crash.
@@ -11026,7 +11030,7 @@ index 9efdd97712f..46de5c49bc9 100644
  COPY LLAMA_CPP_VERSION .
  COPY llama/server llama/server
  COPY llama/compat llama/compat
-"
+",perf(dockerfile): actualizar versión de GCC y ajustar variables
 ollama/ollama,445284b428d24ca1c08735c52351f487e4551845,MLX update (#17189),"diff --git a/MLX_VERSION b/MLX_VERSION
 index ac0fefd8ffe..33c5521649e 100644
 --- a/MLX_VERSION
@@ -11035,7 +11039,7 @@ index ac0fefd8ffe..33c5521649e 100644
 -de7b4ed986b6d6f55b8ace5e73c24d1ca0bea89b
 +b7c3dd6d27f45b5365b08a840310187dc503f1db
 \ No newline at end of file
-"
+",chore: actualizar versión de MLX
 ollama/ollama,e8f7c93a0bad2bd1df07d8598a2c33c9f7b5c388,launch: update Hermes integration (#17202),"diff --git a/cmd/launch/hermes.go b/cmd/launch/hermes.go
 index 22e93d99df5..9c8ffe071ef 100644
 --- a/cmd/launch/hermes.go
@@ -11181,7 +11185,7 @@ index 99dda32f489..d4b77a20726 100644
  Launch hermes chat now? [Y/n]: Y
  ```
 -
-"
+",fix(cmd/launch): añadir pruebas y documentación para flag
 ollama/ollama,0de38190d79792d79f352c7f9c869c7783fdd349,cmd/tui/chat: render bold emphasis consistently across markdown (#17224),"diff --git a/cmd/tui/chat/markdown.go b/cmd/tui/chat/markdown.go
 index 9d617f59077..00accac07ec 100644
 --- a/cmd/tui/chat/markdown.go
@@ -11560,7 +11564,7 @@ index 5426c3f298f..375f063d1ed 100644
  	chatCodeBlockStyle = lipgloss.NewStyle()
  
  	chatTableBorderStyle = lipgloss.NewStyle().
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,681dfaedcc632c22eb3e4b0c48e4ec906f171d26,cmd: remove standalone agent command (#17229),"diff --git a/cmd/agent_tui.go b/cmd/agent_tui.go
 index 21fca90a4bc..447ecbeb2f6 100644
 --- a/cmd/agent_tui.go
@@ -11785,7 +11789,7 @@ index 4a91eb45057..e65d125b43d 100644
  		stopCmd,
  		pullCmd,
  		pushCmd,
-"
+",fix(cmd): eliminar imports innecesarios y funciones obsoletas
 ollama/ollama,9893d3921846ccffb574d867897855de8e54232f,cmd: complete slash commands before submitting (#17230),"diff --git a/cmd/tui/chat/chat.go b/cmd/tui/chat/chat.go
 index ef92f4ae03c..7002417228b 100644
 --- a/cmd/tui/chat/chat.go
@@ -11963,7 +11967,7 @@ index fb8b90ac7fc..df7c50edc89 100644
  func TestChatSlashCommandsRunWhileModelResponds(t *testing.T) {
  	m := chatModel{running: true, input: []rune(""/help"")}
  
-"
+",fix(cmd/tui/chat): refactor slash command handling and add tests
 ollama/ollama,5ba17e6fdf1f225780765aa05502969bebfd12fa,agent/tui: remove redundant context-window refreshes from event loop (#17241),"diff --git a/cmd/tui/chat/chat.go b/cmd/tui/chat/chat.go
 index 9481054642f..ef92f4ae03c 100644
 --- a/cmd/tui/chat/chat.go
@@ -12044,7 +12048,7 @@ index 862562adbbe..6cb21bced8d 100644
  func (m chatModel) currentWorkingDir() string {
  	if strings.TrimSpace(m.workingDir) != """" {
  		return m.workingDir
-"
+",fix(cmd/tui/chat): eliminar llamadas redundantes
 ollama/ollama,6f3b997decc0e57a2a1fe3bebe8116fdca761239,"cmd: route root command server start through checkServerHeartbeat (#17245)
 
 The bare `ollama` command (and `ollama launch` with no integration) used a
@@ -12166,7 +12170,7 @@ index d30eb1a5b43..4a91eb45057 100644
  		return
  	}
  
-"
+",fix(cmd): eliminar código de inicio de servidor en segundo plano
 ollama/ollama,cc626766564eb70c75e684f83642e051aafb40fa,llama.cpp update (#17186),"diff --git a/LLAMA_CPP_VERSION b/LLAMA_CPP_VERSION
 index 67189b9ec46..fd41de5c81b 100644
 --- a/LLAMA_CPP_VERSION
@@ -12175,7 +12179,7 @@ index 67189b9ec46..fd41de5c81b 100644
 -b9888
 +b10069
 \ No newline at end of file
-"
+",fix(versions): actualizar versión de Llama-CPP
 ollama/ollama,794a254111a35218df6d736128390604e7a5ead4,anthropic: close text block before starting thinking block (#17225),"diff --git a/anthropic/anthropic.go b/anthropic/anthropic.go
 index 46394cdd290..08a74416201 100755
 --- a/anthropic/anthropic.go
@@ -12268,7 +12272,7 @@ index 27f9b9a7e30..d0d97854bce 100755
  func TestStreamConverter_ToolCallWithUnmarshalableArgs(t *testing.T) {
  	// Test that unmarshalable arguments (like channels) are handled gracefully
  	// and don't cause a panic or corrupt stream
-"
+",feat(anthropic): añadir pruebas unitarias para manejo de contenido
 ollama/ollama,714b6fc2a47c9e7e9757ca01859c3545f5b9523b,agent: allow unlimited tool rounds for cloud models by default (#17217),"diff --git a/agent/session.go b/agent/session.go
 index 3096d712991..1d168eabb02 100644
 --- a/agent/session.go
@@ -12508,7 +12512,7 @@ index 4f7535a2a80..96af086e9a0 100644
  func (chatTestTool) Name() string {
  	return ""fake_tool""
  }
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,5865a01e48cba1d6fa51c4fac415cc136c1ae4d7,agent: reorder working directory instruction (#17228),"diff --git a/cmd/agent_tui.go b/cmd/agent_tui.go
 index 4cf4a5ded7e..6d370d15b1e 100644
 --- a/cmd/agent_tui.go
@@ -12533,7 +12537,7 @@ index 4cf4a5ded7e..6d370d15b1e 100644
  	return strings.Join(parts, ""\n"")
  }
  
-"
+",refactor(agent_tui): reorganizar lógica de construcción del sistema
 ollama/ollama,e61c1c73fe7d5656707a8462c1b1cb971d92333d,cmd: remove dead agent prompt wrappers (#17227),"diff --git a/cmd/agent_tui.go b/cmd/agent_tui.go
 index 3f98b31e08c..4cf4a5ded7e 100644
 --- a/cmd/agent_tui.go
@@ -12568,7 +12572,7 @@ index 3f98b31e08c..4cf4a5ded7e 100644
  func agentDefaultSystemPromptWithWorkingDir(now time.Time, modelName string, workingDir string) string {
  	date := now.Format(""Monday, January 2, 2006"")
  	shellName := ""bash""
-"
+",refactor(agent_tui.go): eliminar funciones redundantes y mejorar
 ollama/ollama,03d61e19255158fc90552537aaec843b3867c2e1,launch: keep Claude Code channels available (#17210),"diff --git a/cmd/launch/claude.go b/cmd/launch/claude.go
 index 5715b0dbc3f..394feefb58b 100644
 --- a/cmd/launch/claude.go
@@ -12640,7 +12644,7 @@ index fa9d91f259f..e27d8097b2e 100644
  }
  
  func TestClaudeModelEnvVars(t *testing.T) {
-"
+",fix(cmd/launch): añadir soporte para canales en pruebas de Claude
 ollama/ollama,30c390384e20333b67cadab60da5bcb669407f01,cmd: put current working dir in the system prompt (#17188),"diff --git a/cmd/agent_tui.go b/cmd/agent_tui.go
 index 9f9f7c1bb97..3f98b31e08c 100644
 --- a/cmd/agent_tui.go
@@ -12806,7 +12810,11 @@ index fd783e87021..d507bb729b5 100644
  func TestAgentSelectionItemsUseLaunchSections(t *testing.T) {
  	items := agentSelectionItems([]agentchat.ModelOption{
  		{Name: ""glm-5.2:cloud"", Description: ""cloud"", Recommended: true, Cloud: true},
-"
+","fix(cmd/agent_tui.go): refactor working directory handling
+
+- add helper function `agentWorkingDir` to encapsulate cwd retrieval logic
+- update `GenerateAgentTUI`, `agentSystemPrompt`, and related functions to use new helper
+- add tests for working directory handling"
 ollama/ollama,d5908300911c7422576cd64f9057ce1c456b806c,agent/tools: isolate web tests from cloud policy (#17208),"diff --git a/agent/tools/web_test.go b/agent/tools/web_test.go
 index 17c3cd238fc..a9327820fe3 100644
 --- a/agent/tools/web_test.go
@@ -12946,7 +12954,7 @@ index 17c3cd238fc..a9327820fe3 100644
 +		})
 +	}
 +}
-"
+",perf(agent/tools/web_test.go): refactor tests to include cloud policy
 ollama/ollama,fdcf9efafd269f22930a5782e1e3bd5cee78cc16,fix launch model picker recovery (#17170),"diff --git a/cmd/launch/launch.go b/cmd/launch/launch.go
 index 0bd92943554..db7bf37c69a 100644
 --- a/cmd/launch/launch.go
@@ -13088,7 +13096,7 @@ index 2a986c667be..b1137b9def6 100644
  	}
  }
  
-"
+",fix(cmd/launch): update imports and add picker test for model override
 ollama/ollama,76188f60cda6d0fc57916fe20c5e0da295ce53b6,docs: add VS Code extension setup (#17158),"diff --git a/docs/integrations/index.mdx b/docs/integrations/index.mdx
 index 8cc5499b7d9..1e835e542ab 100644
 --- a/docs/integrations/index.mdx
@@ -13221,7 +13229,7 @@ index 63e58d7499d..b358412c349 100644
 +4. Run **Ollama: Diagnose Models** and check the **Ollama** output channel.
 +
 +If a cloud model asks you to sign in, run `ollama signin`.
-"
+",docs(integrations/vscode): actualizar documentación de integración
 ollama/ollama,d49b96d9ab9b2ab46e78c51078f3df6a04a08c92,docs: collapsed previous retirements (#17167),"diff --git a/docs/cloud.mdx b/docs/cloud.mdx
 index cf5ee7d73cf..c9f6ae402dd 100644
 --- a/docs/cloud.mdx
@@ -13304,7 +13312,9 @@ index 6ddcc836561..ee3a19a55cf 100644
 +.accordion-group details summary {
 +    padding-inline: 0;
 +}
-"
+","refactor(docs): reorganizar y mejorar la estructura de la documentación
+
+- style(styling.css): añadir estilos para el componente AccordionGroup"
 ollama/ollama,3bd506bd1cf9933bf06867ea9681daeb6d6479a8,agent/tools: surface actionable web auth error (#17169),"diff --git a/agent/tools/web.go b/agent/tools/web.go
 index 1e819489d7f..a89681adb5c 100644
 --- a/agent/tools/web.go
@@ -13421,7 +13431,7 @@ index da155ce081f..17c3cd238fc 100644
  func TestWebFetchRejectsUnsupportedScheme(t *testing.T) {
  	tests := []struct {
  		name    string
-"
+",fix(agent/tools): actualizar errores de autenticación y añadir pruebas
 ollama/ollama,123b1f24793f4d0edc77e09dfcafb4c23b94ea72,"mlxrunner: raise the MTP pending-flush cap to 256 tokens
 
 Per-token cost of the batched head forward keeps falling until the
@@ -13443,7 +13453,7 @@ index d559c6b4b48..bf40e5696b2 100644
  
  // mtpDrafter drafts with a model's multi-token-prediction head. Constructed
  // at load, it fixes the trie keys' draft look-ahead for the model's lifetime
-"
+",fix(x/mlxrunner): ajustar valor de constante `mtpPendingFlushTokens`
 ollama/ollama,4e96f4dbf2e08d10aee760b9e33673c62e1d4ab5,"cache: stop recurrent conv state from pinning the forward buffer
 
 Keeping the recurrent conv state small was handled unevenly: the committed
@@ -13620,7 +13630,7 @@ index 24fb32c76c4..57dedca57d8 100644
  	}
  	return out, states
  }
-"
+",refactor(x/mlxrunner/cache/recurrent.go): update snapshot capture logic
 ollama/ollama,4f7786d0baa9085e568c5d48135b5347daaddd8f,mlx: configurable model load timeout (#14796),"diff --git a/x/mlxrunner/client.go b/x/mlxrunner/client.go
 index f5f97df9fa7..31d02f699f6 100644
 --- a/x/mlxrunner/client.go
@@ -13634,7 +13644,7 @@ index f5f97df9fa7..31d02f699f6 100644
  	ticker := time.NewTicker(100 * time.Millisecond)
  	defer ticker.Stop()
  
-"
+",fix(x/mlxrunner): update timeout in WaitUntilRunning
 ollama/ollama,cd600e19a3a60a43612f453f7aa6454d3c2205f3,cmd/tui: simplify integration selection and update menu description (#17159),"diff --git a/cmd/tui/tui.go b/cmd/tui/tui.go
 index cbc701fa1d4..2eff72962b1 100644
 --- a/cmd/tui/tui.go
@@ -13968,7 +13978,7 @@ index 3298cbbe03d..62adf7a8e57 100644
  		t.Fatalf(""expected install hint in description\n%s"", view)
  	}
  }
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,59bd0b49bb2e3268562bfe92f98f00103ba06ec0,"mlx: restore NAX in Metal v4 builds (#17160)
 
 MLX now requires a macOS 26.2 deployment target for NAX kernels. Ollama's Metal v4 build still targeted 26.0, so recent MLX bumps silently built mlx_metal_v4 without NAX kernels.","diff --git a/cmake/local.cmake b/cmake/local.cmake
@@ -14035,7 +14045,7 @@ index e2387a12445..981dc89e57c 100644
          ""OLLAMA_RUNNER_DIR"": ""mlx_metal_v4""
        }
      }
-"
+",perf(cmake): actualizar versión mínima de macOS y SDK requeridos
 ollama/ollama,d47859ce495496196df211e939702364492a2b7f,"create: select the qwen3.5 parser and renderer for Qwen3.5/Next
 
 Qwen3.5/Qwen3-Next architecture strings contain the substring ""qwen3"", so the
@@ -14115,7 +14125,7 @@ index 774d1840dd0..e86ec6a807a 100644
  		{
  			name:       ""deepseek model"",
  			configJSON: `{""architectures"": [""DeepseekV3ForCausalLM""]}`,
-"
+",feat(x/create/client): añadir soporte para modelos Qwen 3.5
 ollama/ollama,a6293eb5164214f15e7856268f3adddeae1026e2,"llm: allow iGPU mmproj offload with fit padding (#16996)
 
 * llm: allow iGPU mmproj offload with fit padding
@@ -14329,7 +14339,7 @@ index 70e66302bee..d39b5b085b9 100644
  func TestMMProjMemoryRequirement(t *testing.T) {
  	if got, err := mmprojMemoryRequirement(""model.gguf"", nil, nil); err != nil || got != 0 {
  		t.Fatalf(""no projector memory = %d, %v; want 0, nil"", got, err)
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,892e7f6be6351bc729539dd9c69040abf1224304,server: apply format constraint for all thinking parsers when think=false (#15901),"diff --git a/server/routes.go b/server/routes.go
 index e9d34c762d8..2561ce92e71 100644
 --- a/server/routes.go
@@ -14590,7 +14600,7 @@ index 9dd5f186444..789e43fb252 100644
  	}
  }
  
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,87b64213b4f5970214a406ccb5126f058b1f00fd,launch: disable claude code telemetry by default (#17061),"diff --git a/cmd/launch/claude.go b/cmd/launch/claude.go
 index 476bf9422a4..5715b0dbc3f 100644
 --- a/cmd/launch/claude.go
@@ -14681,7 +14691,7 @@ index d02e01be652..fa9d91f259f 100644
  func TestClaudeModelEnvVars(t *testing.T) {
  	c := &Claude{}
  
-"
+",fix(cmd/launch): actualizar imports y pruebas de claude.go
 ollama/ollama,f2d069f6df78201f5fd53526950007210613164c,mlx: update to de7b4ed9 (#17056),"diff --git a/MLX_VERSION b/MLX_VERSION
 index 9849be2ccd0..ac0fefd8ffe 100644
 --- a/MLX_VERSION
@@ -14689,7 +14699,7 @@ index 9849be2ccd0..ac0fefd8ffe 100644
 @@ -1 +1 @@
 -548dd80e87454f6e4c1c7736ce09551d145c11d5
 +de7b4ed986b6d6f55b8ace5e73c24d1ca0bea89b
-"
+",chore: actualizar versión de MLX
 ollama/ollama,9d779572a76bc25022a54144c8ae98a89d29c9e9,"llama.cpp update (#17055)
 
 Bump to b9888.","diff --git a/LLAMA_CPP_VERSION b/LLAMA_CPP_VERSION
@@ -14699,7 +14709,7 @@ index 151c77373a3..67189b9ec46 100644
 @@ -1 +1 @@
 -b9840
 +b9888
-"
+",chore: actualizar versión de Llama CPP
 ollama/ollama,dba1e27fa838e306d7cc6f9131f3a7792095b8d8,"llama: enable FA on CUDA CC 6.x GPUs (#16994)
 
 Recent upstream Pascal kernel fixes let us compile native SM60/SM61 kernels again instead of relying on PTX JIT, so allow Flash Attention auto at runtime for CC 6.x devices.
@@ -14809,7 +14819,7 @@ index 1bb52573357..474974f4654 100644
  			},
  		},
  		{
-"
+",perf(ollama/server): ajustar configuraciones de GPU y pruebas
 ollama/ollama,e436db25ff444c0ea4eb5b60c402f3d6dca58c4e,"compat: use UTF-8-safe file open (#16999)
 
 Use ggml_fopen for compat tensor reads so Windows paths with Unicode characters are converted through the same UTF-8-to-wide path as llama.cpp model loading.
@@ -14827,7 +14837,7 @@ index d09d6fde9dd..7520608aa7d 100644
      if (!f) {
          std::fprintf(stderr, ""%s: open failed path=%s offset=%zu size=%zu errno=%d (%s)\n"",
                       __func__, path, offset, size, errno, std::strerror(errno));
-"
+",fix(llama/compat): actualizar función `read_at` para usar `ggml_fopen`
 ollama/ollama,26acfa42b5c67af3fb32ba4b717ea67ab35f6b9f,"rocm: remove no longer supported devices (#17010)
 
 The presets and docs had fallen out of sync with what our current ROCm versions on Linux and Windows actually support.  We rely on Vulkan now to cover these older unsupported devices.","diff --git a/docs/gpu.mdx b/docs/gpu.mdx
@@ -14890,7 +14900,7 @@ index 1ccf4cfecd2..ddabece2725 100644
        }
      },
      {
-"
+",chore(llama/server): actualizar targets de AMDGPU en CMakePresets.json
 ollama/ollama,624cada952c87bcf1f0e7d00b669f0cc483103eb,"discover: fall back to standard CUDA when the JetPack runner is absent (#16949)
 
 * discover: use the SBSA CUDA build on JetPack 7 (L4T r38+)
@@ -14933,7 +14943,7 @@ index f0cfe8fc316..2c533c33234 100644
  		// For our initial discovery pass, we gather all the known GPUs through
  		// all the libraries that were detected. This pass may include GPUs that
  		// are enumerated, but not actually supported.
-"
+",chore(discover): añadir lógica para limpiar override de JetPack si no
 ollama/ollama,cecd265d3ab894a9a0b02e2a37ef79286e6f3dfa,docs(cloud): update retirement list (#17000),"diff --git a/docs/cloud.mdx b/docs/cloud.mdx
 index b994e96767d..cf5ee7d73cf 100644
 --- a/docs/cloud.mdx
@@ -14959,7 +14969,7 @@ index b994e96767d..cf5ee7d73cf 100644
 +| July 15, 2026 | `minimax-m2.1` | `minimax-m3` |
 +| July 15, 2026 | `qwen3-coder-next` | `qwen3.5:397b` |
 +| July 15, 2026 | `qwen3-coder:480b` | `qwen3.5:397b` |
-"
+",chore(docs): añadir actualizaciones de modelos a la documentación
 ollama/ollama,2ea95fb059278bcc6cb2016de1b5c5c1cc405644,"fix cuda toolkit lookup and parallel (#16613)
 
 * fix cuda toolkit lookup and parallel
@@ -15101,7 +15111,7 @@ index 116e7526e68..11bb5e58dbf 100644
              ollama_add_llama_server_build(${_backend}
                  PRESET ${_cuda_preset}
                  RUNNER_DIR ${_backend}
-"
+",refactor(cmake/local.cmake): mejorar configuración de construcción
 ollama/ollama,8e7be3aed109bbba4fd000413136449fe471b2ab,"ci: avoid unbounded parallelism (#16966)
 
 build-darwin has gotten very slow in the past few releases, most likely due to unbounded parallelism in the MLX build causing the builder to thrash","diff --git a/scripts/build_darwin.sh b/scripts/build_darwin.sh
@@ -15129,7 +15139,7 @@ index 408285c7e29..d1187604ccd 100755
      done
  }
  
-"
+",chore(build): mejorar paralelismo y límite de carga en script
 ollama/ollama,710292ff4f191d8da9f6a4230804fbc693338d4a,"mlx: tighten up gemma4 moe loading code (#16964)
 
 This change allows .experts.gate_proj / .up_proj / .down_proj tensor names to each
@@ -15292,7 +15302,7 @@ index 9a17193b288..ff77864d0af 100644
  			} else {
  				// Per-expert tensors (from create path).
  				// Try separate gate_proj/up_proj first, then fused gate_up_proj.
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,ada1eb516354a0428c48202b1a8966550056df8e,launch: check for min version for hermes desktop (#16912),"diff --git a/cmd/launch/hermes.go b/cmd/launch/hermes.go
 index 1ad94b72b32..22e93d99df5 100644
 --- a/cmd/launch/hermes.go
@@ -15524,7 +15534,7 @@ index 8dfd733a63a..690ab8cfaf3 100644
  
  func TestHermesDesktopRunUsesWindowsLocalAppDataPackage(t *testing.T) {
  	tmpDir := t.TempDir()
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,1c5ebbf5f4a41d37b65e100b4938ec6f710b74fe,llama.cpp update (#16960),"diff --git a/LLAMA_CPP_VERSION b/LLAMA_CPP_VERSION
 index 8d1d9a867f9..151c77373a3 100644
 --- a/LLAMA_CPP_VERSION
@@ -15577,7 +15587,7 @@ index 13e162bf182..e6536a731e1 100644
  +struct llama_model_laguna : public llama_model_base {
  +    llama_model_laguna(const struct llama_model_params & params) : llama_model_base(params) {}
  +    void load_arch_hparams(llama_model_loader & ml) override;
-"
+",feat(models): añadir soporte para arquitectura LAGUNA
 ollama/ollama,7926b99e0e9fb1bb0d7a1a4613ef904025647f62,"mlx: bump dependency (#16935)
 
 Update MLX to 548dd80.
@@ -15810,7 +15820,7 @@ index ae6a09ed879..e7ea5cc28d8 100644
  
  	cfg := &TextConfig{
  		HiddenSize:  8,
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 ollama/ollama,32a97b7493786e5784e4445e80c1a078c14c255f,"tools: ignore braces inside JSON strings when detecting tool call end (#16937)
 
 Parser.done() counted the tag's open/close characters ({}, []) without
@@ -15878,7 +15888,7 @@ index 2b8b04f8bf4..689d65172d5 100644
  	}
  
  	for _, tt := range tests {
-"
+",test(tools/tools.go): añadir pruebas para manejo de caracteres
 ollama/ollama,d26a58557d83aa8892bdfa79b3550f5ee969cd1c,"MLX: wire up scheduler selected context size for ps (#16918)
 
 In the PS output, expose the scheduler selected size (clamped by model context size) instead of always reporting the model max context.  This will help provide a hint to clients to keep the context size below this value to avoid paging and poor performance on smaller VRAM systems.","diff --git a/server/sched.go b/server/sched.go
@@ -15967,7 +15977,7 @@ index 7633ec6d7c6..f5f97df9fa7 100644
  	c.memory.Store(status.Memory)
  
  	return nil
-"
+",perf(x/mlxrunner): añadir soporte para contexto suave en NewClient
 ollama/ollama,2e474c98f91a3995001abfa80c41f7e11ad5f4a3,parser/renderer: add Ornith 9B renderer/parser support (#16920),"diff --git a/model/parsers/parsers.go b/model/parsers/parsers.go
 index ae12bada1d1..128c0dd9b71 100644
 --- a/model/parsers/parsers.go
@@ -16137,7 +16147,7 @@ index 12c8a827da5..53520c7948f 100644
  	case ""cogito"":
  		renderer := &CogitoRenderer{isThinking: true}
  		return renderer
-"
+",feat(model/renderers): añadir soporte para el renderizado de ornith
 tiangolo/fastapi,704fbe1439341994100622853f515a8af7ccc2eb,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16152,7 +16162,7 @@ index 9d50c7444051e..fa4cda5c6603d 100644
  * 📝 Restructure FastAPI People and related pages. PR [#16015](https://github.com/fastapi/fastapi/pull/16015) by [@tiangolo](https://github.com/tiangolo).
  
  ### Internal
-"
+",docs: update release notes to include uv projects reference
 tiangolo/fastapi,7d210a4a9f54f2744e50ce55c65eb852958478c5,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16167,7 +16177,7 @@ index 212368dad5909..9d50c7444051e 100644
  * 🔥 Remove now-obsolete scripts to generate data for FastAPI People. PR [#16016](https://github.com/fastapi/fastapi/pull/16016) by [@tiangolo](https://github.com/tiangolo).
  
  ## 0.139.2 (2026-07-16)
-"
+",refactor(docs): actualizar FastAPI People - Sponsors en notas
 tiangolo/fastapi,afe41126f624af30038cc8e17b2aaf60ebd4b838,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16185,7 +16195,7 @@ index 61313d3f1c7dd..212368dad5909 100644
  ## 0.139.2 (2026-07-16)
  
  ### Fixes
-"
+",fix(docs): remove now-obsolete scripts for FastAPI People
 tiangolo/fastapi,efcf8a183026edb97e342ee3fb38a0a3416798ac,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16203,7 +16213,7 @@ index 57116f26d7e08..61313d3f1c7dd 100644
  ## 0.139.2 (2026-07-16)
  
  ### Fixes
-"
+",docs: Restructure FastAPI People and related pages. PR
 tiangolo/fastapi,e735449bae685102d448d2a443a88e1d3304abbd,📝 Restructure FastAPI People and related pages (#16015),"diff --git a/docs/en/data/members.yml b/docs/en/data/members.yml
 index 7ec16e917eac3..caf5953ff790c 100644
 --- a/docs/en/data/members.yml
@@ -16537,7 +16547,7 @@ index 884307dcf9565..9a2321e045a4d 100644
    - help-fastapi.md
    - contributing.md
    - translations.md
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 tiangolo/fastapi,866b7a3d0ce1025a3811f23aea4846d01a2b16a8,"🔖 Release version 0.139.2 (#16014)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16565,7 +16575,7 @@ index ee04d988750c5..5177ea094bbc0 100644
  
  from starlette import status as status
  
-"
+",fix(fastapi): actualizar versión a 0.139.2 y agregar nota de lanzamiento
 tiangolo/fastapi,7b3effea754619f0c305af576be23a51865292a3,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16583,7 +16593,7 @@ index 17ecbd136319c..1bea3f1f7e3b2 100644
  ## 0.139.1 (2026-07-16)
  
  ### Fixes
-"
+",fix(docs/en/docs/release-notes.md): añadir nota sobre refactorización
 tiangolo/fastapi,7fe315c21afb8a57a2b559772e0f7ced7e5d071a,"🐛 Refactor router route building to make it thread-safe, mainly relevant for tests running in parallel threads (uncommon) (#16013)","diff --git a/fastapi/routing.py b/fastapi/routing.py
 index 28694b4e586b7..78207778a2c65 100644
 --- a/fastapi/routing.py
@@ -16770,7 +16780,7 @@ index cb8dc81fa913c..e74d79e448f04 100644
  def test_no_prefix_include_validation_sees_effective_starlette_route_candidates():
      def endpoint(request):  # pragma: no cover
          return PlainTextResponse(""ok"")
-"
+",perf(fastapi/routing.py): agregar bloqueo para sincronizar acceso
 tiangolo/fastapi,c48e67b1ce9c03fc9bd4b1ac72350e51ad5a6e8a,"🔖 Release version 0.139.1 (#16012)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16798,7 +16808,7 @@ index df55e7a6c8ebb..ee04d988750c5 100644
  
  from starlette import status as status
  
-"
+",fix(fastapi): incrementar versión a 0.139.1
 tiangolo/fastapi,2acc4fbf155caf016e3bd2602c0d2ec52723e635,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16816,7 +16826,7 @@ index 35e8bcb7a13ef..024f01d1afebb 100644
  ### Docs
  
  * 📝 Fix topic repository list not being displayed and `skip_users` not being applied. PR [#15995](https://github.com/fastapi/fastapi/pull/15995) by [@YuriiMotov](https://github.com/YuriiMotov).
-"
+",fix(docs): añadir soporte de fallback para rutas con puntos en release
 tiangolo/fastapi,eb75fd078e83aed935016bcdf0705cd58bbf0d0e,🐛 Fix frontend fallback support for doted paths like `/users/john.doe` (#16011),"diff --git a/docs/en/docs/tutorial/frontend.md b/docs/en/docs/tutorial/frontend.md
 index 433cea2751e3f..0dacc73ba0b43 100644
 --- a/docs/en/docs/tutorial/frontend.md
@@ -16924,7 +16934,10 @@ index b8dd62fb8af18..d647037e7cdaf 100644
      tmp_path: Path, path: str, accept: str
  ):
      dist = tmp_path / ""dist""
-"
+","test(routing): ajustar lógica de fallback para solicitudes frontend
+
+- refactor(test/frontend.py): parametrizar pruebas de fallback
+- fix(routing): corregir condición de aceptación de HTML"
 tiangolo/fastapi,9b8410bdc9fa1fd679ea7e65b926535c7045ab87,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -16942,7 +16955,7 @@ index bc784f269e64f..35e8bcb7a13ef 100644
  ### Translations
  
  * 🌐 Update translations for tr (update-outdated). PR [#16005](https://github.com/fastapi/fastapi/pull/16005) by [@tiangolo](https://github.com/tiangolo).
-"
+",fix(docs): añadir corrección de lista de repositorios y aplicación
 tiangolo/fastapi,e24d44cce4092a33b64e9536e96e7608a7dcb9b8,📝 Fix topic repository list not being displayed and `skip_users` not being applied (#15995),"diff --git a/docs/en/data/skip_users.yml b/docs/en/data/skip_users.yml
 index cf24003af8ac5..26b2247bf6eff 100644
 --- a/docs/en/data/skip_users.yml
@@ -17054,7 +17067,7 @@ index 94379d38487ec..ac2991b11c9a3 100644
  
      # Local development
      # repos_path = Path(""../docs/en/data/topic_repos.yml"")
-"
+",chore(docs): estructurar y mejorar la organización de datos en archivos
 tiangolo/fastapi,93b78f8646dea4543cc4d938f7e29b8547749a99,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17069,7 +17082,7 @@ index e413e17070cb1..bc784f269e64f 100644
  * 🌐 Update translations for zh-hant (update-outdated). PR [#15996](https://github.com/fastapi/fastapi/pull/15996) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for fr (update-outdated). PR [#16006](https://github.com/fastapi/fastapi/pull/16006) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for de (update-outdated). PR [#15999](https://github.com/fastapi/fastapi/pull/15999) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update translation for tr
 tiangolo/fastapi,b959b443577c5f2b870cdef13219b98aa32f8943,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17084,7 +17097,7 @@ index 30fb333de458f..e413e17070cb1 100644
  * 🌐 Update translations for fr (update-outdated). PR [#16006](https://github.com/fastapi/fastapi/pull/16006) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for de (update-outdated). PR [#15999](https://github.com/fastapi/fastapi/pull/15999) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for ko (update-outdated). PR [#16004](https://github.com/fastapi/fastapi/pull/16004) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update zh-hant translation
 tiangolo/fastapi,20d332cb2e33ed5e6a406cffafa79f537852a307,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17099,7 +17112,7 @@ index 459576f5f5520..30fb333de458f 100644
  * 🌐 Update translations for de (update-outdated). PR [#15999](https://github.com/fastapi/fastapi/pull/15999) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for ko (update-outdated). PR [#16004](https://github.com/fastapi/fastapi/pull/16004) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for zh (update-outdated). PR [#16001](https://github.com/fastapi/fastapi/pull/16001) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update outdated translations for fr
 tiangolo/fastapi,061eb10016f5cd680a7796ba0320100ddce00710,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17114,7 +17127,7 @@ index 9f3ef6f4600d7..459576f5f5520 100644
  * 🌐 Update translations for ko (update-outdated). PR [#16004](https://github.com/fastapi/fastapi/pull/16004) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for zh (update-outdated). PR [#16001](https://github.com/fastapi/fastapi/pull/16001) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for uk (update-outdated). PR [#16003](https://github.com/fastapi/fastapi/pull/16003) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update translation for de
 tiangolo/fastapi,8f93206768d362c75ba38e7c66a3e104df56222e,"🌐 Update translations for tr (update-outdated) (#16005)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/tr/docs/tutorial/frontend.md b/docs/tr/docs/tutorial/frontend.md
@@ -17134,7 +17147,7 @@ index 7918ca593eba1..a9797dc612ed5 100644
  ## Yalnızca Statik Build Çıktısı { #static-build-output-only }
  
  `app.frontend()`, frontend build'iniz tarafından önceden oluşturulmuş dosyaları sunar.
-"
+",docs(frontend): añadir sección sobre dependencies y middleware
 tiangolo/fastapi,5ca69d462685929d2c418a0a393d9c13d3d24504,"🌐 Update translations for zh-hant (update-outdated) (#15996)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/zh-hant/docs/tutorial/frontend.md b/docs/zh-hant/docs/tutorial/frontend.md
@@ -17154,7 +17167,7 @@ index 0c568b9f598bb..fbfd8b3c5547d 100644
  ## 僅限靜態建置輸出 { #static-build-output-only }
  
  `app.frontend()` 會提供你的前端建置已經產生的檔案。
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,38c668601586dbdf38a6d8c4200c6ab6ab745e1b,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17169,7 +17182,7 @@ index 6636a123fe3ff..9f3ef6f4600d7 100644
  * 🌐 Update translations for zh (update-outdated). PR [#16001](https://github.com/fastapi/fastapi/pull/16001) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for uk (update-outdated). PR [#16003](https://github.com/fastapi/fastapi/pull/16003) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for ja (update-outdated). PR [#15998](https://github.com/fastapi/fastapi/pull/15998) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update ko translation
 tiangolo/fastapi,1bea40556e933861fe5b66e91b04a84c766d6af6,"🌐 Update translations for fr (update-outdated) (#16006)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/fr/docs/tutorial/frontend.md b/docs/fr/docs/tutorial/frontend.md
@@ -17189,7 +17202,7 @@ index 6adb8a241855b..43a136608eec7 100644
  ## Sortie de build statique uniquement { #static-build-output-only }
  
  `app.frontend()` sert des fichiers déjà générés par votre build frontend.
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,3330e247ce1984f2e9bedeb20c6dbdedf3662cfa,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17204,7 +17217,7 @@ index d2b772a1ccf52..6636a123fe3ff 100644
  * 🌐 Update translations for uk (update-outdated). PR [#16003](https://github.com/fastapi/fastapi/pull/16003) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for ja (update-outdated). PR [#15998](https://github.com/fastapi/fastapi/pull/15998) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for pt (update-outdated). PR [#16000](https://github.com/fastapi/fastapi/pull/16000) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update zh translation
 tiangolo/fastapi,569630f6463ff03bd711ad8dd07af6f074410124,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17219,7 +17232,7 @@ index c31e9c809df9e..d2b772a1ccf52 100644
  * 🌐 Update translations for ja (update-outdated). PR [#15998](https://github.com/fastapi/fastapi/pull/15998) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for pt (update-outdated). PR [#16000](https://github.com/fastapi/fastapi/pull/16000) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for es (update-outdated). PR [#15997](https://github.com/fastapi/fastapi/pull/15997) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update translation for uk
 tiangolo/fastapi,362c6f1d3f11b1426cf18315568947e9e64894f3,"🌐 Update translations for de (update-outdated) (#15999)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/de/docs/tutorial/frontend.md b/docs/de/docs/tutorial/frontend.md
@@ -17239,7 +17252,7 @@ index 9cd4644d915fb..55213e550dc08 100644
  ## Nur statischer Build-Output { #static-build-output-only }
  
  `app.frontend()` liefert Dateien aus, die bereits von Ihrem Frontend-Build generiert wurden.
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,10f30b844b370aa56974c59ec8bb13439de75b96,"🌐 Update translations for ko (update-outdated) (#16004)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/ko/docs/tutorial/frontend.md b/docs/ko/docs/tutorial/frontend.md
@@ -17259,7 +17272,7 @@ index 50149432ce66d..452aed034f682 100644
  ## 정적 빌드 출력만 사용하기 { #static-build-output-only }
  
  `app.frontend()`는 프론트엔드 빌드에서 이미 생성된 파일을 제공합니다.
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,4cb38a48098f0bce73cd6c7242cb6a4f81a5b4c2,"🌐 Update translations for zh (update-outdated) (#16001)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/zh/docs/tutorial/frontend.md b/docs/zh/docs/tutorial/frontend.md
@@ -17279,7 +17292,7 @@ index 8b57bbe6031d3..32169076edebf 100644
  ## 仅限静态构建输出 { #static-build-output-only }
  
  `app.frontend()` 提供的是你的前端构建已经生成的文件。
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,745d3d222f52ea61c4e9d1cc19c7196992594085,"🌐 Update translations for uk (update-outdated) (#16003)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/uk/docs/tutorial/frontend.md b/docs/uk/docs/tutorial/frontend.md
@@ -17299,7 +17312,7 @@ index c85e6693e326d..36703764f45ba 100644
  ## Лише статичний результат збірки { #static-build-output-only }
  
  `app.frontend()` обслуговує файли, вже згенеровані вашою фронтенд-збіркою.
-"
+",docs(frontend): añadir sección sobre dependencias y middleware en
 tiangolo/fastapi,8458d35c96647a92801b9a243f3bd42a24fc7350,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17314,7 +17327,7 @@ index 12be15844b186..c31e9c809df9e 100644
  * 🌐 Update translations for pt (update-outdated). PR [#16000](https://github.com/fastapi/fastapi/pull/16000) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for es (update-outdated). PR [#15997](https://github.com/fastapi/fastapi/pull/15997) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for ru (update-outdated). PR [#16002](https://github.com/fastapi/fastapi/pull/16002) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update translations for ja (update-outdated)
 tiangolo/fastapi,75bdc46293f35d8ca806e4690d6e294d9444492b,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17329,7 +17342,7 @@ index 4f49e40b8718a..12be15844b186 100644
  * 🌐 Update translations for es (update-outdated). PR [#15997](https://github.com/fastapi/fastapi/pull/15997) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for ru (update-outdated). PR [#16002](https://github.com/fastapi/fastapi/pull/16002) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for hi (add-missing). PR [#15990](https://github.com/fastapi/fastapi/pull/15990) by [@tiangolo](https://github.com/tiangolo).
-"
+",docs(en/docs/release-notes.md): añadir actualización de traducciones
 tiangolo/fastapi,c29b4a17afe51299200fad8e5bc9f5c8822efe4d,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17344,7 +17357,7 @@ index 5cbeec3a64f53..4f49e40b8718a 100644
  * 🌐 Update translations for ru (update-outdated). PR [#16002](https://github.com/fastapi/fastapi/pull/16002) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for hi (add-missing). PR [#15990](https://github.com/fastapi/fastapi/pull/15990) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for hi (add-missing). PR [#15925](https://github.com/fastapi/fastapi/pull/15925) by [@tiangolo](https://github.com/tiangolo).
-"
+",docs(en/docs/release-notes.md): añadir actualización de traducciones
 tiangolo/fastapi,3a8ab1f76bc6af6d84101cf21d8180c20f3e6538,"🌐 Update translations for ja (update-outdated) (#15998)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/ja/docs/tutorial/frontend.md b/docs/ja/docs/tutorial/frontend.md
@@ -17364,7 +17377,7 @@ index facbbc1d16eab..eb23d1e9ba471 100644
  ## 静的ビルド出力のみ { #static-build-output-only }
  
  `app.frontend()` は、フロントエンドのビルドで既に生成されたファイルを配信します。
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,b10d3dac4ce2e17ecd04f65fd92b050ce33ca899,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17379,7 +17392,7 @@ index cb512f6d53464..5cbeec3a64f53 100644
  * 🌐 Update translations for hi (add-missing). PR [#15990](https://github.com/fastapi/fastapi/pull/15990) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for hi (add-missing). PR [#15925](https://github.com/fastapi/fastapi/pull/15925) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for hi (add-missing). PR [#15797](https://github.com/fastapi/fastapi/pull/15797) by [@tiangolo](https://github.com/tiangolo).
-"
+",docs(en/docs/release-notes.md): añadir actualización de traducciones
 tiangolo/fastapi,1d02512ce3c5d2ab0cb59ccda44725e7fc3076c7,"🌐 Update translations for pt (update-outdated) (#16000)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/pt/docs/tutorial/frontend.md b/docs/pt/docs/tutorial/frontend.md
@@ -17407,7 +17420,7 @@ index 872c32e9e6e7d..f0d08ce98ab30 100644
  ## Apenas Saída de Build Estático { #static-build-output-only }
  
  `app.frontend()` serve arquivos já gerados pelo build do seu frontend.
-"
+",docs(frontend): atualizar documentação de servir aplicações frontend
 tiangolo/fastapi,24a957b5b01a25718b477897976bff7f032606f3,"🌐 Update translations for es (update-outdated) (#15997)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/es/docs/tutorial/frontend.md b/docs/es/docs/tutorial/frontend.md
@@ -17427,7 +17440,7 @@ index 7077724678a65..3365ae7f146dc 100644
  ## Solo salida estática del build { #static-build-output-only }
  
  `app.frontend()` sirve archivos ya generados por tu build del frontend.
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,2ebfb7a7bc68b5346502676e7a234cd78cf01c26,"🌐 Update translations for ru (update-outdated) (#16002)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/docs/ru/docs/tutorial/frontend.md b/docs/ru/docs/tutorial/frontend.md
@@ -17447,7 +17460,7 @@ index 3b3e438094ee2..b7f4dc0cb32b3 100644
  ## Только статический результат сборки { #static-build-output-only }
  
  `app.frontend()` отдаёт файлы, уже сгенерированные сборкой вашего фронтенда.
-"
+",docs(frontend): añadir sección sobre dependencias y middleware
 tiangolo/fastapi,027f27220c3ba66be6c42c95a227389b19383645,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17462,7 +17475,9 @@ index 42338c8d0a1d7..cb512f6d53464 100644
  * 🌐 Update translations for hi (add-missing). PR [#15925](https://github.com/fastapi/fastapi/pull/15925) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update translations for hi (add-missing). PR [#15797](https://github.com/fastapi/fastapi/pull/15797) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update `llm-prompt.md` for Hindi. PR [#15810](https://github.com/fastapi/fastapi/pull/15810) by [@YuriiMotov](https://github.com/YuriiMotov).
-"
+","docs(en/docs/release-notes.md): añadir traducción para hi
+
+docs(en/docs/release-notes.md): añadir traducción para hi"
 tiangolo/fastapi,64fc8a4521d924e15cfecf6bf37d775ce688267a,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17477,7 +17492,7 @@ index d4f84a739777f..42338c8d0a1d7 100644
  * 🌐 Update translations for hi (add-missing). PR [#15797](https://github.com/fastapi/fastapi/pull/15797) by [@tiangolo](https://github.com/tiangolo).
  * 🌐 Update `llm-prompt.md` for Hindi. PR [#15810](https://github.com/fastapi/fastapi/pull/15810) by [@YuriiMotov](https://github.com/YuriiMotov).
  * 🌐 Fix language-specific translation prompt for Russian language. PR [#15924](https://github.com/fastapi/fastapi/pull/15924) by [@YuriiMotov](https://github.com/YuriiMotov).
-"
+",fix(docs): update translations for hi (add-missing)
 tiangolo/fastapi,b1346bb142c8154950953255eea535e5a83d62eb,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17492,7 +17507,7 @@ index 1c22f832ab13f..d4f84a739777f 100644
  * ⬆ Bump typing-extensions from 4.15.0 to 4.16.0. PR [#15982](https://github.com/fastapi/fastapi/pull/15982) by [@dependabot[bot]](https://github.com/apps/dependabot).
  * ⬆ Bump the github-actions group across 1 directory with 4 updates. PR [#15983](https://github.com/fastapi/fastapi/pull/15983) by [@dependabot[bot]](https://github.com/apps/dependabot).
  * ⬆ Bump pre-commit hooks. PR [#15985](https://github.com/fastapi/fastapi/pull/15985) by [@tiangolo](https://github.com/tiangolo).
-"
+",chore(docs): update release notes with dependency updates
 tiangolo/fastapi,fd4c4cfc3e8d3ffc207ff9f510a27b459e79fa0f,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17507,7 +17522,7 @@ index 1eb4c57c7ce70..1c22f832ab13f 100644
  * ⬆ Bump the github-actions group across 1 directory with 4 updates. PR [#15983](https://github.com/fastapi/fastapi/pull/15983) by [@dependabot[bot]](https://github.com/apps/dependabot).
  * ⬆ Bump pre-commit hooks. PR [#15985](https://github.com/fastapi/fastapi/pull/15985) by [@tiangolo](https://github.com/tiangolo).
  * 👷 Use `FASTAPI_LATEST_CHANGES` token in `bump-pre-commit-hooks` workflow. PR [#15984](https://github.com/fastapi/fastapi/pull/15984) by [@YuriiMotov](https://github.com/YuriiMotov).
-"
+",chore(docs): actualizar dependencias y notas de lanzamiento
 tiangolo/fastapi,87bbab1b739e7f7018bb826bc929af5c0e8e5d40,"⬆ Bump typing-extensions from 4.15.0 to 4.16.0 (#15982)
 
 Signed-off-by: dependabot[bot] <support@github.com>
@@ -17530,7 +17545,7 @@ index 25cd6e8a8b3ba..aef17a4efa400 100644
  ]
  
  [[package]]
-"
+",fix(uv.lock): actualizar versión de typing-extensions a 4.16.0
 tiangolo/fastapi,b335c906e1495c1b35100823b8b33639879d15f2,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17545,7 +17560,7 @@ index c34a60abf5b43..1eb4c57c7ce70 100644
  * ⬆ Bump pre-commit hooks. PR [#15985](https://github.com/fastapi/fastapi/pull/15985) by [@tiangolo](https://github.com/tiangolo).
  * 👷 Use `FASTAPI_LATEST_CHANGES` token in `bump-pre-commit-hooks` workflow. PR [#15984](https://github.com/fastapi/fastapi/pull/15984) by [@YuriiMotov](https://github.com/YuriiMotov).
  * 👷 Add GH workflow to bump pre-commit hook versions. PR [#15873](https://github.com/fastapi/fastapi/pull/15873) by [@YuriiMotov](https://github.com/YuriiMotov).
-"
+",test(docs/en/docs/release-notes.md): añadir actualización
 tiangolo/fastapi,2b0b417c0cc38e3197d1c8eab90d512c6d905e25,"⬆ Bump the github-actions group across 1 directory with 4 updates (#15983)
 
 Signed-off-by: dependabot[bot] <support@github.com>
@@ -17829,7 +17844,7 @@ index 7f96798da71c3..abe77537ba03b 100644
          with:
            # Before upgrading uv version, make sure astral-sh/setup-uv knows its checksum.
            # See: https://github.com/astral-sh/setup-uv/issues/851#issuecomment-4282017837
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 tiangolo/fastapi,c9d88e33d8aecb96a4898a8f82d154ea1d40e318,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17844,7 +17859,7 @@ index 60afb0399d6fc..c34a60abf5b43 100644
  * 👷 Use `FASTAPI_LATEST_CHANGES` token in `bump-pre-commit-hooks` workflow. PR [#15984](https://github.com/fastapi/fastapi/pull/15984) by [@YuriiMotov](https://github.com/YuriiMotov).
  * 👷 Add GH workflow to bump pre-commit hook versions. PR [#15873](https://github.com/fastapi/fastapi/pull/15873) by [@YuriiMotov](https://github.com/YuriiMotov).
  * 🔧 Set Dependabot schedule interval to ""monthly"". PR [#15874](https://github.com/fastapi/fastapi/pull/15874) by [@YuriiMotov](https://github.com/YuriiMotov).
-"
+",test(docs/en/docs/release-notes.md): añadir entrada de versión
 tiangolo/fastapi,ef3f1ac9c1483666fb70ced80b089f08f7c8d5bf,"⬆ Bump pre-commit hooks (#15985)
 
 Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","diff --git a/.pre-commit-config.yaml b/.pre-commit-config.yaml
@@ -17860,7 +17875,7 @@ index eb0762df500a4..967d5e6d341fb 100644
      hooks:
        - id: typos
          args: [--force-exclude]
-"
+",chore: actualizar versión de typos en .pre-commit-config.yaml
 tiangolo/fastapi,cf93cc6258babf28a5c4b7a269517903b30ef609,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17875,7 +17890,7 @@ index 494aecb168b0f..60afb0399d6fc 100644
  * 👷 Add GH workflow to bump pre-commit hook versions. PR [#15873](https://github.com/fastapi/fastapi/pull/15873) by [@YuriiMotov](https://github.com/YuriiMotov).
  * 🔧 Set Dependabot schedule interval to ""monthly"". PR [#15874](https://github.com/fastapi/fastapi/pull/15874) by [@YuriiMotov](https://github.com/YuriiMotov).
  * ⬆ Bump CodSpeedHQ/action from 4.17.6 to 4.18.1 in the github-actions group. PR [#15950](https://github.com/fastapi/fastapi/pull/15950) by [@dependabot[bot]](https://github.com/apps/dependabot).
-"
+",perf(docs): añadir token `FASTAPI_LATEST_CHANGES` en workflow
 tiangolo/fastapi,b75bd318f30e57a93727b17b4ef246fc2af61863,👷 Use `FASTAPI_LATEST_CHANGES` token in `bump-pre-commit-hooks` workflow (#15984),"diff --git a/.github/workflows/bump-pre-commit-hooks.yml b/.github/workflows/bump-pre-commit-hooks.yml
 index 53c31e09cca27..e80168ae17867 100644
 --- a/.github/workflows/bump-pre-commit-hooks.yml
@@ -17898,7 +17913,7 @@ index 53c31e09cca27..e80168ae17867 100644
            BASE_BRANCH: ${{ github.event.repository.default_branch }}
          run: |
            set -euo pipefail
-"
+",chore(bump-pre-commit-hooks.yml): actualizar tokens de GitHub Actions
 tiangolo/fastapi,c87047938912ce46ac1855d45638333397c81714,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -17913,7 +17928,7 @@ index 587a5c278b7b3..494aecb168b0f 100644
  * 🔧 Set Dependabot schedule interval to ""monthly"". PR [#15874](https://github.com/fastapi/fastapi/pull/15874) by [@YuriiMotov](https://github.com/YuriiMotov).
  * ⬆ Bump CodSpeedHQ/action from 4.17.6 to 4.18.1 in the github-actions group. PR [#15950](https://github.com/fastapi/fastapi/pull/15950) by [@dependabot[bot]](https://github.com/apps/dependabot).
  * ⬆ Bump the python-packages group with 8 updates. PR [#15952](https://github.com/fastapi/fastapi/pull/15952) by [@dependabot[bot]](https://github.com/apps/dependabot).
-"
+",perf(docs): añadir GH workflow para actualizar versiones de pre-commit
 tiangolo/fastapi,8bd152772e7f0aa50b88006ec574cf23f92ba571,👷 Add GH workflow to bump pre-commit hook versions (#15873),"diff --git a/.github/dependabot.yml b/.github/dependabot.yml
 index a9d2d73c715f3..2e0061f5e5dfa 100644
 --- a/.github/dependabot.yml
@@ -18012,7 +18027,7 @@ index 0000000000000..53c31e09cca27
 +          else
 +            echo ""PR for \""$branch\"" already open; branch updated in place.""
 +          fi
-"
+",perf(workflows): añadir workflow para actualizar hooks de pre-commit
 tiangolo/fastapi,424f6b3c9ac8df1e35ed421bfeb4ef147cfecdeb,"📝 Update release notes
 
 [skip ci]","diff --git a/docs/en/docs/release-notes.md b/docs/en/docs/release-notes.md
@@ -18027,7 +18042,7 @@ index 3cc2548db5afc..587a5c278b7b3 100644
  * ⬆ Bump CodSpeedHQ/action from 4.17.6 to 4.18.1 in the github-actions group. PR [#15950](https://github.com/fastapi/fastapi/pull/15950) by [@dependabot[bot]](https://github.com/apps/dependabot).
  * ⬆ Bump the python-packages group with 8 updates. PR [#15952](https://github.com/fastapi/fastapi/pull/15952) by [@dependabot[bot]](https://github.com/apps/dependabot).
  * 🔧 Update sponsors: add TutorCruncher. PR [#15947](https://github.com/fastapi/fastapi/pull/15947) by [@tiangolo](https://github.com/tiangolo).
-"
+",perf(docs): actualizar intervalo de programación de Dependabot
 tiangolo/fastapi,59e4a1c8a84dc6a19fdf054f74317504b68d7bc0,"🔧 Set Dependabot schedule interval to ""monthly"" (#15874)","diff --git a/.github/dependabot.yml b/.github/dependabot.yml
 index 95c9f07cb93e3..a9d2d73c715f3 100644
 --- a/.github/dependabot.yml
@@ -18050,7 +18065,7 @@ index 95c9f07cb93e3..a9d2d73c715f3 100644
      cooldown:
        default-days: 7
      commit-message:
-"
+",chore(dependabot): cambiar frecuencia de actualizaciones a mensual
 vuejs/core,b5f8518379b77c3b62a7a9d2b52f6c76cda09bd5,chore: allow `@parcel/watcher` builds (#15106),"diff --git a/pnpm-workspace.yaml b/pnpm-workspace.yaml
 index 8d646fb563b..e43d9fe1aaf 100644
 --- a/pnpm-workspace.yaml
@@ -18063,7 +18078,7 @@ index 8d646fb563b..e43d9fe1aaf 100644
    '@swc/core': true
    'esbuild': true
    'puppeteer': true
-"
+",chore: permitir construcción de `@parcel/watcher` en el workspace
 vuejs/core,ec4682737783c1415bdfd834b6ad67f1cabd5d3c,chore(sfc-playground): limit displayed pre-release versions (#15137),"diff --git a/packages-private/sfc-playground/src/VersionSelect.vue b/packages-private/sfc-playground/src/VersionSelect.vue
 index ed970807aa3..57efdb5f6c6 100644
 --- a/packages-private/sfc-playground/src/VersionSelect.vue
@@ -18096,7 +18111,7 @@ index ed970807aa3..57efdb5f6c6 100644
          break
        }
      }
-"
+",perf(sfc-playground): optimizar lógica de selección de versiones
 vuejs/core,fa2885d8c48768d26f1666a01bd540ffe3b20f9b,release: v3.5.40,"diff --git a/CHANGELOG.md b/CHANGELOG.md
 index 6e55cbd1cac..8e1a59f7ed6 100644
 --- a/CHANGELOG.md
@@ -18264,7 +18279,7 @@ index 23aa9d0809a..ab60085b654 100644
    ""description"": ""The progressive JavaScript framework for building modern web UI."",
    ""main"": ""index.js"",
    ""module"": ""dist/vue.runtime.esm-bundler.js"",
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,7da6334f6162927cd41f9f369145722509540990,"Revert ""fix(runtime-core): pause tracking when invoking function refs"" (#15094)
 
 close #15039
@@ -18330,7 +18345,7 @@ index 42925c39633..737c1c8c38a 100644
    } else {
      const _isString = isString(ref)
      const _isRef = isRef(ref)
-"
+",perf(rendererTemplateRef): eliminar código innecesario y optimizar
 vuejs/core,90aecb1d21b7d029543e6dc4825c3d80dd769312,chore(deps): update all non-major dependencies (#15026),"diff --git a/.github/workflows/autofix.yml b/.github/workflows/autofix.yml
 index beb55490859..5dfa9586275 100644
 --- a/.github/workflows/autofix.yml
@@ -18625,7 +18640,7 @@ index 947390a2cbe..de0587e8064 100644
        '@vitest/browser-playwright': 4.1.10(playwright@1.61.1)(vite@8.1.4)(vitest@4.1.10)
        '@vitest/coverage-v8': 4.1.10(@vitest/browser@4.1.10)(vitest@4.1.10)
        jsdom: 29.1.1
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,97f3525551ad06103083eb2cbf9858c5e57cd58e,"fix(runtime-core): skip lazy hydration for detached roots (#15092)
 
 close #15091","diff --git a/packages/runtime-core/__tests__/hydration.spec.ts b/packages/runtime-core/__tests__/hydration.spec.ts
@@ -18720,7 +18735,7 @@ index 66cb15a27ac..95de65b8e32 100644
          hydrate()
        }
        const doHydrate = hydrateStrategy
-"
+",feat(runtime-core): añadir pruebas y funcionalidad de hydración lazy
 vuejs/core,3eb66a9f6238d99632ce0dd2971ed66b7fc6a671,chore(deps): update actions/cache action to v6 (#15076),"diff --git a/.github/workflows/test.yml b/.github/workflows/test.yml
 index ab8067f78cb..28830613d5c 100644
 --- a/.github/workflows/test.yml
@@ -18741,7 +18756,7 @@ index ab8067f78cb..28830613d5c 100644
          with:
            path: ~/.cache/ms-playwright
            key: playwright-${{ hashFiles('pnpm-lock.yaml') }}
-"
+",perf(test.yml): actualizar versiones de actions/cache para Puppeteer
 vuejs/core,7f122b9bb85349e323ad3d025cdb4eab28d76de0,chore(deps): update dependency conventional-changelog-angular to v9 (#15079),"diff --git a/package.json b/package.json
 index d6db923fcdf..0877f1fe530 100644
 --- a/package.json
@@ -18898,7 +18913,7 @@ index 62f41c6a996..ffae87f673a 100644
    is-port-reachable@4.0.0: {}
  
    is-potential-custom-element-name@1.0.1: {}
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,b06b3bb13582902dadae9f0cafdff007c6dede8a,fix(deps): update dependency postcss to ^8.5.19 (#15047),"diff --git a/packages/compiler-sfc/package.json b/packages/compiler-sfc/package.json
 index 3c1fb7ac5c0..6db9a8c8b81 100644
 --- a/packages/compiler-sfc/package.json
@@ -19003,7 +19018,7 @@ index 716e6b75d93..62f41c6a996 100644
        string-hash: 1.1.3
  
    postcss-selector-parser@6.1.2:
-"
+",refactor(compiler-sfc): actualizar versión de postcss a 8.5.19
 vuejs/core,8801e51ece2bf0c115f3ba31279e0230010d1114,test: add expect warn,"diff --git a/packages/server-renderer/__tests__/ssrRender.spec.ts b/packages/server-renderer/__tests__/ssrRender.spec.ts
 index 2d23452a3ea..8994ce819e3 100644
 --- a/packages/server-renderer/__tests__/ssrRender.spec.ts
@@ -19028,7 +19043,7 @@ index 2d23452a3ea..8994ce819e3 100644
  
      const weakRefs: { deref(): unknown | undefined }[] = []
      const renderOnce = async () => {
-"
+",test(server-renderer): añadir verificación de advertencia durante
 vuejs/core,7262e6398e380956cd4640e3cec6987959cd7b8a,chore(ci): improve workflows (#15037),"diff --git a/.github/workflows/autofix.yml b/.github/workflows/autofix.yml
 index 15def5f60d5..beb55490859 100644
 --- a/.github/workflows/autofix.yml
@@ -19276,7 +19291,7 @@ index 3827abcafac..ab8067f78cb 100644
  
        - name: Run tsc
          run: pnpm run check
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,378f9783248a4a4f20781d665d4f7089f39cae6e,"fix(reactivity): handle effect removal during scope stop (#15084)
 
 close #15083","diff --git a/packages/reactivity/__tests__/effectScope.spec.ts b/packages/reactivity/__tests__/effectScope.spec.ts
@@ -19371,7 +19386,7 @@ index 03c15ed2f12..6fc587de15e 100644
          }
          this.scopes.length = 0
        }
-"
+",feat(reactivity): añadir pruebas y optimizar métodos de `EffectScope`
 vuejs/core,e0d27234ddd2061383cb5dcc475d6b9558ed8e4f,"fix(hydration): pass namespace when patching dynamic props (#15082)
 
 close #15081
@@ -19471,7 +19486,7 @@ index c315ab9404c..405a5db9372 100644
              }
            }
          } else if (props.onClick) {
-"
+",feat(hydration): añadir pruebas y parche para elementos SVG
 vuejs/core,474907c0f01d021c564545137051a2b56eb4a769,"fix(server-renderer): handle errors in optimized component renders (#12601)
 
 close #12575","diff --git a/packages/server-renderer/__tests__/render.spec.ts b/packages/server-renderer/__tests__/render.spec.ts
@@ -19609,7 +19624,7 @@ index 8fc9b01281e..c2bde4d1ea2 100644
        } finally {
          setCurrentRenderingInstance(prev)
        }
-"
+",perf(server-renderer): mejorar manejo de errores durante el renderizado
 vuejs/core,ddc132d7c054ecd2029ddcc95bcba770cd44f022,"fix(runtime-core): unwind dangling blocks when slot content throws (#15071)
 
 fix #15070","diff --git a/packages/runtime-core/src/componentRenderContext.ts b/packages/runtime-core/src/componentRenderContext.ts
@@ -19831,7 +19846,7 @@ index 2fbc92f9207..8e1f5bec8a4 100644
            execArgv: ['--expose-gc'],
          },
        },
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,4d35ecadb6f625b0f7407ccee0e357c2dd8084c7,fix(server-renderer): remove package dependency cycle (#15063),"diff --git a/packages/runtime-core/__tests__/hydration.spec.ts b/packages/runtime-core/__tests__/hydration.spec.ts
 index 17fa0e87611..144473dd3f4 100644
 --- a/packages/runtime-core/__tests__/hydration.spec.ts
@@ -20043,7 +20058,7 @@ index 33a2744282d..deb6f7d891a 100644
  
    packages/shared: {}
  
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,bd962bbaca746d8f65775a07723420406ebad0da,"fix(shared): prevent SSR comment escaping from creating closing delimiters (#15045)
 
 Refs GHSA-9rff-vwfp-83hv.","diff --git a/packages/server-renderer/__tests__/render.spec.ts b/packages/server-renderer/__tests__/render.spec.ts
@@ -20103,7 +20118,7 @@ index e3af6c0c11f..7a0acd2d6ee 100644
  }
  
  export const cssVarNameEscapeSymbolsRE: RegExp =
-"
+",perf(shared): mejorar escapeHtmlComment para eliminar secuencias
 vuejs/core,164460a52988c44dc34a541219c88120078372a0,"fix(types): don't constrain component $el type to Element (#15040)
 
 `$el`'s type param (`TypeEl`) lives in `@vue/runtime-core`, which is
@@ -20184,7 +20199,7 @@ index 8d3fdb056a9..7a8af587167 100644
  > = {
    $: ComponentInternalInstance
    $data: D
-"
+",feat(runtime-core): add test for custom renderer and adjust `$el` type
 vuejs/core,eb89e935a771ab7fc3f8e67a82bc8fc7ea28bdaa,"fix(runtime-dom): respect current select model type (#15010)
 
 close #15009","diff --git a/packages/runtime-dom/__tests__/directives/vModel.spec.ts b/packages/runtime-dom/__tests__/directives/vModel.spec.ts
@@ -20278,7 +20293,7 @@ index b49bf809e27..766db6bfe6c 100644
      el[assignKey] = getModelAssigner(vnode)
    },
    updated(el, { value }) {
-"
+",perf(runtime-dom): mejorar soporte para select multiple con tipos Array
 vuejs/core,9e03beb6b4c85a9d5b49b731c08263aa648e2a2a,chore(playground): improve version copy message (#15008),"diff --git a/packages-private/sfc-playground/src/VersionSelect.vue b/packages-private/sfc-playground/src/VersionSelect.vue
 index a57637019df..ed970807aa3 100644
 --- a/packages-private/sfc-playground/src/VersionSelect.vue
@@ -20294,7 +20309,7 @@ index a57637019df..ed970807aa3 100644
    })
  }
  
-"
+",chore(sfc-playground): mejorar mensaje de alerta al copiar versión
 vuejs/core,c0606e91798c8dca4f33d101e1dd836d672592c1,release: v3.5.39,"diff --git a/CHANGELOG.md b/CHANGELOG.md
 index 92cc63b9947..6e55cbd1cac 100644
 --- a/CHANGELOG.md
@@ -20467,7 +20482,7 @@ index 5e669d7f5f5..23aa9d0809a 100644
    ""description"": ""The progressive JavaScript framework for building modern web UI."",
    ""main"": ""index.js"",
    ""module"": ""dist/vue.runtime.esm-bundler.js"",
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,4b659e699925555464ea9ae8fa3e1984609f6dc2,"fix(runtime-dom): preserve option modifier event names (#8338)
 
 close #8334","diff --git a/packages/runtime-dom/__tests__/patchEvents.spec.ts b/packages/runtime-dom/__tests__/patchEvents.spec.ts
@@ -20609,7 +20624,7 @@ index fd973d024ae..330c62de334 100644
    }
    const event = name[2] === ':' ? name.slice(3) : hyphenate(name.slice(2))
    return [event, options]
-"
+",perf(runtime-dom): mejorar soporte para eventos una vez pasivos
 vuejs/core,232f4022e3160b30b11748a6d97ea2c15ed3b74f,"fix(types): support named tuple emits (#12676)
 
 close #12673","diff --git a/packages-private/dts-test/defineComponent.test-d.tsx b/packages-private/dts-test/defineComponent.test-d.tsx
@@ -20670,7 +20685,7 @@ index 851e1d912ee..15a67606e77 100644
            ) => any
          }
        : {}
-"
+",fix(runtime-core): actualizar tipos de emites para soportar named tuple
 vuejs/core,671997ade74e34880cebe3c340269b8598c3b26c,"fix(teleport): handle teleport unmount edge case (#12705)
 
 close #12702","diff --git a/packages/runtime-core/__tests__/components/Teleport.spec.ts b/packages/runtime-core/__tests__/components/Teleport.spec.ts
@@ -20798,7 +20813,7 @@ index 236824fec31..9c1e97bc6d3 100644
        for (let i = 0; i < (children as VNode[]).length; i++) {
          const child = (children as VNode[])[i]
          unmount(
-"
+",perf(runtime-core): mejorar gestión de desmontaje en Teleport
 vuejs/core,164af639a120421194f7afe0e097bdf254c90199,"fix(hydration): respect data-allow-mismatch on conditional branches (#12801)
 
 close #12782","diff --git a/packages/runtime-core/__tests__/hydration.spec.ts b/packages/runtime-core/__tests__/hydration.spec.ts
@@ -20913,7 +20928,7 @@ index cecb9349705..c315ab9404c 100644
 +    isMismatchAllowedByAttr(allowedAttr, MismatchTypes.CHILDREN)
 +  )
 +}
-"
+",fix(hydration.ts): añadir pruebas y refactorizar lógica de validación
 vuejs/core,2f374cda18cbe331ede1a49a324b423c75d0faf3,"fix(runtime-core): normalize function children for elements and Teleport (#9108)
 
 close #9107","diff --git a/packages-private/dts-test/h.test-d.ts b/packages-private/dts-test/h.test-d.ts
@@ -21014,7 +21029,7 @@ index 37ba85eb9ce..b4fe6f237a0 100644
      children = { default: children, _ctx: currentRenderingInstance }
      type = ShapeFlags.SLOTS_CHILDREN
    } else {
-"
+",fix(runtime-core): actualizar imports y pruebas de vnode
 vuejs/core,87b73b64a0d9b4e2dd2dacfe98f2f1c2396d7a61,"fix(runtime-core): preserve once event listener name (#8341)
 
 close: #8342","diff --git a/packages/runtime-core/__tests__/componentEmits.spec.ts b/packages/runtime-core/__tests__/componentEmits.spec.ts
@@ -21057,7 +21072,7 @@ index abbfe28888b..851e1d912ee 100644
    return (
      hasOwn(options, key[0].toLowerCase() + key.slice(1)) ||
      hasOwn(options, hyphenate(key)) ||
-"
+",perf(runtime-core): mejorar manejo de eventos `once`
 vuejs/core,027da6b2810c4752131439d2645f3d931d07242f,"fix(ssr): dedupe inherited scope ids during vnode rendering (#15005)
 
 close #12159
@@ -21169,7 +21184,7 @@ index f04080b9c31..55e4d79fa84 100644
    }
  
    push(openTag + `>`)
-"
+",perf(server-renderer): actualizar imports y pruebas para evitar
 vuejs/core,024cf06daa33db4660431f20aa050acb99cff07f,"fix(hydration): force patch dynamic props when hydrating (#9083)
 
 close: #9033","diff --git a/packages/runtime-core/__tests__/hydration.spec.ts b/packages/runtime-core/__tests__/hydration.spec.ts
@@ -21284,7 +21299,7 @@ index 464db7519b6..cecb9349705 100644
              ) {
                patchProp(el, key, null, props[key], undefined, parentComponent)
              }
-"
+",perf(hydration): mejorar la eficiencia de la hidratación al forzar
 vuejs/core,be7ce314b96256f1c56f53088d51ed6bc77fde28,fix(compiler-core): correct filter rewrite recursion (#14959),"diff --git a/packages/compiler-core/src/compat/transformFilter.ts b/packages/compiler-core/src/compat/transformFilter.ts
 index 4791e67543e..997e3bdb93b 100644
 --- a/packages/compiler-core/src/compat/transformFilter.ts
@@ -21298,7 +21313,7 @@ index 4791e67543e..997e3bdb93b 100644
        } else if (child.type === NodeTypes.INTERPOLATION) {
          rewriteFilter(child.content, context)
        }
-"
+",refactor(compiler-core/src/compat): corregir recursión innecesaria en
 vuejs/core,932ddd058d69be9bbd8cd796c89f0d1a4fc128d7,"fix(runtime-core): handle non-isomorphic block element update (#15002)
 
 fix #6385","diff --git a/packages/runtime-core/__tests__/rendererOptimizedMode.spec.ts b/packages/runtime-core/__tests__/rendererOptimizedMode.spec.ts
@@ -21356,7 +21371,9 @@ index cca3667d641..c0fab737382 100644
        patchFlag = 0
        optimized = false
        dynamicChildren = null
-"
+","perf(renderer): mejorar la eficiencia de la re-renderización en modo
+
+- test: añadir casos de prueba para el nuevo comportamiento"
 vuejs/core,31d0f23757afb410c638a9c29d44d76d0944e18f,"fix(ssr): resolve nested async teleport content (#9431)
 
 close #6207","diff --git a/packages/server-renderer/__tests__/ssrTeleport.spec.ts b/packages/server-renderer/__tests__/ssrTeleport.spec.ts
@@ -21439,7 +21456,7 @@ index 9f7f9a1d74f..6f541e864c0 100644
        )
      }
    }
-"
+",perf(server-renderer): actualizar imports y agregar pruebas
 vuejs/core,3ac052b6b1e9d3978e98cc30a1a89a9b9b51358b,fix(runtime-core): pause tracking when invoking function refs (#14985),"diff --git a/packages/runtime-core/__tests__/rendererTemplateRef.spec.ts b/packages/runtime-core/__tests__/rendererTemplateRef.spec.ts
 index 53e03c827b9..2663601d296 100644
 --- a/packages/runtime-core/__tests__/rendererTemplateRef.spec.ts
@@ -21498,7 +21515,7 @@ index 737c1c8c38a..42925c39633 100644
    } else {
      const _isString = isString(ref)
      const _isRef = isRef(ref)
-"
+",perf(renderer-core): optimizar el seguimiento de dependencias en
 vuejs/core,e450973eabc0038f398344b981acd8759c246c50,fix(reactivity): avoid triggering effects when set fails (#14964),"diff --git a/packages/reactivity/__tests__/reactive.spec.ts b/packages/reactivity/__tests__/reactive.spec.ts
 index ed7097aeb67..86a0b26d255 100644
 --- a/packages/reactivity/__tests__/reactive.spec.ts
@@ -21545,7 +21562,7 @@ index b69d7953062..96ca3cb34a1 100644
        if (!hadKey) {
          trigger(target, TriggerOpTypes.ADD, key, value)
        } else if (hasChanged(value, oldValue)) {
-"
+",fix(reactivity): añadir pruebas y mejorar lógica de `baseHandlers`
 vuejs/core,747f57e9cdb3c5f084f8da5ca7e0e0b7b326b662,"fix(types): validate defineModel defaults (#14968)
 
 close #14966","diff --git a/packages-private/dts-test/setupHelpers.test-d.ts b/packages-private/dts-test/setupHelpers.test-d.ts
@@ -21634,7 +21651,7 @@ index 0315bc8368a..afea8dd1ff7 100644
  ): ModelRef<T | undefined, M, G | undefined, S | undefined>
  
  export function defineModel(): any {
-"
+",fix(runtime-core): update default value handling in `defineModel`
 vuejs/core,e6990ebd6d20d133e9167abbda1e8df1e7382d54,chore(deps): update compiler (#14962),"diff --git a/packages/compiler-sfc/package.json b/packages/compiler-sfc/package.json
 index 66dabc57950..ecb483882c5 100644
 --- a/packages/compiler-sfc/package.json
@@ -21683,7 +21700,7 @@ index 30fae5c7b8b..ed9a4a0ceb1 100644
      dependencies:
        cssesc: 3.0.0
        util-deprecate: 1.0.2
-"
+",chore(compiler-sfc): actualizar versión de postcss-selector-parser
 vuejs/core,ed50c5ec195fa214859d6fc2d4e3d092cd9a7081,chore(deps): update actions/checkout action to v7 (#14998),"diff --git a/.github/workflows/autofix.yml b/.github/workflows/autofix.yml
 index f3554a218d9..15def5f60d5 100644
 --- a/.github/workflows/autofix.yml
@@ -21789,7 +21806,7 @@ index 84570ab38d1..3827abcafac 100644
  
        - name: Install pnpm
          uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,643aa27b85bfa3f9607e3833d01831fc5363db76,docs(sfc-playground): update downloaded template Node.js requirement (#15007),"diff --git a/packages-private/sfc-playground/src/download/template/README.md b/packages-private/sfc-playground/src/download/template/README.md
 index 91b21489fd5..d85373264d4 100644
 --- a/packages-private/sfc-playground/src/download/template/README.md
@@ -21802,7 +21819,7 @@ index 91b21489fd5..d85373264d4 100644
  
  To start:
  
-"
+",chore(sfc-playground): actualizar versión requerida de Node.js
 vuejs/core,478e3e83acd34dd213a860be4a2a2bf2090dc26b,release: v3.5.38,"diff --git a/CHANGELOG.md b/CHANGELOG.md
 index 0afae79662a..92cc63b9947 100644
 --- a/CHANGELOG.md
@@ -21957,7 +21974,7 @@ index cbc13d7748a..5e669d7f5f5 100644
    ""description"": ""The progressive JavaScript framework for building modern web UI."",
    ""main"": ""index.js"",
    ""module"": ""dist/vue.runtime.esm-bundler.js"",
-"
+",chore: actualizar versión a 3.5.38
 vuejs/core,30ba6473858d1f2cd155fb3a338499b680624bd1,chore(release): make release publishing resumable (#14953),"diff --git a/scripts/release.js b/scripts/release.js
 index ec166c03d32..10924cd2053 100644
 --- a/scripts/release.js
@@ -22110,7 +22127,7 @@ index ec166c03d32..10924cd2053 100644
  async function publishOnly() {
    const targetVersion = positionals[0]
    if (targetVersion) {
-"
+",perf(scripts/release.js): refactor package filtering and publishing
 vuejs/core,c00b0210d97794a24764c52274e60bbcba15b7ae,release: v3.5.37,"diff --git a/CHANGELOG.md b/CHANGELOG.md
 index fd07dbc713e..0afae79662a 100644
 --- a/CHANGELOG.md
@@ -22265,7 +22282,7 @@ index 5aa951b982f..cbc13d7748a 100644
    ""description"": ""The progressive JavaScript framework for building modern web UI."",
    ""main"": ""index.js"",
    ""module"": ""dist/vue.runtime.esm-bundler.js"",
-"
+",chore: actualizar versión a 3.5.37
 vuejs/core,11ac8b4af0cad86f5e42193dc413da6e18ae6c76,release: v3.5.36,"diff --git a/CHANGELOG.md b/CHANGELOG.md
 index 802f18ab6c4..fd07dbc713e 100644
 --- a/CHANGELOG.md
@@ -22434,7 +22451,7 @@ index 0ae7f4e5cc4..5aa951b982f 100644
    ""description"": ""The progressive JavaScript framework for building modern web UI."",
    ""main"": ""index.js"",
    ""module"": ""dist/vue.runtime.esm-bundler.js"",
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,8203fc52c188bd5988ccbe0fd06c9c6afb0bae4a,chore(deps): update all non-major dependencies (#14938),"diff --git a/.github/workflows/autofix.yml b/.github/workflows/autofix.yml
 index 564c4bc7b81..79a6d2f1c83 100644
 --- a/.github/workflows/autofix.yml
@@ -22830,7 +22847,7 @@ index a62dfb40251..150ff9ac7cd 100644
        '@vitest/coverage-v8': 4.1.8(vitest@4.1.8)
        jsdom: 29.1.1
      transitivePeerDependencies:
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,8f4bc858eacdb3c341bb892e074b01ec9623621a,chore(deps): update compiler (#14900),"diff --git a/packages/compiler-sfc/package.json b/packages/compiler-sfc/package.json
 index 8e65ccd9df0..1caf02e6d26 100644
 --- a/packages/compiler-sfc/package.json
@@ -23036,7 +23053,7 @@ index 3a0c3b8f8eb..5ba933331c8 100644
    'entities': '^7.0.1'
    'estree-walker': ^2.0.2
    'magic-string': ^0.30.21
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,8e63cdf921bf125d4a41e85c4542600b49f656d6,chore(deps): update dependency npm-run-all2 to v9 (#14939),"diff --git a/package.json b/package.json
 index 1f745f12c89..f65079cb777 100644
 --- a/package.json
@@ -23271,7 +23288,7 @@ index a1304711f1b..0d925cbcfe6 100644
        string-width: 7.2.0
        strip-ansi: 7.1.0
  
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 vuejs/core,0ea17e232f9a8f4a9acf57c6addc78cf4f279c13,fix(compiler-core): avoid crash on CDATA at the document root (#14916),"diff --git a/packages/compiler-core/__tests__/__snapshots__/parse.spec.ts.snap b/packages/compiler-core/__tests__/__snapshots__/parse.spec.ts.snap
 index 942eed4c4dc..9f15cab6504 100644
 --- a/packages/compiler-core/__tests__/__snapshots__/parse.spec.ts.snap
@@ -23346,7 +23363,9 @@ index 078d37daa28..b4c017edd83 100644
        onText(getSlice(start, end), start, end)
      } else {
        emitError(ErrorCodes.CDATA_IN_HTML_CONTENT, start - 9)
-"
+","perf(compiler-core): añadir manejo de CDATA en el parser
+
+- test: agregar pruebas para CDATA_IN_HTML_CONTENT"
 vuejs/core,db3e117025a7193291ed6676180a5a44bbe0ae76,fix(runtime-core): add dev warning for silent catch in compat mode and fix test description typo (#14891),"diff --git a/packages/runtime-core/src/compat/global.ts b/packages/runtime-core/src/compat/global.ts
 index e19b3fc38f3..d7460a795a7 100644
 --- a/packages/runtime-core/src/compat/global.ts
@@ -23377,7 +23396,9 @@ index 0c969f15981..6eeff41dd07 100644
      const app = createApp({
        template: '#not-exist-id',
      })
-"
+","fix(runtime-core): añadir manejo de errores en defineReactive
+
+- test(vue/__tests__/index.spec.ts): actualizar pruebas para verificar el nuevo comportamiento"
 vuejs/core,5300ead57b3c14942d4c155ef5e485d5409e7f02,fix(runtime-core): skip async component callbacks after unmount (#14911),"diff --git a/packages/runtime-core/__tests__/apiAsyncComponent.spec.ts b/packages/runtime-core/__tests__/apiAsyncComponent.spec.ts
 index 5dc78cdb431..fb7fb7752e9 100644
 --- a/packages/runtime-core/__tests__/apiAsyncComponent.spec.ts
@@ -23531,7 +23552,7 @@ index e594944718a..66cb15a27ac 100644
            onError(err)
            error.value = err
          })
-"
+",perf(runtime-core): añadir pruebas y manejo de errores en
 vuejs/core,7f76378b0d178a29113ee07d67faa48b637944e8,"fix(runtime-core): force model update when reverted before sync (#14897)
 
 close #13524","diff --git a/packages/runtime-core/__tests__/helpers/useModel.spec.ts b/packages/runtime-core/__tests__/helpers/useModel.spec.ts
@@ -23670,7 +23691,7 @@ index c40938ead3c..bce914e8352 100644
          ) {
            trigger()
          }
-"
+",perf(runtime-core): mejorar gestión de v-model y sincronización
 vuejs/core,c11f6ee644412edf3eef6736991e895e4a3e1dde,"fix(transition): avoid move transition for hidden v-show group children (#14895)
 
 close #14894","diff --git a/packages/runtime-dom/src/components/TransitionGroup.ts b/packages/runtime-dom/src/components/TransitionGroup.ts
@@ -23802,7 +23823,9 @@ index d82776fb5df..77b713ada2c 100644
    test(
      'move while entering',
      async () => {
-"
+","perf(runtime-dom): optimizar condición de entrada en TransitionGroup
+
+- test(e2e/TransitionGroup.spec.ts): añadir pruebas para v-show enter"
 zaproxy/zaproxy,8fdecc4688ac8b09742679775e2005537208a1dd,"Refresh LEGALNOTICE
 
 Refresh LEGALNOTICE.md with latest version.
@@ -23822,7 +23845,7 @@ index 6f6c9d9518b..8d011dceb40 100644
  | harlib-1.1.3.jar                    | Apache 2.0                |
  | hsqldb-2.7.4.jar                    | BSD                       |
  | jackson-core-asl-1.9.13.jar         | Apache 2.0                |
-"
+",chore: actualizar versión de flatlaf y flatlaf-swingx a 3.7.2
 zaproxy/zaproxy,c5fb0e1699e27cb211b90c98166ef2a8e8807207,"Bump the gradle group with 3 updates
 
 Bumps the gradle group with 3 updates: [com.formdev:flatlaf](https://github.com/JFormDesigner/FlatLaf), [com.formdev:flatlaf-swingx](https://github.com/JFormDesigner/FlatLaf) and [org.junit.jupiter:junit-jupiter](https://github.com/junit-team/junit-framework).
@@ -23892,7 +23915,7 @@ index 0bb29406ce3..b974c094e4b 100644
  junit-platformLauncher = { module = ""org.junit.platform:junit-platform-launcher"" }
  mockito = ""org.mockito:mockito-junit-jupiter:5.23.0""
  
-"
+",fix(versions): actualizar versión de flatlaf y junit-jupiter
 zaproxy/zaproxy,a6715f537c3af7a67972ae8763f213700b558bb6,"Update localized resources
 
 Update resources from Crowdin.
@@ -24082,7 +24105,7 @@ index d2eecac1dea..a7122bdcd88 100644
  spider.custom.label.user = Utente\:
  spider.custom.noStartSubtreeOnly.error = Devi scegliere un nodo del sito o anche un URL che \u00e8 stato inserito manualmente, per esplorare il sottoalbero di un sito.
  spider.custom.nostart.error = Si selezioni un punto di partenza
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 zaproxy/zaproxy,43010404fe188e337d10fb8d18264841b6cec6ad,"Address exceptions related to statistics
 
 Guard against the usage of null keys when handling statistics, the
@@ -24300,7 +24323,9 @@ index 54c02983f43..e226981ab00 100644
 +        assertThat(statistics.getStat(null), is(nullValue()));
 +    }
  }
-"
+","test(zap/src/main/java/org/zaproxy/zap/utils/Statistics.java): añadir
+
+- test(zap/src/test/java/org/zaproxy/zap/utils/StatisticsUnitTest.java): agregar pruebas unitarias para validar el comportamiento de las operaciones con `null`"
 zaproxy/zaproxy,dff7f8d95cbded4d18ee3de220d7c21dd15f1424,"Address NPEs related to script types
 
 Guard against the usage of null keys when handling script types, the
@@ -24413,7 +24438,7 @@ index f8e8f25fb53..0c91fcc1f90 100644
      @Test
      void shouldCreateScriptsCache() {
          // Given
-"
+",test(ExtensionScript.java): añadir pruebas para manejo de tipos
 zaproxy/zaproxy,47e5dc9b72fd37680d20c32cef2721f362ad0947,"Refresh LEGALNOTICE
 
 Refresh LEGALNOTICE.md with latest version.
@@ -24437,7 +24462,7 @@ index 31544221b0a..6f6c9d9518b 100644
  | rsyntaxtextarea-3.6.3.jar           | BSD-3 clause              |
  | swingx-all-1.6.5-1.jar              | LGPL 2.1                  |
  | xom-1.4.6.jar                       | LGPL                      |
-"
+",chore: actualizar versión de log4j en LEGALNOTICE.md
 zaproxy/zaproxy,710963a4e204062d2ec3792a127dc47ab81a9dbf,"Bump the gradle group with 6 updates
 
 Bumps the gradle group with 6 updates:
@@ -24547,7 +24572,7 @@ index 902b28b6ba4..0bb29406ce3 100644
  commons-beanutils = ""commons-beanutils:commons-beanutils:1.11.0""
  commons-codec = ""commons-codec:commons-codec:1.22.0""
  commons-collections = ""commons-collections:commons-collections:3.2.2""
-"
+",fix(versions): actualizar versiones de dependencias
 zaproxy/zaproxy,f7df8453b300cdf33d0a2b5de65441e9c6918750,"Fix concurrency issue with script types
 
 Use a concurrent map to allow iteration and modifications at the same
@@ -24617,7 +24642,7 @@ index c9794656b65..f8e8f25fb53 100644
      @Test
      void shouldCreateScriptsCache() {
          // Given
-"
+",test(ExtensionScript.java): actualizar importaciones y añadir pruebas
 zaproxy/zaproxy,a698861dd441141a639714af6e4ac39ef3726f29,"Add sse to weekly
 
 Signed-off-by: Simon Bennetts <psiinon@gmail.com>","diff --git a/zap/src/main/weekly-add-ons.json b/zap/src/main/weekly-add-ons.json
@@ -24632,7 +24657,7 @@ index ecc2a2099ee..20e686d71be 100644
        "":addOns:tips"",
        "":addOns:webdrivers:webdriverlinux"",
        "":addOns:webdrivers:webdrivermacos"",
-"
+",feat(zap/src/main): añadir :addOns:sse a la lista de weekly-add-ons.json
 zaproxy/zaproxy,d77c88e77318c501e533b9b823b2e8d36a904bd8,"Use stable domain for Chrome itest
 
 Use a domain that is more reliable (zaproxy.com), the JuiceShop one is
@@ -24661,7 +24686,7 @@ index 502b916e6a6..37d8227151a 100644
    name: ""spiderAjax""
    type: ""spiderAjax""
 \ No newline at end of file
-"
+",fix(docker/chrome): actualizar URL de prueba y ajustar valor esperado
 zaproxy/zaproxy,d4ccc5801f34107a213fccd548139d191135b8e5,"Docker: Default to Client Spider for modern crawling
 
 Signed-off-by: Simon Bennetts <psiinon@gmail.com>","diff --git a/docker/CHANGELOG.md b/docker/CHANGELOG.md
@@ -24790,7 +24815,7 @@ index eb8dd55b076..c6c8ca98d40 100755
      base_dir = ''
      zap_ip = 'localhost'
      zap_options = ''
-"
+",test(docker): añadir pruebas para el cliente spider y ajustar opciones
 zaproxy/zaproxy,7b0bd1f6710f4a6944a6275b743d3b352d1511e3,"Bump org.junit.jupiter:junit-jupiter in the gradle group
 
 Bumps the gradle group with 1 update: [org.junit.jupiter:junit-jupiter](https://github.com/junit-team/junit-framework).
@@ -24822,7 +24847,7 @@ index 20752cf7571..902b28b6ba4 100644
  junit-platformLauncher = { module = ""org.junit.platform:junit-platform-launcher"" }
  mockito = ""org.mockito:mockito-junit-jupiter:5.23.0""
  
-"
+",fix(gradle/libs.versions.toml): actualizar versión de junit-jupiter
 zaproxy/zaproxy,54a308aae0ef3208d3af4a6a550900df9457b042,"Bump the gha group with 2 updates
 
 Bumps the gha group with 2 updates: [actions/checkout](https://github.com/actions/checkout) and [gradle/actions/setup-gradle](https://github.com/gradle/actions).
@@ -25073,7 +25098,7 @@ index 7df07d97222..dbfeb16d565 100644
      - name: Set up Python ${{ matrix.python-version }}
        uses: actions/setup-python@v6
        with:
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 zaproxy/zaproxy,9999852c817dcc63e307cd082c8cbc20a4f04f43,"Add QUERY method
 
 This means it will appear in the Request / METHOD pulldown
@@ -25107,7 +25132,9 @@ index da5f0125495..9fd913e5211 100644
      public static boolean isRequestLine(String data) {
          return patternPartialRequestLine.matcher(data).find();
      }
-"
+","feat(zap/src/main/java/org/parosproxy/paros/network/HttpRequestHeader.ja
+
+feat(zap/src/main/java/org/parosproxy/paros/network/HttpRequestHeader.ja"
 zaproxy/zaproxy,0ef76c8de01393220fe01bd13925960baad68015,"Docker: Add option to use client spider in packaged scans (#9368)
 
 Signed-off-by: Simon Bennetts <psiinon@gmail.com>","diff --git a/docker/CHANGELOG.md b/docker/CHANGELOG.md
@@ -25445,7 +25472,7 @@ index 9997d54e9c1..d518abf22aa 100644
  def get_af_report(template, dir, file, title, description):
      return {
          'type': 'report',
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 zaproxy/zaproxy,c5a9f3f574c450b27a563227879bfe028510d68f,"Disable failing testfire itest
 
 The expected user credentials don't work always.
@@ -25454,7 +25481,7 @@ Signed-off-by: thc202 <thc202@gmail.com>","diff --git a/docker/integration_tests
 similarity index 100%
 rename from docker/integration_tests/configs/plans/testfire-form-user.yaml
 rename to docker/integration_tests/configs/plans/testfire-form-user.yaml.disabled
-"
+",refactor(docker/integration_tests): desactivar archivo de prueba
 zaproxy/zaproxy,30c752692189bc10b6534f3772f20ee13fd3318e,"docker: Fetch httpsender scripts from community-scripts
 
 Signed-off-by: kingthorin <kingthorin@users.noreply.github.com>","diff --git a/docker/CHANGELOG.md b/docker/CHANGELOG.md
@@ -25803,7 +25830,7 @@ index acf0a52f95b..56ed5c46cdc 100755
  
          # Import the API defn
          if format == 'openapi':
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 zaproxy/zaproxy,aa34be2362f03d6d1e25438de3c510051a3e4993,"Refresh LEGALNOTICE
 
 Refresh LEGALNOTICE.md with latest version.
@@ -25827,7 +25854,7 @@ index 2711a417a6e..31544221b0a 100644
  | swingx-all-1.6.5-1.jar              | LGPL 2.1                  |
 -| xom-1.4.5.jar                       | LGPL                      |
 +| xom-1.4.6.jar                       | LGPL                      |
-"
+",chore: actualizar versiones de bibliotecas en LEGALNOTICE.md
 zaproxy/zaproxy,01e6187ad0ad5f1cae16ebd0236fa2ed63031227,"Bump the gradle group with 2 updates
 
 Bumps the gradle group with 2 updates: [commons-logging:commons-logging](https://github.com/apache/commons-logging) and [xom:xom](https://github.com/elharo/xom).
@@ -25877,7 +25904,9 @@ index 09912c9352c..20752cf7571 100644
  
  assertj-core = ""org.assertj:assertj-core:3.27.7""
  assertj-swing = ""org.assertj:assertj-swing:3.17.1""
-"
+","fix(versions): actualizar versiones de dependencias
+
+- refactor(tests): ajustar pruebas para adaptarse a nuevas versiones"
 zaproxy/zaproxy,c21ea31e5abb544aafd6d9907017d72fd0e148d7,"Support authenticated request through the API
 
 Allow to specify the context/user names when sending a request or
@@ -26100,7 +26129,7 @@ index 48c7cd329c0..8c57504f68f 100644
  core.api.other.setproxy = 
  core.api.other.setproxy.param.proxy = 
  core.api.other.xmlreport = Generates a report in XML format
-"
+",refactor(zap/src/main/java/org/zaproxy/zap/extension/api/CoreAPI.java):
 zaproxy/zaproxy,5b457cdcbc49446f635f38f3ce0dd062d30e3926,"Refresh LEGALNOTICE
 
 Refresh LEGALNOTICE.md with latest version.
@@ -26118,7 +26147,7 @@ index 6b2620b6777..2711a417a6e 100644
  | swingx-all-1.6.5-1.jar              | LGPL 2.1                  |
 -| xom-1.4.4.jar                       | LGPL                      |
 +| xom-1.4.5.jar                       | LGPL                      |
-"
+",chore(legal): actualizar versiones de bibliotecas y licencias
 zaproxy/zaproxy,28a3dd73703cc3e365c063ee94dd501dde3fb883,"Bump the gradle group with 2 updates
 
 Bumps the gradle group with 2 updates: [com.fifesoft:rsyntaxtextarea](https://github.com/bobbylight/rsyntaxtextarea) and [xom:xom](https://github.com/elharo/xom).
@@ -26162,7 +26191,7 @@ index d81f0e26dd5..09912c9352c 100644
  
  assertj-core = ""org.assertj:assertj-core:3.27.7""
  assertj-swing = ""org.assertj:assertj-swing:3.17.1""
-"
+",fix(versions): actualizar versiones de dependencias
 zaproxy/zaproxy,5e88926d1a63d55f0121f9cc40c20f7fdc724218,"macos: Fix quit after user cancel
 
 Signed-off-by: kingthorin <kingthorin@users.noreply.github.com>","diff --git a/zap/gradle/japicmp.yaml b/zap/gradle/japicmp.yaml
@@ -26260,7 +26289,7 @@ index 4e1305c8ebb..e6f1348bdbe 100644
 +        }
      }
  }
-"
+",fix(zap): actualizar imports y añadir documentación en métodos de salida
 zaproxy/zaproxy,cc2b2c39f3ad0f05ecf8b8343b9eea6294e2c7be,"Update localized resources
 
 Update resources from Crowdin.
@@ -26278,7 +26307,7 @@ index e01a705b90d..d2eecac1dea 100644
  api.error.context_not_found = Nessun contesto trovato che coincida con il parametro
  api.error.disabled = Dasabilitato
  api.error.does_not_exist = Non esiste
-"
+","fix(zap/src/main/dist/lang): corregir traducción de ""Content type not"
 zaproxy/zaproxy,a5be5f80c5b3ee44d38eb9d7c4b0b266f3db66ee,"Bump the gradle group with 3 updates
 
 Bumps the gradle group with 3 updates: [biz.aQute.bnd:biz.aQute.bnd.annotation](https://github.com/bndtools/bnd), [net.bytebuddy:byte-buddy](https://github.com/raphw/byte-buddy) and org.sonarqube.
@@ -26337,7 +26366,7 @@ index ebf0dd03b63..d81f0e26dd5 100644
 +sonarqube = ""org.sonarqube:7.3.1.8318""
  spotless.id = ""com.diffplug.spotless""
  zaproxy-common.id = ""org.zaproxy.common""
-"
+",fix(versions): actualizar versiones de dependencias
 zaproxy/zaproxy,07ed01ec23dc429ffc796847e1147f8ea1174a3a,"Bump the gha group with 5 updates
 
 Bumps the gha group with 5 updates:
@@ -26560,7 +26589,7 @@ index d1ae293c3d3..38be079903d 100644
          with:
            context: docker
            file: docker/Dockerfile-tests
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 zaproxy/zaproxy,5ada97f3dcc52b5bd6ecd7c56fe5f097432f424e,"Update localized resources
 
 Update resources from Crowdin.
@@ -26671,7 +26700,7 @@ index 6ebf18512c0..77d4870c0a4 100644
  
  writable.file.chooser.write.diskspace.warning.dialog.message = Hay menos de 5MB disponibles \u00bfQuieres continuar con la operaci\u00f3n?
  writable.file.chooser.write.diskspace.warning.dialog.title = Poco espacio en disco
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 zaproxy/zaproxy,a4e6bd594fe8bb2d371f0701b448316fcb8ec8f7,"Expose HostProcess startNodes
 
 This will allow scan rules to find out what the starting point of the
@@ -26742,7 +26771,9 @@ index 879b00e2dda..7eb7c55a7ed 100644
      }
  
      @Test
-"
+","test(zap/src/main/java/org/parosproxy/paros/core/scanner/HostProcess.jav
+
+- test(zap/src/test/java/org/parosproxy/paros/core/scanner/HostProcessUnitTest.java): actualizar pruebas unitarias para incluir validación de start nodes"
 zaproxy/zaproxy,3b117072dd512b0864a8f750a270306c1d7a9f62,"Refresh LEGALNOTICE
 
 Refresh LEGALNOTICE.md with latest version.
@@ -26757,7 +26788,7 @@ index c1c6e142319..6b2620b6777 100644
  | swingx-all-1.6.5-1.jar              | LGPL 2.1                  |
 -| xom-1.4.2.jar                       | LGPL                      |
 +| xom-1.4.4.jar                       | LGPL                      |
-"
+",chore: actualizar versión de xom a 1.4.4
 zaproxy/zaproxy,9ee181a1d095427e5b6eb1d387ea00c9085bf687,"Bump the gradle group with 2 updates
 
 Bumps the gradle group with 2 updates: [xom:xom](https://github.com/elharo/xom) and [org.junit.jupiter:junit-jupiter](https://github.com/junit-team/junit-framework).
@@ -26804,7 +26835,7 @@ index dfa0110712e..ebf0dd03b63 100644
  junit-platformLauncher = { module = ""org.junit.platform:junit-platform-launcher"" }
  mockito = ""org.mockito:mockito-junit-jupiter:5.23.0""
  
-"
+",fix(versions): actualizar versiones de dependencias a las últimas
 zaproxy/zaproxy,822f94a5b7906607d6e94dec7f8842b5664a0dbd,"Add mcp to weekly
 
 Signed-off-by: Simon Bennetts <psiinon@gmail.com>","diff --git a/zap/src/main/weekly-add-ons.json b/zap/src/main/weekly-add-ons.json
@@ -26819,7 +26850,7 @@ index 7b5c84047ef..4a8accdfc19 100644
        "":addOns:network"",
        "":addOns:oast"",
        "":addOns:onlineMenu"",
-"
+",feat(zap/src/main): añadir :addOns:mcp a la lista de weekly-add-ons.json
 zaproxy/zaproxy,99348b04460506928fd46636094e8b8244cd3009,"Added PTK Scan Rules
 
 Signed-off-by: Simon Bennetts <psiinon@gmail.com>","diff --git a/docs/scanners.md b/docs/scanners.md
@@ -26834,7 +26865,7 @@ index e80cee4e775..c6f19a09611 100644
  
  322420463 Retire.js (3rd Party)
  
-"
+",chore(docs/scanners.md): añadir nueva categoría de reglas de escaneo
 zaproxy/zaproxy,f6abbf1d89ce2d7b2bf389272a61e826629a2310,"Change title capitalization (#9332)
 
 Change title capitalization.
@@ -26880,7 +26911,7 @@ index 27e83d872d2..948ffe96301 100644
  variant.options.excludedparam.dialog.token.warning.invalid.regex.field.name = The provided regular expression for name is invalid.
  variant.options.excludedparam.dialog.token.warning.invalid.regex.title = Invalid Regular Expression
  variant.options.excludedparam.dialog.token.warning.name.repeated.text = An Excluded Parameter with the same name already exists.
-"
+",fix(zap/src/main/resources/org/zaproxy/zap/resources/Messages.properties
 zaproxy/zaproxy,81d4e2b5714d87e710cf7f7d8593d3fc33da81b9,"Refresh LEGALNOTICE and address deprecation
 
 Refresh LEGALNOTICE.md with latest versions.
@@ -26919,7 +26950,9 @@ index d8d020fcd34..5c5cc2e8f1d 100644
                      true,
                      NO_PROPERTIES);
              this.logConsumer = logConsumer;
-"
+","feat(LEGALNOTICE.md): update dependencies versions
+
+refactor(zap/src/main/java/org/zaproxy/zap/view/SplashScreen.java): correct PatternLayout usage"
 zaproxy/zaproxy,6a638b013dc17ab20a260bcfc399872ca2e2324c,"Bump the gradle group with 6 updates
 
 Bumps the gradle group with 6 updates:
@@ -27032,7 +27065,7 @@ index 3af67e44c35..dfa0110712e 100644
  
  assertj-core = ""org.assertj:assertj-core:3.27.7""
  assertj-swing = ""org.assertj:assertj-swing:3.17.1""
-"
+",fix(versions): actualizar versiones de dependencias log4j y xom
 zaproxy/zaproxy,c853a3b1f043933870444efccd60fd098aa1b7f0,"httppanel: make setText undo atomically
 
 `JTextComponent#setText` internally first removes existing text and then
@@ -27193,7 +27226,7 @@ index 00000000000..9edb79a274c
 +        }
 +    }
 +}
-"
+",test(zap/src/main/java/org/zaproxy/zap/extension/httppanel/view/syntaxhi
 zaproxy/zaproxy,78cc75f4491f25fd28ed1fe737b5865010f00044,"Docker: Fix baseline path bug
 
 Signed-off-by: Simon Bennetts <psiinon@gmail.com>","diff --git a/docker/CHANGELOG.md b/docker/CHANGELOG.md
@@ -27223,7 +27256,7 @@ index ec29514b9f0..4c31a4da4a5 100755
              summary_file = os.path.join(home_dir, 'zap_out.json')
              generate_af_plan(yaml_file, summary_file, target, out_of_scope_dict, debug, mins, ajax, timeout, delay,
                               detailed_output, config_dict, config_msg, report_html, report_md, report_xml,
-"
+",fix(docker): correct path for yaml file generation
 zaproxy/zaproxy,28c349a586eec4b44e0cebf3df027d4d641a7328,"Actions: remove Bluesky alerts
 
 The failures are now posted to a Slack channel, which all of the Core
@@ -27268,7 +27301,7 @@ index 17a25d20363..d1ae293c3d3 100644
 -          text: ""Hey @psiinon.bsky.social - looks like the ZAP Integration Tests failed 😟 https://github.com/zaproxy/zaproxy/actions/runs/${{ github.run_id }}""  
 -          identifier: ${{ secrets.BLUESKY_ZAPBOT_IDENTIFIER }}
 -          password: ${{ secrets.BLUESKY_ZAPBOT_PASSWORD }}
-"
+",fix(ci): eliminar notificaciones de fallos en workflows de ZAP
 zaproxy/zaproxy,19ef457edbf1ec1a9bf9aa45cdfb2cd33a3dcd1a,"Bump org.sonarqube from 7.2.3.7755 to 7.3.0.8198 in the gradle group
 
 Bumps the gradle group with 1 update: org.sonarqube.
@@ -27297,7 +27330,7 @@ index caa40e03c1b..3af67e44c35 100644
 +sonarqube = ""org.sonarqube:7.3.0.8198""
  spotless.id = ""com.diffplug.spotless""
  zaproxy-common.id = ""org.zaproxy.common""
-"
+",fix(versions): actualizar versión de sonarqube a 7.3.0.8198
 zaproxy/zaproxy,5702ca47b4ee8d941a4cfbd8ed78aa08a00b7fbb,"Remove unused resource messages
 
 The message `history.showresponse.popup` was added in
@@ -27352,7 +27385,9 @@ index 308583173c6..27e83d872d2 100644
  history.tags.popup = Manage History Tags...
  
  http.panel.component.all.tooltip = Combined Display for Header and Body
-"
+","fix(zap/src/main/java/org/zaproxy/zap/extension/stdmenus/ExtensionStdMen
+
+fix(zap/src/main/resources/org/zaproxy/zap/resources/Messages.properties): eliminar entradas de menú no utilizadas"
 zaproxy/zaproxy,d01a052b405c5055744595691be90de771ced601,fix: call resumeAllScans instead of removeAllScans in ExtensionActiveScan,"diff --git a/zap/src/main/java/org/zaproxy/zap/extension/ascan/ExtensionActiveScan.java b/zap/src/main/java/org/zaproxy/zap/extension/ascan/ExtensionActiveScan.java
 index c2ab80f3978..87b07c1110d 100644
 --- a/zap/src/main/java/org/zaproxy/zap/extension/ascan/ExtensionActiveScan.java
@@ -27366,7 +27401,7 @@ index c2ab80f3978..87b07c1110d 100644
          if (hasView()) {
              // Update the UI in case this was initiated from the API
              this.getActiveScanPanel().updateScannerUI();
-"
+",refactor(ascan): actualizar método para reanudar escaneos activos
 zaproxy/zaproxy,2b12ab100f58673d6225529e472cdb4c4ff16a28,"Bump the gradle group with 3 updates
 
 Bumps the gradle group with 3 updates: [commons-codec:commons-codec](https://github.com/apache/commons-codec), commons-io:commons-io and [xom:xom](https://github.com/elharo/xom).
@@ -27453,7 +27488,7 @@ index 38dbeb44a27..caa40e03c1b 100644
  
  assertj-core = ""org.assertj:assertj-core:3.27.7""
  assertj-swing = ""org.assertj:assertj-swing:3.17.1""
-"
+",test(legalnotice): actualizar versiones de bibliotecas y documentación
 zaproxy/zaproxy,e7320ffb56b7f5d1ac526f878f00514d14dcd3ec,"Include PTK in nightly/weekly
 
 Signed-off-by: Simon Bennetts <psiinon@gmail.com>","diff --git a/zap/src/main/weekly-add-ons.json b/zap/src/main/weekly-add-ons.json
@@ -27469,7 +27504,7 @@ index c9007f43b70..7b5c84047ef 100644
 +    ""cloneUrl"": ""https://github.com/zaproxy-addons/ptk.git""
    }
  ]
-"
+",feat(zap/src/main): añadir nuevo addon ptk a la lista semanal
 zaproxy/zaproxy,7d93c49a0653efd565fda660f312d56e91745186,"Skip unwrap of `alertCountsByRisk`
 
 Exclude `alert/alertCountsByRisk` from the unwrap as it's not wrapped
@@ -27490,7 +27525,9 @@ index e349c0ab9a7..3d15e407250 100644
                      ""automation"",
                      Set.of(""planProgress""),
                      ""stats"",
-"
+","feat(zap/src/main/java/org/zaproxy/zap/extension/api): añadir elementos
+
+feat(zap/src/main/java/org/zaproxy/zap/extension/api): añadir elementos"
 zaproxy/zaproxy,ea14de581b1c3b785729dcf0e932cd3d857cff60,"Add task to generate the table of 3rd party libs
 
 Allow to automatically generate the table of 3rd party libraries with
@@ -27730,7 +27767,7 @@ index 802ad716174..cdce4fbe844 100644
 +    licensesFile.set(file(""gradle/thirdPartyLicenses.yaml""))
 +    legalNoticeFile.set(rootProject.file(""LEGALNOTICE.md""))
 +}
-"
+",feat(buildSrc): añadir tarea para actualizar la tabla de licencias
 zaproxy/zaproxy,05b5369f62ece232e397d7e0f8cff95a9dc6d128,"Disable JGraphT updates and refresh LEGALNOTICE
 
 Do not update JGraphT for now since it's used by an add-on (AJAX
@@ -27796,7 +27833,7 @@ index ee05ff2a85c..23efba5d370 100644
  | swingx-all-1.6.5-1.jar              | LGPL 2.1                  |
 -| xom-1.3.9.jar                       | LGPL                      |
 +| xom-1.4.0.jar                       | LGPL                      |
-"
+",fix(legalnotice): actualizar versiones de bibliotecas y dependencias
 zaproxy/zaproxy,ae7ad3cbad90475afef285bf3fd0157c3d9bda42,"Bump the gradle group with 22 updates
 
 Bumps the gradle group with 22 updates:
@@ -28119,7 +28156,7 @@ index 174b14386aa..38dbeb44a27 100644
 +sonarqube = ""org.sonarqube:7.2.3.7755""
  spotless.id = ""com.diffplug.spotless""
  zaproxy-common.id = ""org.zaproxy.common""
-"
+",test(versions): actualizar dependencias y correcciones de versión
 zaproxy/zaproxy,ba4ed135b91244206c853a5375b7ffc4a25633ed,"Bump the gha group with 3 updates
 
 Bumps the gha group with 3 updates: [gradle/actions](https://github.com/gradle/actions), [docker/login-action](https://github.com/docker/login-action) and [docker/build-push-action](https://github.com/docker/build-push-action).
@@ -28282,7 +28319,7 @@ index 27bea6faa2e..17a25d20363 100644
          with:
            context: docker
            file: docker/Dockerfile-tests
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
 zaproxy/zaproxy,54f82c5a54d54ccf95953ac58ab57bfb296085f4,"Update project dependencies with dependabot
 
 Change the dependabot configuration to update the project (Gradle)
@@ -28312,7 +28349,7 @@ index 1b52049975f..e945d01abfb 100644
 +      - dependency-name: ""com.google.errorprone:error_prone_core""
 +        versions: [ "">= 2.43.0"" ] # versions 2.43.x and later require Java 21
 +      - dependency-name: ""com.diffplug.spotless*"" # newer versions lead to runtime error, will need to update the common zap plugin first
-"
+",fix(dependabot): añadir configuración para actualizaciones de Gradle
 zaproxy/zaproxy,778325199ba8e781f28c882230ce2ff0c0d5e350,"Use version catalog
 
 Simplify dependency management/updates.
@@ -28529,4 +28566,4 @@ index ea7cc14b449..802ad716174 100644
  }
  
  tasks.register<JavaExec>(""run"") {
-"
+",ERROR_DE_GENERACION (Mensaje vacío)
