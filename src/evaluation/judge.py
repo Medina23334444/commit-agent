@@ -7,7 +7,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 
 # 1. Configuración del modelo local
-# Nos aseguramos de que la temperatura sea 0 para que el juez sea determinista
+# Temperatura 0 para que el juez sea lo más determinista y objetivo posible
 llm_juez = ChatOllama(model="qwen2.5-coder:7b", temperature=0.0)
 
 # 2. El Prompt Oficial de CommitSuite adaptado a LangChain
@@ -50,7 +50,10 @@ def llamar_juez_local(diff, mensaje_generado, max_intentos=3):
     for intento in range(max_intentos):
         try:
             # Ejecutar inferencia local
-            respuesta_cruda = cadena_evaluacion.invoke({"diff": diff, "mensaje_generado": mensaje_generado})
+            respuesta_cruda = cadena_evaluacion.invoke({
+                "diff": diff, 
+                "mensaje_generado": mensaje_generado
+            })
             
             # Limpieza del formato Markdown que suelen devolver los LLMs locales
             contenido = respuesta_cruda.strip().replace('```json', '').replace('```', '').strip()
@@ -64,39 +67,41 @@ def llamar_juez_local(diff, mensaje_generado, max_intentos=3):
                 "Authenticity": int(parsed.get("Authenticity", 0)),
                 "Logicality": int(parsed.get("Logicality", 0)),
             }
-        except json.JSONDecodeError:
+        except Exception:
             print(f"\n  [!] Error de formato del juez (intento {intento + 1}/{max_intentos}). Reintentando...")
             time.sleep(1)
             
-    # Degradación segura si falla
+    # Degradación segura si falla después de 3 intentos
     return {key: 0 for key in ["Rationality", "Comprehensiveness", "Non-redundancy", "Authenticity", "Logicality"]}
 
 def ejecutar_evaluacion():
-    print("Cargando dataset de diffs...")
-    df = pd.read_csv("dataset_diffs_historicos.csv")
+    print("Cargando dataset con mensajes generados...")
+    # Leer el archivo que acabas de generar
+    df = pd.read_csv("dataset_mensajes_generados.csv")
     
-    # IMPORTANTE: Reemplazar aquí con la forma real en que invocas a tu agente
-    def simular_agente(diff):
-        return "feat: add initial configuration files and updates"
+    # Filtramos los fallidos o vacíos para evaluar únicamente los 209 éxitos
+    df_exitosos = df[~df['mensaje_generado'].str.contains("ERROR_DE_GENERACION|❌", na=False, case=False)]
+    df_exitosos = df_exitosos.dropna(subset=['mensaje_generado'])
+    df_exitosos = df_exitosos[df_exitosos['mensaje_generado'].str.strip() != ""]
+
+    print(f"Total de commits válidos a evaluar: {len(df_exitosos)}")
     
     resultados = []
     
     # Procesamiento secuencial con barra de progreso
-    for index, row in tqdm(df.iterrows(), total=len(df), desc="Evaluando commits"):
+    for index, row in tqdm(df_exitosos.iterrows(), total=len(df_exitosos), desc="Evaluando commits"):
         diff_actual = row['diff']
         hash_actual = row['commit_hash']
+        mensaje_agente = row['mensaje_generado']
         
-        # 1. Tu agente genera el mensaje
-        # mensaje_agente = tu_agente.generar_commit(diff_actual)
-        mensaje_agente = simular_agente(diff_actual)
-        
-        # 2. El LLM Juez lo evalúa
+        # El LLM Juez califica el mensaje
         veredictos = llamar_juez_local(diff_actual, mensaje_agente)
         
-        # 3. Guardar registro
+        # Guardar el registro
         registro = {
             "repositorio": row['repositorio'],
             "commit_hash": hash_actual,
+            "mensaje_original": row['mensaje_original'],
             "mensaje_generado": mensaje_agente
         }
         registro.update(veredictos)
