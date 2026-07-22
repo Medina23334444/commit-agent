@@ -51,6 +51,7 @@ def get_git_diff() -> str:
                 ":!*.exe",
                 ":!*.bin",
                 ":!*.ico",
+                ":!*.csv",
                 # Archivos generados
                 ":!*.lock",
                 ":!*.pyc",
