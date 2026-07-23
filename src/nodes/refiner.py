@@ -1,5 +1,4 @@
 # src/nodes/refiner.py
-from agent import state
 from langchain_core.messages import HumanMessage, AIMessage
 from agent.state import AgentState
 from utils.prompt_loader import load_prompt

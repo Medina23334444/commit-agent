@@ -4,7 +4,7 @@ import warnings
 warnings.showwarning = lambda *args, **kwargs: None
 warnings.filterwarnings("ignore")
 
-import os
+import os  # noqa: E402
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
@@ -12,20 +12,20 @@ os.environ["TRANSFORMERS_VERBOSITY"] = "error"
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 os.environ["HF_HUB_OFFLINE"] = "1"
 
-import logging
+import logging  # noqa: E402
 logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 logging.getLogger("langchain").setLevel(logging.ERROR)
 logging.getLogger("langgraph").setLevel(logging.ERROR)
 
 
-import subprocess
-from pathlib import Path
-from dotenv import load_dotenv
-from langchain_ollama import ChatOllama
+import subprocess  # noqa: E402
+from pathlib import Path  # noqa: E402
+from dotenv import load_dotenv  # noqa: E402
+from langchain_ollama import ChatOllama  # noqa: E402
 
-from agent.graph import CommitGraph
-from agent.state import AgentState
+from agent.graph import CommitGraph  # noqa: E402
+from agent.state import AgentState  # noqa: E402
 
 # ... (El resto de tu código continúa igual hacia abajo con tu env_path y def build_llm)
 
