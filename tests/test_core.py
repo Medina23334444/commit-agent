@@ -101,7 +101,7 @@ def test_validator_node_captures_llm_critique():
 
     node = ValidatorNode(mock_llm)
     state = {
-        "message": "fix(api): corregido error en llamadas asíncronas",
+        "message": "fix(api): error asincrono",
         "diff": "some diff",
         "intencion": "corregir bug",
         "intentos": 0,
