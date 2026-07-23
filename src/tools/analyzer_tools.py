@@ -181,10 +181,10 @@ def summarize_changes(diff: str, archivos: str) -> str:
 
     # Cuenta estadísticas básicas
     lineas_añadidas = len(
-        [l for l in diff.splitlines() if l.startswith("+") and not l.startswith("+++")]
+        [line for line in diff.splitlines() if line.startswith("+") and not line.startswith("+++")]
     )
     lineas_eliminadas = len(
-        [l for l in diff.splitlines() if l.startswith("-") and not l.startswith("---")]
+        [line for line in diff.splitlines() if line.startswith("-") and not line.startswith("---")]
     )
     archivos_lista = archivos.splitlines() if archivos else []
     n_archivos = len(archivos_lista)

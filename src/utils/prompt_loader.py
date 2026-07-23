@@ -1,5 +1,4 @@
 # src/utils/prompt_loader.py (o dentro de tu nodo)
-import os
 from pathlib import Path
 
 def load_prompt(filename: str, **kwargs) -> str:

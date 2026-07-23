@@ -1,13 +1,9 @@
 # src/nodes/analyzer.py
-import os
-import re
-import subprocess
 from agent.state import AgentState
 from tools.git_tools import (
     get_git_diff,
     get_repo_context,
-    parse_changed_files,
-    get_diff_stats
+    parse_changed_files
 )
 
 
@@ -88,8 +84,8 @@ class AnalyzerNode:
         lineas  = contexto_raw.splitlines()
         rama    = lineas[0].replace("Rama actual: ", "").strip() if lineas else "unknown"
         historial = [
-            l.strip() for l in lineas[2:]
-            if l.strip()
+            line.strip() for line in lineas[2:]
+            if line.strip()
         ]
         return rama, historial
 
@@ -97,14 +93,14 @@ class AnalyzerNode:
         """Convierte el output de parse_changed_files en lista."""
         if not archivos_raw or archivos_raw in ("NO_DIFF", "") or "GIT_ERROR" in archivos_raw:
             return []
-        return [l.strip() for l in archivos_raw.splitlines() if l.strip()]
+        return [line.strip() for line in archivos_raw.splitlines() if line.strip()]
 
     def _parse_estadisticas(self, diff: str) -> dict[str, int]:
         """Calcula estadísticas del diff."""
         lineas      = diff.splitlines()
-        added       = len([l for l in lineas if l.startswith("+") and not l.startswith("+++")])
-        deleted     = len([l for l in lineas if l.startswith("-") and not l.startswith("---")])
-        files       = len([l for l in lineas if l.startswith("diff --git")])
+        added       = len([line for line in lineas if line.startswith("+") and not line.startswith("+++")])
+        deleted     = len([line for line in lineas if line.startswith("-") and not line.startswith("---")])
+        files       = len([line for line in lineas if line.startswith("diff --git")])
         return {
             "added":   added,
             "deleted": deleted,
