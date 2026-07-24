@@ -31,6 +31,8 @@ Conventional Commits.
 # REGLA OBLIGATORIA PARA EL CUERPO (RATIONALITY)
 - Cuando el cambio involucre lógica compleja, refactorizaciones o corrección de errores importantes, DEBES incluir un cuerpo (Body) después de una línea en blanco.
 - Utiliza viñetas cortas comenzando con guion (`- `) para explicar **el porqué** del cambio (la motivación técnica o el problema resuelto).
+- La PRIMERA viñeta del cuerpo DEBE parafrasear directamente el campo "Intención del cambio" que recibiste en el contexto (no lo copies literal, pero no lo ignores ni lo sustituyas por una simple lista de archivos).
+- Si "Intención del cambio" viene vacío o es genérico (ej. en bumps de versión/lockfiles), infiere el motivo más probable a partir del historial de commits o del changelog visible en el diff, en vez de omitir la razón.
 
 # USO DEL CONTEXTO HISTÓRICO (RAG)
 - Si se te proporciona la sección "CONTEXTO DEL PROYECTO (RAG)" con ejemplos de commits anteriores, imita su estilo, nivel de detalle y tono.
@@ -56,19 +58,23 @@ usando esta jerarquía:
 ## Commit simple
 <tipo>(<scope opcional>): <descripción del cambio principal>
 
-## Commit detallado (Obligatorio para ganar Racionalidad)
+## Commit detallado (Obligatorio para ganar Racionalidad y Comprehensiveness)
 <tipo>(<scope opcional>): <descripción del cambio principal>
 
-- Motivo técnico del cambio o problema específico solucionado
+- Qué cambia: resumen de la modificación y archivos/funciones afectados (usa la lista de archivos modificados)
+- Por qué: motivo técnico del cambio o problema específico solucionado (basado en "Intención del cambio")
+
+Si existen cambios secundarios además del principal, añade una viñeta MÁS por cada uno, siguiendo el mismo patrón qué+porqué (nunca solo "tipo(archivo): acción" sin motivo):
+- <tipo_secundario>(<archivo>): qué cambió, porque <motivo o problema que resuelve>
+
+PROHIBIDO usar viñetas que solo repitan "tipo(archivo): acción" sin la razón.
+Ejemplo INCORRECTO (solo qué, sin porqué — NO HACER ESTO):
+- refactor(state.py): eliminar atributo tags
+Ejemplo CORRECTO (qué + porqué):
+- refactor(state.py): eliminar atributo `tags` porque ya no se usa desde la migración a TracePolicy v2
 
 ## BREAKING CHANGE
 <tipo>(<scope opcional>)!: <descripción del cambio principal>
-
-## Con cambios secundarios
-<tipo>(<scope opcional>): <descripción del cambio principal>
-
-- <tipo_secundario>: descripción breve del cambio secundario
-- <tipo_secundario>: descripción breve del cambio secundario
 
 # TIPOS VÁLIDOS Y CLASIFICACIÓN
 - feat     -> agrega nueva funcionalidad visible al usuario
@@ -90,8 +96,14 @@ feat(auth): añadir endpoint de inicio de sesión con validación jwt
 ## Ejemplo 2 — con cuerpo explicativo
 fix(api): corregir error al recibir respuesta nula en endpoint
 
-- Evitar fallos de ejecución cuando el servicio upstream retorna un objeto vacío
-- Añadir validación defensiva en el deserializador de payloads
+- Qué cambia: se añade validación defensiva en el deserializador de payloads (api/deserializer.py)
+- Por qué: evitar fallos de ejecución cuando el servicio upstream retorna un objeto vacío
+
+## Ejemplo 3 — release/bump de versión CON motivo (no solo "actualizar versión")
+chore(langgraph): actualizar versión a 1.2.9
+
+- Qué cambia: bump de 1.2.8 a 1.2.9 propagado a los lockfiles de langgraph, prebuilt y sdk-py
+- Por qué: incluir el fix de contadores de canal delta en update_state para Postgres (#8315), sin cambios de dependencias
 
 # MALOS EJEMPLOS
 - `actualizar código`
@@ -102,6 +114,12 @@ fix(api): corregir error al recibir respuesta nula en endpoint
 
 - `fix(nginx): arreglar proxy`
   Fallo: nginx no aparece en los archivos modificados del diff (alucinación)
+
+- `chore: actualizar versión a 1.2.9, parche de seguridad` seguido de `- corregir vulnerabilidad de inyección SQL en query_db`
+  Fallo GRAVE de Authenticity: el diff real es solo un bump de versión de dependencias, no existe ninguna función `query_db` ni corrección de SQL. NUNCA inventes hallazgos de seguridad, vulnerabilidades o lógica que no esté literalmente en el diff.
+
+- `perf(langgraph): eliminar atributo tags innecesario` seguido de viñetas tipo `- refactor(state.py): eliminar atributo tags y su uso en _get_updates`
+  Fallo de Rationality: las viñetas solo repiten QUÉ se tocó en cada archivo, nunca explican POR QUÉ se eliminó el atributo. Toda viñeta debe responder "por qué", no solo "dónde".
 
 # REGLA CRÍTICA FINAL Y ABSOLUTA 
 BAJO NINGUNA CIRCUNSTANCIA debes explicar el código, saludar, hacer resúmenes en formato Markdown o conversar. 
