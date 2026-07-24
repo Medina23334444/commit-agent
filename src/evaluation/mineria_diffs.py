@@ -29,21 +29,18 @@ REPOSITORIOS = [
     "zaproxy/zaproxy"
 ]
 
-# Límite de commits a extraer por repositorio (configurable en .env)
 COMMITS_POR_REPO = int(os.getenv("COMMITS_POR_REPO", "50"))
-
-# Límite de tamaño del diff en caracteres. Diffs más grandes que esto
-# se descartan (no entran al dataset) porque en la práctica el LLM local
-# (qwen2.5-coder:7b) no logra generar un mensaje válido con diffs tan largos.
-# (configurable en .env)
-MAX_DIFF_CHARS = int(os.getenv("MAX_DIFF_CHARS", "15000"))
-
+MAX_DIFF_CHARS = int(os.getenv("MAX_DIFF_CHARS", "8000"))
 
 def extraer_diffs():
     dataset = []
     descartados_por_tamano = 0
+    descartados_por_bots = 0
+    descartados_por_idioma = 0
+    descartados_administrativos = 0
+    descartados_archivos_irrelevantes = 0
 
-    print("Iniciando minería de datos...")
+    print("Iniciando minería de datos avanzada y limpieza...")
 
     for repo in REPOSITORIOS:
         print(f"\nProcesando repositorio: {repo}")
@@ -52,9 +49,6 @@ def extraer_diffs():
         page = 1
         vistos_shas = set()
 
-        # Sigue paginando hasta juntar COMMITS_POR_REPO diffs VÁLIDOS
-        # (no se "gasta" el cupo en commits descartados por tamaño).
-        # Corta también si GitHub deja de devolver commits (fin de historial).
         while validos_repo < COMMITS_POR_REPO:
             url_commits = (
                 f"https://api.github.com/repos/{repo}/commits"
@@ -81,9 +75,26 @@ def extraer_diffs():
                 vistos_shas.add(sha)
 
                 mensaje = commit['commit']['message']
+                mensaje_lower = mensaje.lower()
 
-                # Filtro: omitir commits de merge para mantener diffs aislados y limpios
+                # Filtro 1: Omitir commits de merge
                 if mensaje.startswith("Merge"):
+                    continue
+
+                # Filtro 2: Ignorar bots
+                if "dependabot" in mensaje_lower or "renovate" in mensaje_lower:
+                    descartados_por_bots += 1
+                    continue
+                
+                # 🔥 Filtro 3 (NUEVO): Eliminar ruido administrativo en el mensaje
+                # Atrapa: bumps de versión, chore(release), release notes, changelogs y commits exclusivos de docs
+                ruido_textual = [
+                    "release note", "changelog", "bump version", "chore(release",
+                    "release(", "📝", "docs:"
+                ]
+                if any(ruido in mensaje_lower for ruido in ruido_textual):
+                    descartados_administrativos += 1
+                    # print(f"  [~] Descartado {sha[:7]} por ser ruido administrativo: {mensaje.splitlines()[0]}")
                     continue
 
                 # Extraer el diff crudo de la modificación
@@ -92,13 +103,31 @@ def extraer_diffs():
 
                 if diff_response.status_code == 200:
                     diff_texto = diff_response.text
+                    texto_lower = diff_texto.lower()
 
-                    # Filtro de tamaño: si supera MAX_DIFF_CHARS, se descarta
-                    # y se sigue buscando (no cuenta para el cupo del repo).
+                    # 🔥 Filtro 4 (NUEVO): Bloquear commits que consisten primariamente en archivos de bloqueo o historiales
+                    archivos_basura = [
+                        "b/uv.lock", "b/poetry.lock", "b/package-lock.json", 
+                        "b/CHANGELOG.md", "b/docs/en/docs/release-notes.md", 
+                        "b/pyproject.toml"
+                    ]
+                    # Si el diff contiene modificaciones a estos archivos, es probable que no sea lógica estructural
+                    if any(archivo in diff_texto for archivo in archivos_basura):
+                        descartados_archivos_irrelevantes += 1
+                        continue
+
+                    # Filtro 5: Restringir documentación a Inglés y Español
+                    if "docs/" in texto_lower:
+                        if not ("docs/en/" in texto_lower or "docs/es/" in texto_lower):
+                            descartados_por_idioma += 1
+                            continue
+                    elif "locale/" in texto_lower or "i18n/" in texto_lower:
+                        descartados_por_idioma += 1
+                        continue
+
+                    # Filtro 6: Límite de tamaño para proteger la inferencia local
                     if len(diff_texto) > MAX_DIFF_CHARS:
                         descartados_por_tamano += 1
-                        print(f"  [~] Descartado {sha[:7]} por tamaño de diff "
-                              f"({len(diff_texto)} chars > {MAX_DIFF_CHARS})")
                     else:
                         dataset.append({
                             "repositorio": repo,
@@ -110,23 +139,27 @@ def extraer_diffs():
                 else:
                     print(f"  [!] Error al obtener diff del commit {sha[:7]}")
 
-                # Pausa táctica para no saturar los límites de la API
+                # Pausa táctica para no saturar la API
                 time.sleep(0.5)
 
             page += 1
 
         print(f"  -> Extracción de {repo} completada. ({validos_repo}/{COMMITS_POR_REPO} diffs válidos)")
 
-    # 3. Exportar resultados a CSV
+    # 3. Exportar resultados
     if dataset:
         df = pd.DataFrame(dataset)
-        nombre_archivo = "dataset_diffs_historicos.csv"
+        nombre_archivo = "dataset_diffs_limpios.csv"
         df.to_csv(nombre_archivo, index=False, encoding='utf-8')
         print(f"\n¡Extracción finalizada exitosamente! Se guardaron {len(df)} registros en '{nombre_archivo}'.")
-        print(f"Se descartaron {descartados_por_tamano} commits por superar {MAX_DIFF_CHARS} caracteres de diff.")
+        print("\n--- Resumen de Limpieza (Descartes) ---")
+        print(f" - Administrativos / Releases: {descartados_administrativos}")
+        print(f" - Archivos irrelevantes (locks, changelogs): {descartados_archivos_irrelevantes}")
+        print(f" - Tamaño excedido (> {MAX_DIFF_CHARS} chars): {descartados_por_tamano}")
+        print(f" - Autogenerados por bots: {descartados_por_bots}")
+        print(f" - Idiomas no admitidos (docs/i18n): {descartados_por_idioma}")
     else:
         print("\nNo se pudieron extraer datos.")
-
 
 if __name__ == "__main__":
     extraer_diffs()
