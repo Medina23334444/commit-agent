@@ -1,4 +1,3 @@
-# src/main.py
 import warnings
 
 warnings.showwarning = lambda *args, **kwargs: None
@@ -18,32 +17,17 @@ logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 logging.getLogger("langchain").setLevel(logging.ERROR)
 logging.getLogger("langgraph").setLevel(logging.ERROR)
 
-
 import subprocess
 from pathlib import Path
-from dotenv import load_dotenv
+
+# ── CAMBIO: Usar ChatOllama para conexión local ──
 from langchain_ollama import ChatOllama
 
 from agent.graph import CommitGraph
 from agent.state import AgentState
 
-# ... (El resto de tu código continúa igual hacia abajo con tu env_path y def build_llm)
-
-
-
-env_path = Path(__file__).parent.parent / ".env"
-
-if not env_path.exists():
-    with open(env_path, "w", encoding="utf-8") as f:
-        f.write("# Configuración del Agente de Commits\n")
-        f.write("OLLAMA_HOST=http://localhost:11434\n")
-    print("⚙️ Archivo .env generado automáticamente con la configuración por defecto.")
-
-load_dotenv(dotenv_path=env_path)
-
-
 # ══════════════════════════════════════════════════════════════════════════════
-# INICIALIZACIÓN
+# INICIALIZACIÓN CON OLLAMA
 # ══════════════════════════════════════════════════════════════════════════════
 
 def build_llm():
@@ -143,7 +127,6 @@ def run():
                 else:
                     print(f"❌ Error al commitear: {resultado_commit.stderr}")
                 return
-
 
 if __name__ == "__main__":
     run()
