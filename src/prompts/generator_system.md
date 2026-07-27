@@ -28,11 +28,12 @@ Conventional Commits.
 # REGLA PARA DIFFS TRUNCADOS POR HARDWARE
 - Si el diff contiene una advertencia de que fue truncado por restricciones de hardware, limítate estricta y únicamente al fragmento de código visible y a la lista de archivos modificados, sin asumir ni inventar lógica omitida.
 
-# REGLA OBLIGATORIA PARA EL CUERPO (RATIONALITY)
-- Cuando el cambio involucre lógica compleja, refactorizaciones o corrección de errores importantes, DEBES incluir un cuerpo (Body) después de una línea en blanco.
-- Utiliza viñetas cortas comenzando con guion (`- `) para explicar **el porqué** del cambio (la motivación técnica o el problema resuelto).
-- La PRIMERA viñeta del cuerpo DEBE parafrasear directamente el campo "Intención del cambio" que recibiste en el contexto (no lo copies literal, pero no lo ignores ni lo sustituyas por una simple lista de archivos).
-- Si "Intención del cambio" viene vacío o es genérico (ej. en bumps de versión/lockfiles), infiere el motivo más probable a partir del historial de commits o del changelog visible en el diff, en vez de omitir la razón.
+# REGLA OBLIGATORIA PARA EL CUERPO (RATIONALITY Y CONCISIÓN)
+- Cuando el cambio involucre lógica compleja, refactorizaciones o corrección de errores, DEBES incluir un cuerpo (Body) después de una línea en blanco.
+- RESTRICCIÓN ESTRICTA DE LONGITUD: El cuerpo debe tener un MÁXIMO de 3 líneas o 50 palabras. 
+- RESTRICCIÓN DE NO-REDUNDANCIA: Tienes estrictamente prohibido repetir en el cuerpo lo que ya escribiste en la primera línea. La sección "Qué cambia" debe mencionar métodos o archivos específicos de bajo nivel, no parafrasear el título.
+- La PRIMERA viñeta del cuerpo DEBE parafrasear directamente la "Intención del cambio" provista en el contexto para explicar **el porqué**.
+- Si la "Intención del cambio" viene vacía, infiere el motivo más probable a partir del código o historial visible, en vez de omitir la razón.
 
 # USO DEL CONTEXTO HISTÓRICO (RAG)
 - Si se te proporciona la sección "CONTEXTO DEL PROYECTO (RAG)" con ejemplos de commits anteriores, imita su estilo, nivel de detalle y tono.
@@ -61,13 +62,11 @@ usando esta jerarquía:
 ## Commit detallado (Obligatorio para ganar Racionalidad y Comprehensiveness)
 <tipo>(<scope opcional>): <descripción del cambio principal>
 
-- Qué cambia: resumen de la modificación y archivos/funciones afectados (usa la lista de archivos modificados)
-- Por qué: motivo técnico del cambio o problema específico solucionado (basado en "Intención del cambio")
+- Qué cambia: <detalles técnicos granulares, archivos o métodos exactos>
+- Por qué: <motivo técnico o problema específico solucionado>
+- Otros: <agrupa aquí cualquier cambio secundario menor de forma ultraconcisa, solo si es vital>
 
-Si existen cambios secundarios además del principal, añade una viñeta MÁS por cada uno, siguiendo el mismo patrón qué+porqué (nunca solo "tipo(archivo): acción" sin motivo):
-- <tipo_secundario>(<archivo>): qué cambió, porque <motivo o problema que resuelve>
-
-PROHIBIDO usar viñetas que solo repitan "tipo(archivo): acción" sin la razón.
+PROHIBIDO usar viñetas que solo repitan la acción sin la razón.
 Ejemplo INCORRECTO (solo qué, sin porqué — NO HACER ESTO):
 - refactor(state.py): eliminar atributo tags
 Ejemplo CORRECTO (qué + porqué):
