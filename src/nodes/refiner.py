@@ -81,13 +81,19 @@ class RefinerNode:
         except Exception:
             pass
 
-        # Toma la primera línea válida con formato Conventional Commits
-        for linea in mensaje.splitlines():
-            linea = linea.strip()
+        # Busca la línea del header (primera línea con formato Conventional Commits)
+        # y conserva TODO lo que viene después (body/viñetas), en vez de descartarlo.
+        lineas = mensaje.splitlines()
+        for i, linea in enumerate(lineas):
+            linea_stripped = linea.strip()
             if re.match(
-                r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)", linea
+                r"^(feat|fix|docs|style|refactor|test|chore|perf|ci|build)",
+                linea_stripped,
             ):
-                return self._truncar_primera_linea(linea)
+                # Reconstruye el mensaje desde el header en adelante, preservando
+                # línea en blanco y viñetas del cuerpo tal como las generó el LLM.
+                mensaje_completo = "\n".join([linea_stripped] + lineas[i + 1:]).rstrip()
+                return self._truncar_primera_linea(mensaje_completo)
 
         # Si no encuentra nada válido retorna vacío para forzar error
         return ""
@@ -130,7 +136,7 @@ class RefinerNode:
             intencion=state.get("intencion", "no disponible"),
             tipo_detectado=state.get("tipo_detectado", "no detectado"),
             scope_detectado=state.get("scope_detectado", "no detectado"),
-            diff_resumido=state.get("diff", "")[:500],
+            diff_resumido=state.get("diff", "")[:4000],
         )
 
         messages = [("system", system_prompt)]
