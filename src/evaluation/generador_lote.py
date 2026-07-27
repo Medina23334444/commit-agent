@@ -23,7 +23,7 @@ class GeneradorMensajes:
         llm = ChatOllama(
             model="qwen2.5-coder:7b",
             temperature=0.0,
-            keep_alive=-1,
+             keep_alive="5m",
             num_ctx=4096    
         )
         
