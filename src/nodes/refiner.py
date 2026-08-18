@@ -93,10 +93,26 @@ class RefinerNode:
                 # Reconstruye el mensaje desde el header en adelante, preservando
                 # línea en blanco y viñetas del cuerpo tal como las generó el LLM.
                 mensaje_completo = "\n".join([linea_stripped] + lineas[i + 1:]).rstrip()
+                mensaje_completo = self._quitar_bloques_duplicados(mensaje_completo)
                 return self._truncar_primera_linea(mensaje_completo)
 
         # Si no encuentra nada válido retorna vacío para forzar error
         return ""
+
+    def _quitar_bloques_duplicados(self, mensaje: str) -> str:
+        """
+        Red de seguridad ante repetición del LLM (modelos locales pequeños a
+        veces entran en bucle y devuelven el mismo commit varias veces).
+        Si el header vuelve a aparecer más adelante en el mensaje, corta ahí.
+        """
+        lineas = mensaje.strip().splitlines()
+        if not lineas:
+            return mensaje
+        header = lineas[0].strip()
+        for i, linea in enumerate(lineas[1:], start=1):
+            if linea.strip() == header:
+                return "\n".join(lineas[:i]).rstrip()
+        return mensaje
 
     def _truncar_primera_linea(self, mensaje: str) -> str:
         lineas = mensaje.strip().splitlines()
@@ -141,8 +157,8 @@ class RefinerNode:
 
         messages = [("system", system_prompt)]
 
-        # Inyecta historial de intentos fallidos
-        historial = state.get("messages", [])
+        # Inyecta historial de intentos fallidos (recortado: solo últimos 2 intentos)
+        historial = state.get("messages", [])[-4:]
         if historial:
             messages.append(
                 (
