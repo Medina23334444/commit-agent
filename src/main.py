@@ -1,4 +1,6 @@
 import warnings
+import os
+import subprocess
 
 warnings.showwarning = lambda *args, **kwargs: None
 warnings.filterwarnings("ignore")
@@ -6,7 +8,6 @@ warnings.filterwarnings("ignore")
 from dotenv import load_dotenv
 load_dotenv()
 
-import os
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
 os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
@@ -20,44 +21,38 @@ logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
 logging.getLogger("langchain").setLevel(logging.ERROR)
 logging.getLogger("langgraph").setLevel(logging.ERROR)
 
-import subprocess
-from pathlib import Path
-
 from langchain_openai import ChatOpenAI
-
 from agent.graph import CommitGraph
 from agent.state import AgentState
 
+
 # ══════════════════════════════════════════════════════════════════════════════
-# INICIALIZACIÓN DEL LLM
+# INICIALIZACIÓN DEL LLM (CONFIGURACIÓN OFICIAL KIMI K2.6)
 # ══════════════════════════════════════════════════════════════════════════════
 
 def build_llm():
-    provider = os.getenv("LLM_PROVIDER", "openrouter").lower()
+    api_key = os.getenv("MOONSHOT_API_KEY")
 
-    if provider == "openrouter":
-        api_key = os.getenv("OPENROUTER_API_KEY")
-        if not api_key:
-            raise RuntimeError("Falta OPENROUTER_API_KEY en el entorno o .env")
-        return ChatOpenAI(
-            base_url=os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"),
-            api_key=api_key,
-            model=os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini"),
-            temperature=0.0,
-        )
+    if not api_key:
+        raise RuntimeError("Falta MOONSHOT_API_KEY en el entorno o archivo .env")
 
-    if provider == "moonshot":
-        api_key = os.getenv("MOONSHOT_API_KEY")
-        if not api_key:
-            raise RuntimeError("Falta MOONSHOT_API_KEY en el entorno o .env")
-        return ChatOpenAI(
-            base_url=os.getenv("MOONSHOT_BASE_URL", "https://api.moonshot.cn/v1"),
-            api_key=api_key,
-            model=os.getenv("MOONSHOT_MODEL", "moonshot-v1-8k"),
-            temperature=0.0,
-        )
+    base_url = os.getenv("MOONSHOT_BASE_URL", "https://api.moonshot.ai/v1")
+    model = os.getenv("MOONSHOT_MODEL", "kimi-k2.6")
 
-    raise ValueError(f"Proveedor no soportado: {provider}. Usa 'openrouter' o 'moonshot'.")
+    return ChatOpenAI(
+        base_url=base_url,
+        api_key=api_key,
+        model=model,
+        # Parámetros estrictos exigidos por K2.6 según su documentación oficial:
+        temperature=1.0,          # Requerido por K2.6 (1.0 para thinking, o 0.6 si se desactiva)
+        model_kwargs={
+            "top_p": 0.95,
+            "presence_penalty": 0.0,
+            "frequency_penalty": 0.0,
+            # Si deseas desactivar el modo de pensamiento (thinking) puedes descomentar la siguiente línea:
+            # "thinking": {"type": "disabled"}
+        }
+    )
 
 
 def build_initial_state() -> AgentState:
