@@ -28,6 +28,7 @@ from agent.state import AgentState
 # ══════════════════════════════════════════════════════════════════════════════
 # INICIALIZACIÓN DEL LLM (CON OLLAMA)
 # ══════════════════════════════════════════════════════════════════════════════
+
 def build_llm():
     return ChatOllama(
         model="tavernari/git-commit-message:sp_commit",  # Apunta al nombre exacto de la etiqueta
