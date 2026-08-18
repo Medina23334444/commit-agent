@@ -71,20 +71,19 @@ class GeneratorNode:
         if "I'm sorry" in mensaje or "can't assist" in mensaje:
             raise ValueError("LLM rechazó la solicitud por filtro de seguridad.")
 
-        # 3. Intenta extraer de JSON
+        # 3. Intenta extraer de JSON (Sin bloquear si no coincide exactamente)
         try:
             data = json.loads(mensaje)
             if isinstance(data, dict):
                 for key in ["response", "message", "commit", "result"]:
                     if key in data:
-                        valor = data[key]
+                        valor = str(data[key])
                         if re.search(
-                            r"(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\([^)]+\))?!?:",
+                            r"(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\([^)]+\))?!:",
                             valor,
                             re.IGNORECASE
                         ):
                             return self._truncar_primera_linea(valor)
-                return ""  
         except Exception:
             pass
 
@@ -95,14 +94,12 @@ class GeneratorNode:
         lineas = mensaje.splitlines()
         for i, linea in enumerate(lineas):
             linea_str = linea.strip()
-            # Usamos re.search para encontrar el patrón sin importar si hay texto antes
             match = re.search(
-                r"(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\([^)]+\))?!?:",
+                r"(feat|fix|docs|style|refactor|test|chore|perf|ci|build)(\([^)]+\))?!:",
                 linea_str,
                 re.IGNORECASE
             )
             if match:
-                # Extrae desde el prefijo válido en adelante
                 linea_valida = linea_str[match.start():]
                 resto = "\n".join(lineas[i + 1 :]).strip()
                 header = self._truncar_primera_linea(linea_valida)
@@ -110,7 +107,8 @@ class GeneratorNode:
                     return f"{header}\n\n{resto}"
                 return header
 
-        return ""
+        # Fallback de seguridad si nada hizo match pero el modelo devolvió texto útil
+        return mensaje if mensaje else ""
 
     def _truncar_primera_linea(self, mensaje: str) -> str:
         lineas = mensaje.strip().splitlines()
