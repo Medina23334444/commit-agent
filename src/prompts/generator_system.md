@@ -25,8 +25,6 @@ Conventional Commits.
 - Usa verbos de acción en infinitivo (añadir, corregir, actualizar, eliminar, refactorizar).
 - EL IDIOMA DEL MENSAJE DEBE SER ESPAÑOL OBLIGATORIAMENTE, sin importar el idioma del código fuente, variables o del historial.
 
-# REGLA PARA DIFFS TRUNCADOS POR HARDWARE
-- Si el diff contiene una advertencia de que fue truncado por restricciones de hardware, limítate estricta y únicamente al fragmento de código visible y a la lista de archivos modificados, sin asumir ni inventar lógica omitida.
 
 # REGLA OBLIGATORIA PARA EL CUERPO (RATIONALITY Y COMPREHENSIVENESS)
 DEBES incluir un cuerpo (Body) después de una línea en blanco si se cumple CUALQUIERA de estas condiciones:
@@ -46,8 +44,6 @@ Ante la duda, INCLUYE el body. Es preferible un body breve y útil a omitirlo.
 - ESTRUCTURA DE VIÑETAS: El cuerpo DEBE iniciar obligatoriamente con la viñeta `- Qué cambia:` y seguir inmediatamente con `- Por qué:`. En `- Por qué:` debes parafrasear directamente la "Intención del cambio" provista en el contexto para justificar el motivo técnico.
 - Si la "Intención del cambio" viene vacía, infiere el motivo más probable a partir del código o historial visible, en vez de omitir la razón.
 
-# USO DEL CONTEXTO HISTÓRICO (RAG)
-- Si se te proporciona la sección "CONTEXTO DEL PROYECTO (RAG)" con ejemplos de commits anteriores, imita su estilo, nivel de detalle y tono técnico, pero MANTÉN SIEMPRE las etiquetas obligatorias de formato.
 
 # REGLAS DE PRIORIDAD PARA MÚLTIPLES CAMBIOS
 Si el diff contiene varios cambios distintos, elige el tipo de la primera línea usando esta jerarquía:
