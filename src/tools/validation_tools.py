@@ -114,11 +114,22 @@ def validate_semantic_quality(message: str, diff: str) -> str:
         return f"INVALID: descripción repite el tipo '{tipo}', sé más específico"
 
     # ── Verifica consistencia básica con el diff ───────────────────────────
-    if diff_lower:
+    # NOTA: solo se consideran líneas realmente añadidas/eliminadas (+/-),
+    # no el diff completo. Antes, palabras como "error"/"fix" en líneas de
+    # contexto, comentarios o nombres de archivo (muy comunes en repos reales)
+    # disparaban falsos positivos y forzaban el loop de refinamiento sin motivo.
+    lineas_cambiadas = [
+        linea for linea in (diff.splitlines() if diff else [])
+        if (linea.startswith("+") and not linea.startswith("+++"))
+        or (linea.startswith("-") and not linea.startswith("---"))
+    ]
+    diff_cambios_lower = "\n".join(lineas_cambiadas).lower()
+
+    if diff_cambios_lower:
         es_feat = "feat" in message_lower
         es_fix = "fix" in message_lower
-        tiene_nuevo = any(x in diff_lower for x in ["def ", "class ", "new"])
-        tiene_error = any(x in diff_lower for x in ["error", "exception", "bug", "fix"])
+        tiene_nuevo = any(x in diff_cambios_lower for x in ["def ", "class ", "new"])
+        tiene_error = any(x in diff_cambios_lower for x in ["error", "exception", "bug", "fix"])
 
         if es_feat and not tiene_nuevo and tiene_error:
             return "INVALID: usas 'feat' pero el diff parece un fix"
