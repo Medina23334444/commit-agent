@@ -27,7 +27,7 @@ from agent.state import AgentState
 
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INICIALIZACIÓN DEL LLM (CONFIGURACIÓN OFICIAL KIMI K2.6)
+# INICIALIZACIÓN DEL LLM (KIMI: temperatura fija según modelo)
 # ══════════════════════════════════════════════════════════════════════════════
 
 def build_llm():
@@ -37,20 +37,19 @@ def build_llm():
         raise RuntimeError("Falta MOONSHOT_API_KEY en el entorno o archivo .env")
 
     base_url = os.getenv("MOONSHOT_BASE_URL", "https://api.moonshot.ai/v1")
-    model = os.getenv("MOONSHOT_MODEL", "kimi-k2.6")
+    model = os.getenv("MOONSHOT_MODEL", "kimi-k2.7-code-highspeed")
 
     return ChatOpenAI(
         base_url=base_url,
         api_key=api_key,
         model=model,
-        # Parámetros estrictos exigidos por K2.6 según su documentación oficial:
-        temperature=1.0,          # Requerido por K2.6 (1.0 para thinking, o 0.6 si se desactiva)
+        temperature=1.0,
+        max_retries=0,
+        timeout=60,
         model_kwargs={
             "top_p": 0.95,
             "presence_penalty": 0.0,
             "frequency_penalty": 0.0,
-            # Si deseas desactivar el modo de pensamiento (thinking) puedes descomentar la siguiente línea:
-            # "thinking": {"type": "disabled"}
         }
     )
 
