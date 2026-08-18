@@ -3,6 +3,9 @@ import warnings
 warnings.showwarning = lambda *args, **kwargs: None
 warnings.filterwarnings("ignore")
 
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 os.environ["PYTHONWARNINGS"] = "ignore"
 os.environ["HF_HUB_DISABLE_SYMLINKS_WARNING"] = "1"
@@ -20,23 +23,42 @@ logging.getLogger("langgraph").setLevel(logging.ERROR)
 import subprocess
 from pathlib import Path
 
-# ── CAMBIO: Usar ChatOllama para conexión local ──
-from langchain_ollama import ChatOllama
+from langchain_openai import ChatOpenAI
 
 from agent.graph import CommitGraph
 from agent.state import AgentState
 
 # ══════════════════════════════════════════════════════════════════════════════
-# INICIALIZACIÓN CON OLLAMA
+# INICIALIZACIÓN DEL LLM
 # ══════════════════════════════════════════════════════════════════════════════
 
 def build_llm():
-    return ChatOllama(
-        model="qwen2.5-coder:7b",
-        temperature=0.0,
-        keep_alive="5m",
-        num_ctx=4096    
-    )
+    provider = os.getenv("LLM_PROVIDER", "openrouter").lower()
+
+    if provider == "openrouter":
+        api_key = os.getenv("OPENROUTER_API_KEY")
+        if not api_key:
+            raise RuntimeError("Falta OPENROUTER_API_KEY en el entorno o .env")
+        return ChatOpenAI(
+            base_url=os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1"),
+            api_key=api_key,
+            model=os.getenv("OPENROUTER_MODEL", "openai/gpt-4o-mini"),
+            temperature=0.0,
+        )
+
+    if provider == "moonshot":
+        api_key = os.getenv("MOONSHOT_API_KEY")
+        if not api_key:
+            raise RuntimeError("Falta MOONSHOT_API_KEY en el entorno o .env")
+        return ChatOpenAI(
+            base_url=os.getenv("MOONSHOT_BASE_URL", "https://api.moonshot.cn/v1"),
+            api_key=api_key,
+            model=os.getenv("MOONSHOT_MODEL", "moonshot-v1-8k"),
+            temperature=0.0,
+        )
+
+    raise ValueError(f"Proveedor no soportado: {provider}. Usa 'openrouter' o 'moonshot'.")
+
 
 def build_initial_state() -> AgentState:
     return {
@@ -80,7 +102,11 @@ def build_initial_state() -> AgentState:
 def run():
     cwd = os.getcwd()
 
-    llm = build_llm()
+    try:
+        llm = build_llm()
+    except Exception as exc:
+        print(f"❌ Error de configuración de API: {exc}")
+        return
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")  # refuerzo justo antes del import lazy de langgraph
