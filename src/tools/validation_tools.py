@@ -83,6 +83,32 @@ def validate_format(message: str) -> str:
 
 
 @tool
+def validate_body_format(message: str) -> str:
+    """
+    Valida que el cuerpo del commit contenga una línea en blanco y las viñetas obligatorias.
+    Retorna: VALID o INVALID: <razón>
+    """
+    lineas = message.strip().splitlines()
+    if len(lineas) <= 1:
+        return "VALID"
+
+    if lineas[1].strip() != "":
+        return "INVALID: falta línea en blanco entre el header y el body"
+
+    cuerpo = "\n".join(lineas[2:])
+
+    # Valida que existan como viñetas estructuradas al inicio de línea
+    tiene_que_cambia = re.search(r"^\s*-\s*Qué cambia:\s*.+", cuerpo, re.MULTILINE | re.IGNORECASE)
+    tiene_por_que = re.search(r"^\s*-\s*Por qué:\s*.+", cuerpo, re.MULTILINE | re.IGNORECASE)
+
+    if not tiene_que_cambia:
+        return "INVALID: el body debe contener una viñeta que comience exactamente con '- Qué cambia:'"
+    if not tiene_por_que:
+        return "INVALID: el body debe contener una viñeta que comience exactamente con '- Por qué:'"
+
+    return "VALID"
+
+@tool
 def validate_semantic_quality(message: str, diff: str) -> str:
     """
     Valida la calidad semántica del mensaje.
@@ -146,10 +172,15 @@ def validate_commit_message(message: str, diff: str) -> str:
     Validación completa: formato + calidad semántica.
     Retorna: VALID o INVALID: <razón detallada>
     """
-    # Primero valida formato
+    # Primero valida formato del header
     formato = validate_format.invoke({"message": message})
     if formato != "VALID":
         return formato
+
+    # Luego valida formato del body (si existe)
+    formato_body = validate_body_format.invoke({"message": message})
+    if formato_body != "VALID":
+        return formato_body
 
     # Luego valida calidad semántica
     semantica = validate_semantic_quality.invoke({"message": message, "diff": diff})

@@ -9,7 +9,7 @@ Conventional Commits.
 2. Identifica el propósito de cada cambio.
 3. Si hay varios cambios, determina el Cambio Principal usando la jerarquía de prioridad.
 4. Genera la primera línea (Header) basada en el Cambio Principal.
-5. Si existen cambios secundarios o el cambio requiere justificación técnica, añade un cuerpo (Body) tras una línea en blanco usando viñetas simples (- ).
+5. Si existen cambios secundarios o el cambio requiere justificación técnica, añade un cuerpo (Body) tras una línea en blanco usando las viñetas obligatorias (- Qué cambia: / - Por qué:).
 6. CUENTA los caracteres de la primera línea y verifica que no supere 72.
 7. Si supera 72 chars, ACORTA y vuelve al paso 6.
 
@@ -28,31 +28,41 @@ Conventional Commits.
 # REGLA PARA DIFFS TRUNCADOS POR HARDWARE
 - Si el diff contiene una advertencia de que fue truncado por restricciones de hardware, limítate estricta y únicamente al fragmento de código visible y a la lista de archivos modificados, sin asumir ni inventar lógica omitida.
 
-# REGLA OBLIGATORIA PARA EL CUERPO (RATIONALITY Y CONCISIÓN)
-- Cuando el cambio involucre lógica compleja, refactorizaciones o corrección de errores, DEBES incluir un cuerpo (Body) después de una línea en blanco.
-- RESTRICCIÓN ESTRICTA DE LONGITUD: El cuerpo debe tener un MÁXIMO de 3 líneas o 50 palabras. 
+# REGLA OBLIGATORIA PARA EL CUERPO (RATIONALITY Y COMPREHENSIVENESS)
+DEBES incluir un cuerpo (Body) después de una línea en blanco si se cumple CUALQUIERA de estas condiciones:
+- El diff modifica MÁS DE 1 archivo.
+- El tipo del commit es fix, refactor, perf, chore o build (casi nunca son autoexplicativos con una sola línea).
+- El motivo del cambio (el "por qué") no cabe de forma completa y clara dentro de los 72 caracteres del header.
+
+SOLO puedes omitir el body si se cumplen las DOS condiciones a la vez:
+- El diff modifica exactamente 1 archivo.
+- El header por sí solo ya comunica qué cambió y por qué, sin dejar ambigüedad (ej: corregir un typo puntual, renombrar una variable, bump de versión trivial).
+
+Ante la duda, INCLUYE el body. Es preferible un body breve y útil a omitirlo.
+
+- RESTRICCIÓN ESTRICTA DE LONGITUD: El cuerpo debe tener un MÁXIMO de 3 líneas o 50 palabras.
 - RESTRICCIÓN DE NO-REDUNDANCIA: Tienes estrictamente prohibido repetir en el cuerpo lo que ya escribiste en la primera línea. La sección "Qué cambia" debe mencionar métodos o archivos específicos de bajo nivel, no parafrasear el título.
-- La PRIMERA viñeta del cuerpo DEBE parafrasear directamente la "Intención del cambio" provista en el contexto para explicar **el porqué**.
+- RESTRICCIÓN DE COBERTURA (COMPREHENSIVENESS): Si el diff modifica varios archivos, "Qué cambia" debe nombrar o agrupar TODOS los archivos relevantes afectados, no solo el del Cambio Principal. Si son muchos archivos del mismo tipo (ej. varias traducciones, varios lockfiles), agrúpalos en esa misma viñeta en vez de omitirlos.
+- ESTRUCTURA DE VIÑETAS: El cuerpo DEBE iniciar obligatoriamente con la viñeta `- Qué cambia:` y seguir inmediatamente con `- Por qué:`. En `- Por qué:` debes parafrasear directamente la "Intención del cambio" provista en el contexto para justificar el motivo técnico.
 - Si la "Intención del cambio" viene vacía, infiere el motivo más probable a partir del código o historial visible, en vez de omitir la razón.
 
 # USO DEL CONTEXTO HISTÓRICO (RAG)
-- Si se te proporciona la sección "CONTEXTO DEL PROYECTO (RAG)" con ejemplos de commits anteriores, imita su estilo, nivel de detalle y tono.
+- Si se te proporciona la sección "CONTEXTO DEL PROYECTO (RAG)" con ejemplos de commits anteriores, imita su estilo, nivel de detalle y tono técnico, pero MANTÉN SIEMPRE las etiquetas obligatorias de formato.
 
 # REGLAS DE PRIORIDAD PARA MÚLTIPLES CAMBIOS
-Si el diff contiene varios cambios distintos, elige el tipo de la primera línea
-usando esta jerarquía:
+Si el diff contiene varios cambios distintos, elige el tipo de la primera línea usando esta jerarquía:
 1. BREAKING CHANGE (!)
 2. feat
 3. fix
 4. perf
 5. refactor
-6. test / style / docs / chore
+6. test / style / docs / chore / ci / build
 
 # REGLAS DE SCOPE
 - Usa el nombre del módulo o carpeta afectada en minúsculas.
 - Si hay varios módulos afectados, usa el más relevante según la jerarquía.
 - Omite el scope si el cambio es transversal a todo el proyecto.
-- NUNCA uses rutas completas como scope (ej: conversion/crypto_utils.py).
+- NUNCA uses rutas completas como scope (ej: conversion/crypto_utils.py -> usa crypto o conversion).
 
 # FORMATO OBLIGATORIO
 
@@ -66,11 +76,7 @@ usando esta jerarquía:
 - Por qué: <motivo técnico o problema específico solucionado>
 - Otros: <agrupa aquí cualquier cambio secundario menor de forma ultraconcisa, solo si es vital>
 
-PROHIBIDO usar viñetas que solo repitan la acción sin la razón.
-Ejemplo INCORRECTO (solo qué, sin porqué — NO HACER ESTO):
-- refactor(state.py): eliminar atributo tags
-Ejemplo CORRECTO (qué + porqué):
-- refactor(state.py): eliminar atributo `tags` porque ya no se usa desde la migración a TracePolicy v2
+PROHIBIDO generar viñetas libres que no comiencen explícitamente con `- Qué cambia:` o `- Por qué:`.
 
 ## BREAKING CHANGE
 <tipo>(<scope opcional>)!: <descripción del cambio principal>
@@ -98,7 +104,13 @@ fix(api): corregir error al recibir respuesta nula en endpoint
 - Qué cambia: se añade validación defensiva en el deserializador de payloads (api/deserializer.py)
 - Por qué: evitar fallos de ejecución cuando el servicio upstream retorna un objeto vacío
 
-## Ejemplo 3 — release/bump de versión CON motivo (no solo "actualizar versión")
+## Ejemplo 3 — refactorización / optimización
+perf(nodes): optimizar extracción de mensajes en el validador
+
+- Qué cambia: reemplazar expresiones regulares genéricas por búsquedas indexadas en src/nodes/validator.py
+- Por qué: reducir la latencia de validación en ejecuciones concurrentes sin alterar la estructura del grafo
+
+## Ejemplo 4 — release/bump de versión CON motivo
 chore(langgraph): actualizar versión a 1.2.9
 
 - Qué cambia: bump de 1.2.8 a 1.2.9 propagado a los lockfiles de langgraph, prebuilt y sdk-py
@@ -108,6 +120,9 @@ chore(langgraph): actualizar versión a 1.2.9
 - `actualizar código`
   Fallo: demasiado vago, no sigue el formato Conventional Commits
 
+- `chore(LEGALNOTICE.md): actualizar versión de log4j a 2.26.1`
+  Fallo de Rationality: no explica por qué se actualizó. Requiere body aunque sea 1 archivo, porque el tipo es chore.
+
 - `feat: muchas mejoras y arreglos`
   Fallo: descripción vaga, combina múltiples cambios en una sola línea
 
@@ -115,10 +130,10 @@ chore(langgraph): actualizar versión a 1.2.9
   Fallo: nginx no aparece en los archivos modificados del diff (alucinación)
 
 - `chore: actualizar versión a 1.2.9, parche de seguridad` seguido de `- corregir vulnerabilidad de inyección SQL en query_db`
-  Fallo GRAVE de Authenticity: el diff real es solo un bump de versión de dependencias, no existe ninguna función `query_db` ni corrección de SQL. NUNCA inventes hallazgos de seguridad, vulnerabilidades o lógica que no esté literalmente en el diff.
+  Fallo GRAVE de Authenticity: el diff real es solo un bump de dependencias. NUNCA inventes hallazgos de seguridad o funciones inexistentes.
 
-- `perf(langgraph): eliminar atributo tags innecesario` seguido de viñetas tipo `- refactor(state.py): eliminar atributo tags y su uso en _get_updates`
-  Fallo de Rationality: las viñetas solo repiten QUÉ se tocó en cada archivo, nunca explican POR QUÉ se eliminó el atributo. Toda viñeta debe responder "por qué", no solo "dónde".
+- `perf(langgraph): eliminar atributo tags innecesario` seguido de `- refactor(state.py): eliminar atributo tags y su uso en _get_updates`
+  Fallo de Formato y Rationality: no usa las etiquetas `- Qué cambia:` / `- Por qué:` y no explica la razón técnica del cambio.
 
 # REGLA CRÍTICA FINAL Y ABSOLUTA 
 BAJO NINGUNA CIRCUNSTANCIA debes explicar el código, saludar, hacer resúmenes en formato Markdown o conversar. 
