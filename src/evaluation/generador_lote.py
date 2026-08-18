@@ -19,12 +19,11 @@ class GeneradorMensajes:
 
         print("Inicializando el LLM (Ollama Local) y compilando el grafo del Agente...")
         
-        # 4. Configurar Ollama apuntando a tu modelo local con los parámetros optimizados
         llm = ChatOllama(
-            model="qwen2.5-coder:7b",
+            model="tavernari/git-commit-message:sp_commit",
             temperature=0.0,
-             keep_alive="5m",
-            num_ctx=4096    
+            keep_alive="5m",
+            num_ctx=4096
         )
         
         self.app = CommitGraph(llm).build()
