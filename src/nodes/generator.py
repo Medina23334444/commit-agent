@@ -143,7 +143,7 @@ class GeneratorNode:
         messages = [SystemMessage(content=system_prompt)]
 
         # Inyecta historial de intentos fallidos
-        historial_intentos = state.get("messages", [])
+        historial_intentos = state.get("messages", [])[-4:]
         if historial_intentos:
             messages.append(
                 SystemMessage(
