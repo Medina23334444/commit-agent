@@ -128,6 +128,19 @@ class GeneratorNode:
             palabras.pop()
 
         truncada = " ".join(palabras)
+
+        # Salvaguarda: si el header original excedía tanto el límite que,
+        # tras recortar y quitar conectoras, queda una frase demasiado
+        # corta (<40% del original) o vacía, el corte "a lo bruto" ya no
+        # es seguro — probablemente se comió el sujeto/objeto de la
+        # oración, lo que rompe Comprehensiveness/Logicality del header.
+        # En ese caso se prefiere una elipsis explícita al final en vez
+        # de una frase incompleta que aparente estar terminada.
+        if not truncada or len(truncada) < len(primera) * 0.4:
+            truncada = primera[:69].rstrip()
+            truncada = truncada.rsplit(" ", 1)[0] if " " in truncada else truncada
+            truncada = truncada + "..."
+
         lineas[0] = truncada
         return "\n".join(lineas)
 
