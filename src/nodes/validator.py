@@ -89,12 +89,21 @@ class ValidatorNode:
     def _validar_semantica(self, state: AgentState) -> str:
         """Validación semántica usando LLM (solo para casos límite)."""
         try:
+            # El límite de contexto que ve el validador depende de si el
+            # mensaje tiene body: solo ahí necesita verificar cobertura de
+            # múltiples archivos/cambios contra el diff completo. Para el
+            # caso "descripción corta sin body" (cambios triviales de 1
+            # línea) no vale la pena pagar el token extra.
+            message = state.get("message", "")
+            tiene_body = len(message.strip().splitlines()) > 1
+            limite = 4500 if tiene_body else 500
+
             system_prompt = load_prompt("validator_system.md")
             user_prompt   = load_prompt(
                 "validator_user.md",
-                message      = state.get("message", ""),
+                message      = message,
                 intencion    = state.get("intencion", "no disponible"),
-                diff_resumido = state.get("diff", "")[:500]
+                diff_resumido = state.get("diff", "")[:limite]
             )
 
             response = self.llm.invoke([
