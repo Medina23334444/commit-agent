@@ -3,6 +3,43 @@ import re
 from langchain_core.tools import tool
 
 
+def sample_diff_por_archivo(diff: str, limite_total: int = 3000) -> str:
+    """
+    Recorta un diff preservando representación de TODOS los archivos
+    modificados, en vez de cortar ciegamente los primeros N caracteres
+    (lo que deja invisibles los archivos que aparecen después del límite
+    en diffs multi-archivo).
+
+    Reparte el presupuesto de caracteres equitativamente entre bloques
+    'diff --git ...' y toma el inicio de cada uno (donde vive la firma
+    de la función/clase tocada, el @@ hunk header, etc. — la señal más
+    densa para clasificación heurística).
+    """
+    if not diff or len(diff) <= limite_total:
+        return diff
+
+    bloques = re.split(r"(?=^diff --git )", diff, flags=re.MULTILINE)
+    bloques = [b for b in bloques if b.strip()]
+
+    if len(bloques) <= 1:
+        # Diff de un solo archivo: no hay nada que repartir, corte simple.
+        return diff[:limite_total]
+
+    presupuesto_por_bloque = max(limite_total // len(bloques), 200)
+
+    partes = []
+    for bloque in bloques:
+        if len(bloque) <= presupuesto_por_bloque:
+            partes.append(bloque)
+        else:
+            partes.append(
+                bloque[:presupuesto_por_bloque]
+                + f"\n... [truncado, archivo continúa: {len(bloque) - presupuesto_por_bloque} chars más]\n"
+            )
+
+    return "".join(partes)
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # SKILLS
 # ══════════════════════════════════════════════════════════════════════════════
