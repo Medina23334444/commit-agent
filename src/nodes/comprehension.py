@@ -3,7 +3,8 @@ from agent.state import AgentState
 from tools.analyzer_tools import (
     detect_commit_type,
     detect_scope,
-    summarize_changes
+    summarize_changes,
+    sample_diff_por_archivo,
 )
 from rag.retriever import get_repo_context_rag
 
@@ -76,7 +77,7 @@ class ComprehensionNode:
         """Usa la skill detect_commit_type para clasificar el cambio."""
         try:
             return detect_commit_type.invoke({
-                "diff":     diff[:3000],
+                "diff":     sample_diff_por_archivo(diff, limite_total=3000),
                 "archivos": archivos
             })
         except Exception:
@@ -93,7 +94,7 @@ class ComprehensionNode:
         """Usa la skill summarize_changes para generar resumen estructurado."""
         try:
             return summarize_changes.invoke({
-                "diff":     diff[:3000],
+                "diff":     sample_diff_por_archivo(diff, limite_total=3000),
                 "archivos": archivos
             })
         except Exception:
