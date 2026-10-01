@@ -1,0 +1,1692 @@
+repositorio,commit_hash,mensaje_original,mensaje_generado,Rationality,Comprehensiveness,Non-redundancy,Authenticity,Logicality
+langchain-ai/langgraph,f02c0f0ce575ce1d3879b09ee3c534446c31a983,feat(langgraph): drop tags from TracePolicy (#8402),"perf(langgraph): eliminar atributo `tags` y actualizar documentación
+
+- Qué cambia: se eliminan las referencias al atributo `tags` en la clase `TracePolicy`, en los métodos `_get_updates` y `add_node`. Se actualiza la documentación para reflejar estos cambios.
+- Por qué: el atributo `tags` ya no es utilizado desde la migración a TracePolicy v2, por lo que se puede eliminar para simplificar el código.",1,1,1,1,1
+langchain-ai/langgraph,b96f6170e7eddd8f9aa31375fd8c54213e478a9a,"fix(sdk-py): support clearing cron end_time via update(end_time=None) (#8334)
+
+`CronClient.update` / `SyncCronClient.update` stripped all `None`-valued
+fields from the PATCH body, so `update(end_time=None)` could never clear
+a previously set cron end time. This routes an explicit `None` through
+as `end_time: null` (via the existing `NOT_PROVIDED` sentinel), while an
+omitted argument still leaves the value unchanged.
+
+Verified with `make format`, `make lint`, and `make test` in
+`libs/sdk-py` (493 passed), including two new tests asserting the PATCH
+body carries an explicit null `end_time`.","refactor(cron.py): add explicit handling of None for end_time in update
+
+- Introduce a new constant `NOT_PROVIDED` to distinguish between an explicitly provided None and no value.
+- Modify the `update` method to handle `end_time=None` by sending an explicit null instead of omitting it from the payload.
+- Update tests to verify that passing `None` for `end_time` results in an explicit null being sent in the request.
+
+This change ensures that the end time can be explicitly cleared when updating a cron job, providing more control over the cron's lifecycle.
+
+This commit message clearly describes the changes made, explains why they were necessary, and provides context on how the new functionality works.",1,1,1,1,1
+langchain-ai/langgraph,55ec2f21939ce7755e6398c11b541de8926245ee,"chore(cli): allow langgraph-api versions up to 1.0.0 (#8319)
+
+<!-- Replace everything above this line with a 1-2 sentence description
+of your change. Keep the ""Fixes #xx"" keyword and update the issue
+number. -->
+
+Bumps the langgraph-api upper bound in the cli to `1.0.0` and releases
+langgraph-cli version 0.4.31.",chore(cli): actualizar versión y dependencias a 1.0.0,0,0,0,0,0
+langchain-ai/langgraph,1b5ca0a1b1e1889879e43536fc5efd0739a3c479,"fix(langgraph): Make `Overwrite` survive JSON roundtrips (#8127)
+
+Add a `type: Literal[""__overwrite__""]` discriminator field to
+`Overwrite` and teach `_get_overwrite()` to recognise the
+dataclass-erased `{""value"": ..., ""type"": ""__overwrite__""}` form. This
+keeps `Overwrite` semantics intact across JSON boundaries that strip
+dataclass types (e.g. `langgraph-api.serde.json_dumpb`), without
+requiring callers to switch to the dict sentinel form.
+
+This was an oversight in the initial `Overwrite` implementation, it
+should be json serializable out of the box.
+
+Fixing langchain-ai/deepagents#3789","test(langgraph/channels/binop.py): añadir pruebas para reconocimiento
+
+- Qué cambia: se añaden pruebas unitarias para verificar el reconocimiento de diferentes formas de `Overwrite` (dataclass, diccionario sentinela y forma erasada).
+- Por qué: asegurar que el reconocimiento de `Overwrite` sea consistente incluso después de ser JSON-serializado y deserializado.",1,0,1,1,1
+langchain-ai/langgraph,8c9d59c842454e7f4531f5e69ff9dab0af3c660f,"fix(langgraph): emit valid UUIDs for exit-mode delta task_ids for langgraph-api (#8165)
+
+Fix exit-mode DeltaChannel `PutWrites` task IDs so they remain valid RFC
+UUIDs while preserving superstep ordering for `ORDER BY task_id, idx`.
+
+Follow-up to #7730: `_put_exit_delta_writes` used `f""{step:08d}-{tid}""`,
+which produces a 6-segment string Postgres rejects for
+`checkpoint_writes.task_id uuid` (e.g. `invalid input syntax for type
+uuid`) in LangGraph-API.
+
+This new `exit_delta_task_id()` helper embeds the superstep in the first
+UUID group and keeps the original task UUID in the remaining segments
+(e.g. `00000001-0270-bf16-1ef8-fb321bef9f3d`).
+
+**Breaking changes:** None.
+
+**Verification:**
+- `cd libs/langgraph && make format && make lint && make test
+TEST=""tests/test_delta_channel_exit_mode.py""` (12 passed)
+- New unit test asserts synthetic IDs parse as UUID, sort by superstep,
+and that the old format is invalid
+
+---------
+
+Signed-off-by: Quanzheng Long <prclqz@gmail.com>
+Co-authored-by: open-swe[bot] <215916821+open-swe[bot]@users.noreply.github.com>","test(pregel/_checkpoint.py): añadir función `exit_delta_task_id`
+
+- Qué cambia: se añade la función `exit_delta_task_id` en `_checkpoint.py` para generar IDs de tarea sintéticos en modo de salida del DeltaChannel. Se incluyen pruebas unitarias en `test_delta_channel_exit_mode.py`.
+- Por qué: mejorar la legibilidad y ordenación de las escrituras de checkpoint en Postgres, asegurando que los IDs sean válidos UUIDs y ordene correctamente por superstep.",1,1,1,1,1
+langchain-ai/langgraph,e05ba2965db5373c14ada7ddb3740d9b59a28206,"feat(cli): add support for passing certfile and cert key to run dev server under HTTPS (#8031)
+
+This allows running the dev server under HTTPS, which is a requirement
+for running local server under Safari.","test(cli): añadir opciones SSL para el comando `dev`
+
+- Qué cambia: se añaden opciones `--ssl-certfile` y `--ssl-keyfile` al comando `dev` en `cli.py`, y se actualizan las pruebas correspondientes en `test_cli.py`.
+- Por qué: permitir la ejecución del servidor de desarrollo con HTTPS, asegurando que ambos certificados SSL y claves sean proporcionados juntos.",1,1,1,1,1
+langchain-ai/langgraph,fb2618846b29366bde7f18e41f11673c83152665,fix(langgraph): keep _on_started backward-compatible with overrides predating cause (#7987),"fix(langgraph): añadir `_pending_cause` para mantener compatibilidad
+
+**Por qué:** La adición de `_pending_cause` y la modificación de los métodos `_on_started` y `_handle_task_start` son necesarias para asegurar que las clases heredadas que no aceptan el parámetro `cause` en su método `_on_started` sigan funcionando correctamente. Esto se logra pasando el valor de `cause` a través del estado de la instancia, manteniendo así la compatibilidad hacia atrás con las versiones anteriores del código.",1,1,1,1,1
+langchain-ai/langgraph,b7fd3cf9c4f5759aaafcdfba87be66c4d5305098,fix(langgraph): rename ProtocolEvent.eventId to event_id to match the wire field (#7942),refactor(langgraph/stream/_types.py): actualizar nombre de atributo,0,0,0,0,0
+langchain-ai/langgraph,ea4aa79a60dcd824d288da0a359f774956e7e8c2,fix(sdk-py): make `tools_agent` fake model stateless (#7930),"fix(tools_agent.py): update imports, improve logic, and fix tool binding",0,0,0,0,0
+langchain-ai/langgraph,076e2a3627206f5a1aef573aaca4a01e5af897ca,"fix(ci): avoid inline benchmark output interpolation (#7779)
+
+Avoid interpolating changed-file and benchmark outputs directly into the
+`github-script` source for benchmark annotations.","refactor(bench.yml): actualizar script usando variables de entorno
+
+- Qué cambia: se actualiza el script para usar variables de entorno en lugar de literales directos (bench.yml)
+- Por qué: mejorar la legibilidad y facilitar la reutilización del código",1,1,1,1,1
+langchain-ai/langgraph,4a86705bd7f951c6c2cf3dd863f3f12521d9e221,"ci: disable uv cache in publish pipeline (#7777)
+
+Disable `uv` dependency caching throughout the release workflow so
+build, validation, PyPI publish, and GitHub release jobs do not restore
+shared cache state.
+
+Release jobs already pass the built distributions through explicit
+artifacts; keeping dependency caches out of this path avoids
+cache-poisoning risk and makes the existing pre-release validation
+comment match the actual workflow behavior.",perf(release.yml): deshabilitar el uso de caché en los pasos,1,1,1,1,1
+langchain-ai/langgraph,8537ea94d3580423df14be4d42fad874c90c6cbe,"fix(cli): add support for prerelease api_versions (#7771)
+
+Today, pre-release versions aren't supported for the `api_version`
+config parameter in langgraph.json. This adds support for them to enable
+latest and rc images going forward.","test(libs/cli/langgraph_cli/config.py): añadir soporte para versiones
+
+- Qué cambia: se añade una función `_parse_api_version_parts` para analizar las versiones de API y su soporte para sufijos prerelease (rc, dev).
+- Por qué: permitir la especificación de versiones de API con sufijos prerelease en la configuración del proyecto.",1,0,1,1,1
+langchain-ai/langgraph,dc0d992b90736b5ada32a872dfae65c3f5234609,fix(checkpoint): specify allowed_objects in Reviver (#7743),"chore(checkpoint/langgraph/checkpoint/serde/jsonplus.py): ajustar
+
+- Qué cambia: se actualiza el parámetro `allowed_objects` en la instancia de `Reviver` para especificar los objetos permitidos.
+- Por qué: mejorar la seguridad al restringir los objetos deserializados, evitando posibles inyecciones o ataques.",1,1,1,1,1
+langchain-ai/langgraph,6dade64aa700c77aa27fcc0a36530ee3e7dae263,"chore: remove unnecessary missing-typed-dict-key suppression (#7744)
+
+Address a comment as follow up
+
+Co-authored-by: Cursor <cursoragent@cursor.com>",chore(checkpoint-conformance): eliminar import `missing-typed-dict-key`,0,1,1,1,1
+langchain-ai/langgraph,d736564eb1b4d09b0016b71a188dab1eb2a1e669,"test(langgraph): de-flake heartbeat progress test (#7735)
+
+## Summary
+
+De-flake
+`test_arun_with_retry_timeout_observer_emits_progress_on_heartbeat` —
+the test was hitting a CI-runner-load-sensitive race where the
+idle-timeout watchdog could fire before the task body's first await ran.
+
+## Root cause
+
+`_TimedAttemptScope.__init__` sets `_last_progress = time.monotonic()`
+immediately, but the watchdog itself doesn't start polling until *after*
+`wrap_config` and task scheduling. Under heavy CI load that gap can grow
+large enough that:
+
+```
+T₀  scope.__init__()  →  _last_progress = T₀
+… some scheduling slack …
+Tₙ  watchdog runs, computes  remaining = T₀ + 0.2 − Tₙ ≤ 0  →  TimeoutError fires
+```
+
+The error reports `elapsed: 0.000s` because `elapsed` is measured from
+the post-scheduling `start` (≈Tₙ), not from `_last_progress` (T₀). The
+previous test set `idle_timeout=0.2s`, which left almost no headroom for
+that scheduling slack.
+
+## Fix (test-side only — no production change)
+
+- **Heartbeat at task-body entry**: `runtime.heartbeat()` is now called
+before the first `await asyncio.sleep(...)`, which resets
+`_last_progress` to ""now"" the moment the task body actually starts
+running. This eliminates the scope-init-to-first-await gap as a flake
+source.
+- **Idle timeout 0.2s → 1.0s**: gives ~5× headroom over the ~400ms task
+duration, so scheduling pressure stays comfortably within budget.
+
+## Why test-side instead of fixing the production race
+
+The proper production fix would be to set `_last_progress` at
+watchdog-entry time rather than at scope-init time. That's a behaviour
+change in the retry/timeout machinery and out of scope for a flaky-test
+fix. The two test-side defenses make this particular test stable without
+touching production semantics; the underlying race in
+`_TimedAttemptScope` is worth a separate follow-up.
+
+## Test plan
+
+- 10/10 repeated local runs pass:
+  ```
+uv run pytest
+tests/test_retry.py::test_arun_with_retry_timeout_observer_emits_progress_on_heartbeat
+--count=10
+  ```
+- All assertions still meaningful: still verifies start/finish events,
+at least one progress event, rate-limited progress count (≤ total
+events), and per-event metadata (task_name, attempt, idle_timeout_secs,
+progress_at).
+
+Co-authored-by: Cursor <cursoragent@cursor.com>","test(libs/langgraph/tests/test_retry.py): ajustar tiempo de inactividad
+
+- Qué cambia: se añade una variable `idle_timeout_s` para definir el tiempo de inactividad y se utiliza en la creación de la tarea. También se actualiza la lógica de las pruebas para reflejar los cambios.
+- Por qué: mejorar la precisión del control de tiempos en la prueba de reintentos, asegurando que los eventos de progreso sean generados correctamente bajo condiciones de carga pesada.",1,1,1,1,1
+langchain-ai/langgraph,95b41d058f79167b3c8a37273f1e0d71365674ff,"release: bump cli version (#7734)
+
+## Summary
+
+This release adds the following to the`langgraph deploy` command:
+- json event output 
+- non-interactive mode",chore(libs/cli/langgraph_cli): actualizar versión a 0.4.25 por,1,1,1,1,1
+langchain-ai/langgraph,9032a3f90a7b96fb6f4ef49f9bf84615b77e5780,"docs(checkpoint): mark DeltaChannel and delta-history APIs as beta (#7732)
+
+## Summary
+
+Adds a Beta admonition to the `DeltaChannel` surface area so users can
+distinguish stable from in-progress contracts. Single-sourced on the
+base class; subclass overrides in `checkpoint-postgres` /
+`checkpoint-sqlite` / memory inherit the marker via their existing
+references back to the base.
+
+Touched:
+- `DeltaChannel` (`libs/langgraph/langgraph/channels/delta.py`)
+- `BaseCheckpointSaver.get_delta_channel_history` and
+`aget_delta_channel_history` (`libs/checkpoint/.../base/__init__.py`)
+- `DeltaChannelHistory` TypedDict
+- `CheckpointMetadata.delta_updates_since_snapshot`
+
+## Why docstring admonitions, not `@beta`
+
+The base `get_delta_channel_history` methods are designed to be
+overridden by savers. Wrapping with `@beta` (from `langchain_core._api`)
+would emit warnings whenever a subclass called
+`super().get_delta_channel_history(...)` or whenever the default
+ancestor walk fired. Docstring-only keeps the signal advisory and
+noise-free. `_DeltaSnapshot` is already leading-underscore-private, so
+it implicitly signals ""internal.""
+
+## Versioning note
+
+This intentionally stays a **minor** bump for the checkpoint releases
+(4.0 → 4.1, 3.0 → 3.1):
+
+- The new methods are strictly additive — defaults provided on the base,
+no signatures changed, no removed APIs. Third-party savers keep working
+without overriding anything.
+- The beta marker and the version bump do orthogonal jobs: semver
+answers ""is this a breaking change?"" (no), the marker answers ""is this
+contract stable?"" (no).
+- Bumping major now would consume the lever you want available for when
+the delta contract actually changes in a breaking way.
+
+## Test plan
+
+- [ ] Docstring-only — no behavioral change
+- [x] `make format && make lint` clean in `libs/checkpoint` and
+`libs/langgraph`","perf(langgraph): añadir advertencias de beta a clases y funciones
+
+- Qué cambia: se añaden advertencias de ""Beta"" a varias clases y funciones relacionadas con el soporte de `DeltaChannel` en los archivos `checkpoint/base/__init__.py` y `channels/delta.py`.
+- Por qué: mejorar la visibilidad sobre la estabilidad del código en desarrollo y evitar confusiones entre usuarios finales.",1,1,1,1,1
+langchain-ai/langgraph,1a989f22bb7706a38f881a419bda81227df1811a,"fix(checkpoint-postgres): add column aliases to seed-blob branch of delta stage-2 UNION ALL (#7728)
+
+## Summary
+
+- Ports the langgraph API checkpointer fix to the OSS Postgres
+checkpoint.
+- The `'b'` (seed-blob) branch of `_build_delta_stage2_sql`'s `UNION
+ALL` was missing column aliases (`AS _kind`, `AS checkpoint_id`, `AS
+task_id`, `AS idx`).
+- In PostgreSQL, `UNION ALL` column names are taken from the **first**
+`SELECT`. When `channels_with_chain` is empty but `channels_with_seed`
+is not (e.g. very first run of a DeltaChannel graph, or
+`snapshot_frequency=1`), the `'b'` branch becomes the first `SELECT`, so
+columns got default names (`text`, `null`) instead of the expected
+aliases — causing `KeyError: '_kind'` in
+`_build_delta_channels_writes_history`.
+
+## Test plan
+
+- [ ] Existing `checkpoint-postgres` delta channel tests pass (`make
+test` in `libs/checkpoint-postgres`)
+- [ ] Manually verified fix matches the correction suggested in the
+upstream API PR review comment
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)",fix(checkpoint-postgres/langgraph/checkpoint/postgres/base.py): mejorar,0,0,0,0,0
+langchain-ai/langgraph,35cea287072aa25fdeda074c5262a09a04f95228,release: alpha bump langgraph 1.2.0a6 (#7697),chore(langgraph): actualizar versión a 1.2.0a6 - preparación,0,0,0,1,0
+langchain-ai/langgraph,b82d3806341f73597537ef98da2a428ae7cc9e20,"release: alpha bump prebuilt 1.1.0a2, langgraph 1.2.0a5 (#7682)","chore(langgraph): actualizar versión a 1.2.0a5 y mejorar pruebas
+
+- Qué cambia: Bump de versión en pyproject.toml y uv.lock para langgraph, langgraph-prebuilt y sdk-py.
+- Por qué: Preparar la próxima versión del SDK con mejoras en las pruebas unitarias.",1,1,1,1,1
+langchain-ai/langgraph,15113c0f601d0c7a1ce44fc8f7735f16882a22a7,fix(prebuilt): scope `ToolCallTransformer` projection to its own namespace (#7681),"test(prebuilt/_tool_call_transformer.py): añadir pruebas para eventos
+
+- Qué cambia: se añaden pruebas que validan el comportamiento del `ToolCallTransformer` cuando los eventos están fuera de su ámbito.
+- Por qué: asegurar que los eventos no proyecten en la `tool_calls` del transformador padre, manteniéndolos en el log principal.",1,0,1,1,1
+langchain-ai/langgraph,85bca24635c20a23a8aa12461121ca481ffa716a,"release: alpha bump prebuilt 1.1.0a1, langgraph 1.2.0a4 (#7679)","chore(langgraph): actualizar versión a 1.2.0a4 y mejorar pruebas
+
+- Qué cambia: Bump de versión en `pyproject.toml` y `uv.lock` para `langgraph`, `langgraph-prebuilt`, y `sdk-py`.
+- Por qué: Preparar la próxima versión del SDK con mejoras en las pruebas unitarias.",1,1,1,1,1
+langchain-ai/langgraph,9c1d65695ec8825c3e987152126be1aa7aa522f0,"fix(prebuilt): default ToolRuntime tools to empty list (#7650)
+
+Makes `ToolRuntime.tools` default to an empty list when not provided,
+which avoids requiring callers and tests to pass it explicitly. Adds a
+focused regression test covering direct `ToolRuntime` construction
+without `tools`.
+
+Created with [Deep Agents
+CLI](https://docs.langchain.com/oss/python/deepagents/cli/overview)
+using gpt-5.4 (provider: openai).","test(libs/prebuilt/langgraph/prebuilt/tool_node.py): añadir campo
+
+- Qué cambia: se agrega el campo `tools` con un valor por defecto de una lista vacía en la clase `ToolRuntime`.
+- Por qué: asegurar que el atributo `tools` esté inicializado correctamente cuando se crea una instancia de `ToolRuntime`.",1,1,1,1,1
+langchain-ai/langgraph,168674dd2af62ece304b3c2f3f813434e3492d98,"chore: update x links to langchain_oss (#7645)
+
+## Description
+Updates the X/Twitter social links to point to the new `@langchain_oss`
+account across README badges and Python package metadata.
+
+## Test Plan
+- [ ] Verify README badges and package metadata point to
+`@langchain_oss` on X
+
+_Opened collaboratively by Mason Daugherty and open-swe._
+
+---------
+
+Co-authored-by: open-swe[bot] <open-swe@users.noreply.github.com>
+Co-authored-by: Mason Daugherty <61371264+mdrxy@users.noreply.github.com>
+Co-authored-by: Mason Daugherty <mason@langchain.dev>","test(conftest.py): añadir archivo para configuración de pruebas`
+
+- Author: Medina23334444
+   - Date: Sat May 16 23:49:49 2026 -0500
+
+   **Description:** This commit adds a file named `conftest.py` for test configuration.
+
+2. **Commit message:**
+   - Message: `style(tools): mejorar la legibilidad y estructura del código`
+   - Author: Medina23334444
+   - Date: Sat May 16 20:55:17 2026 -0500
+
+   **Description:** This commit improves the readability and structure of the code in the `tools` directory.
+
+3. **Commit message:**
+   - Message: `README.md`: Update Twitter URL
+   - Author: Medina23334444
+   - Date: Sat May 16 21:00:09 2026 -0500
+
+   **Description:** This commit updates the Twitter URL in multiple README files across different directories.
+
+The changes involve updating URLs for Twitter and other social media platforms to reflect a new account or organization. The `README.md` files are updated in several subdirectories, including `libs/checkpoint-postgres`, `libs/checkpoint-sqlite`, `libs/checkpoint`, `libs/cli`, `libs/langgraph`, `libs/prebuilt`, and `libs/sdk-py`.
+
+The commit to add the `conftest.py` file is likely for setting up a testing framework or configuration, while the style changes are focused on improving code readability and structure.",0,1,1,1,1
+langchain-ai/langgraph,f4aee546add9aef6a8f72c8a94f55ec5c824da7d,"fix(prebuilt): hydrate ToolNode state from channels via pregel helpers (#7594)
+
+## Summary
+
+When `ToolNode` receives a bare `[tool_call]` list via the Send API (the
+dispatch shape `create_agent` will use once langchain-ai/langchain#36960
+lands), hydrate `ToolRuntime.state` from the current channel values
+instead of requiring the dispatcher to inline the full agent state dict
+into every `Send.arg`.
+
+Motivation: the paired langchain PR drops the `ToolCallWithContext`
+wrapper from `create_agent`'s tool dispatch, which eliminates an O(N²)
+storage term on `__pregel_tasks` checkpoint writes. Without this
+companion change there would be no path for the tool node to see the
+graph state.
+
+## What changed
+
+- `libs/prebuilt/langgraph/prebuilt/tool_node.py` — `_extract_state`
+grows a third branch for list-form input. When the input is a list whose
+last entry is a `ToolCall` dict, read the current channel values via
+`CONFIG_KEY_READ` and return them as the state dict.
+
+The full new logic is four lines inline in `_extract_state`:
+
+```python
+read = config.get(CONF, {}).get(CONFIG_KEY_READ)
+if read is None:
+    return {}
+# Pregel installs CONFIG_KEY_READ as
+# `functools.partial(local_read, scratchpad, channels, managed, task)`.
+channels = read.args[1]
+return cast(""dict[str, Any]"", read(list(channels), False))
+```
+
+- No changes to the pregel read machinery (`local_read`, `ChannelRead`).
+- Only channel values are read; managed values have their own injection
+path (`ToolRuntime.context`, `InjectedContext`) and were never in the
+pre-fix inlined state dict, so we don't add them here.
+- Falls back to `{}` when invoked outside a Pregel context (e.g. direct
+`ToolNode(...).invoke([tool_call])` from a test harness), which
+preserves existing `ToolNode` direct-invocation test behavior.
+
+- `libs/prebuilt/tests/test_on_tool_call.py` — two new tests covering
+the list-form hydration path (sync + async). They build a
+`functools.partial` that matches Pregel's real `CONFIG_KEY_READ` shape
+and assert `ToolRuntime.state` reflects the current channel values.
+
+## Why it's safe
+
+- **Same snapshot semantics as before.** `Send` is emitted at
+end-of-super-step-N; consumed at start-of-super-step-N+1. Channels at
+that point reflect every write from super-step N (including the new
+AIMessage the tool calls originated from). Parallel tool tasks in the
+tools super-step all read the same values since sibling writes don't
+land until end-of-super-step.
+- **Legacy `ToolCallWithContext` path preserved.** External dispatchers
+that still inline state continue to work unchanged — `_extract_state`
+checks that branch first.
+
+## Test plan
+
+- [x] `make test` in `libs/prebuilt` — **204 pass**
+- [x] Two new hydration tests (sync + async) green
+- [x] `make format` / `make lint` / `mypy` clean
+
+---------
+
+Co-authored-by: Claude Opus 4.7 (1M context) <noreply@anthropic.com>","refactor(tool_node.py): add state hydration from channels in `ToolNode`
+
+Author: Medina23334444
+Date: Mon May 18 09:30:00 2026 -0500
+
+This commit refactors the `ToolNode` class to include state hydration from channels when the input is a list of `ToolCall` dicts. The new functionality is encapsulated in the `_extract_state` method, which now accepts an additional `config` parameter. This allows the method to read state values from specified channels based on the configuration provided.
+
+The commit also includes unit tests to verify that the state hydration works correctly for both synchronous and asynchronous invocations of `ToolNode`. The new test functions are named `test_list_form_send_hydrates_state_from_channel_read` and `test_list_form_send_hydrates_state_async`, ensuring comprehensive coverage of the new feature.",1,1,1,1,1
+langchain-ai/langgraph,85cd64ed69e6f4d794804dd3a8feec2d3ead6304,"fix(checkpoint): revive lc=2 JSON blobs for safe types without allowlist (#7582)
+
+## Summary
+
+Fixes #7498 — `MESSAGE_COERCION_FAILURE` when resuming threads
+checkpointed before v1.0.1.
+
+**Root cause:** PR #6269 (v1.0.1) added an `_allowed_json_modules`
+security gate to `JsonPlusSerializer._reviver`. The gate defaults to
+`None`, so old `""json""`-format checkpoint blobs containing `lc=2`
+constructor dicts (the pre-msgpack serialization format for pydantic
+objects like `HumanMessage`) are now returned as raw dicts instead of
+being reconstructed. Those raw dicts reach `add_messages →
+convert_to_messages`, which sees `type=""constructor""` and raises
+`MESSAGE_COERCION_FAILURE`. Fresh first-turn messages are unaffected
+because current `dumps_typed` only writes `""msgpack""` blobs.
+
+**Fix:** `_reviver` now reconstructs `lc=2` blobs whose target class is
+already in `SAFE_MSGPACK_TYPES` — the same curated allowlist already
+used by the msgpack deserialization path (includes all standard
+LangChain message types). Unknown classes are still blocked, preserving
+the security intent of #6269.
+
+## Changes
+
+- `libs/checkpoint/langgraph/checkpoint/serde/jsonplus.py` — add
+`_is_safe_json_type()` helper; update `_reviver` and
+`_check_allowed_json_modules` to allow safe types without an explicit
+allowlist
+- `libs/checkpoint/tests/test_jsonplus.py` — two new regression tests:
+safe-type `lc=2` blobs revive correctly; unknown-type `lc=2` blobs stay
+blocked
+
+## Test plan
+
+- [ ] `test_lc2_json_safe_type_revives_without_allowlist` —
+`HumanMessage`/`AIMessage` lc=2 JSON blobs round-trip to proper
+`BaseMessage` objects with no allowlist configured
+- [ ] `test_lc2_json_unknown_type_stays_blocked_without_allowlist` —
+`pprint.pprint` lc=2 blob still returns raw dict (not reconstructed)
+- [ ] `test_deserde_invalid_module` — existing behaviour unchanged
+- [ ] Full `test_jsonplus.py` suite: 93/93 passing
+
+Co-authored-by: Claude Sonnet 4.6 <noreply@anthropic.com>","fix(serde/jsonplus.py): añadir función `_is_safe_json_type` y pruebas
+
+- Añade la función `_is_safe_json_type` para verificar si un tipo JSON es seguro.
+- Mejora la seguridad del deserializador al permitir el deserializado de tipos seguros sin una lista de módulos permitidos explícita.
+- Añade pruebas para asegurar que los tipos seguros se deserializan correctamente y que los tipos no seguros siguen siendo bloqueados.",0,0,0,0,0
+langchain-ai/langgraph,0a26b471d34da94186bee8c48d0c463b5a3bd0a0,"fix(langgraph): don't propagate ReplayState to subgraphs on plain resume (#7561)
+
+**Description:**
+When clients resume an interrupted subgraph with `Command(resume=...)`
+plus an explicit `checkpoint_id` in the config (the pattern LangGraph
+Studio and the API server emit on every resume), the subgraph restarts
+from its first node instead of continuing at the interrupted node.
+
+Fix: gate `ReplayState` propagation on `is_time_traveling` rather than
+`is_replaying`, so a resume that happens to carry a head checkpoint_id
+behaves the same as one with just a thread_id.
+
+**Verification:** added regression test
+`test_subgraph_interrupt_resume_with_explicit_head_checkpoint_id` (fails
+on main, passes with fix, across memory/sqlite/sqlite_aes).
+Full `test_time_travel.py`, `test_time_travel_async.py`,
+`test_interruption.py`, and all pregel subgraph/interrupt/resume/replay
+tests still pass.
+
+Co-authored-by: Jessie Ibarra <jessie.ibarra@langgraph.dev>","feat(langgraph): añadir pruebas para manejo de tiempo viaje en el tiempo
+
+- Qué cambia: se añaden pruebas unitarias para verificar el comportamiento del subgrafo al interrumpirse y luego reanudarse con un `checkpoint_id` explícito.
+- Por qué: asegurar que el subgrafo continue desde el nodo interrumpido, no reinicie desde cero. El uso de `checkpoint_id` explícito activa `is_replaying`, pero esto es una reanudación, no un viaje en el tiempo, por lo que `ReplayState` debe evitar aplicar su lógica.",1,1,1,1,1
+langchain-ai/langgraph,b674dd46228b0928a6bc0ad9a3d8e38ef28f6895,feat(prebuilt): expose available tools on ToolRuntime (#7512),"test(libs/prebuilt/langgraph/prebuilt/tool_node.py): añadir parámetro
+
+- Qué cambia: se añade el parámetro `tools` a las funciones `_func`, `_afunc`, y la clase `ToolRuntime`. Se actualizan las pruebas correspondientes para incluir este nuevo parámetro.
+- Motivo: Mejora la funcionalidad al permitir que los métodos de `ToolRuntime` accedan a todos los herramientas disponibles.",0,0,0,0,0
+langchain-ai/langgraph,8df0a377d00839bee0b7e9645b225716db8958d1,"chore(langgraph): undo unnecessary changes in stream handler (#7536)
+
+This change is no longer necessary as langchain-core will continue
+copying checkpoint_ns for backwards compatibility","refactor(pregel/_messages.py): eliminar imports redundantes y optimizar
+
+- Qué cambia: se eliminan imports innecesarios y se refactoring la lógica para mejorar la legibilidad.
+- Por qué: eliminar imports redundantes reduce el tamaño del archivo y facilita su mantenimiento. La refactorización mejora la comprensión y mantenibilidad del código al agrupar operaciones relacionadas y simplificar las estructuras de datos.",1,0,1,1,1
+langchain-ai/langgraph,aa94790f368f91eed805af6272338cd661d0f14e,"fix(langgraph): remove strict add_handler type check that breaks OTel instrumentation (#7544)
+
+## Summary
+
+Removes the `add_handler()` overrides on `_GraphCallbackManager` and
+`_AsyncGraphCallbackManager` that reject handlers not inheriting from
+`GraphCallbackHandler`. This fixes a regression in 1.1.7 where
+`opentelemetry-instrumentation-langchain` (and likely other libraries
+that patch `BaseCallbackManager.__init__`) crash with `TypeError:
+handlers must inherit GraphCallbackHandler` at invocation time.
+
+## Why this is safe
+
+The strict type check is redundant — `_configure_graph_callbacks` and
+`_filter_graph_handlers` already filter handlers to
+`GraphCallbackHandler` instances at construction time. Non-graph
+handlers that enter via external patches (like OTel's monkey-patch) are
+harmless because `handle_event(""on_interrupt"", ...)` /
+`handle_event(""on_resume"", ...)` will simply no-op on handlers that
+don't implement those methods.
+
+## What changed
+
+- Deleted `add_handler()` override from `_GraphCallbackManager` (was
+lines 248-255)
+- Deleted `add_handler()` override from `_AsyncGraphCallbackManager`
+(was lines 324-331)
+- No other changes — 18 lines removed, 0 added
+
+## Test plan
+
+- [x] All 8 existing `test_graph_callbacks.py` tests pass (`make test
+TEST=tests/test_graph_callbacks.py`)
+- [x] `make lint` passes
+- [x] `make format` passes (no changes needed)
+- [x] Verified fix locally: `LangchainInstrumentor().instrument()` +
+`create_react_agent()` + `graph.ainvoke()` no longer raises `TypeError`
+- [x] Verified the graph lifecycle callbacks (`on_interrupt`,
+`on_resume`) still work correctly
+
+Closes #7543
+
+---------
+
+Co-authored-by: Eugene Yurtsev <eyurtsev@gmail.com>","test(langgraph/callbacks.py): añadir pruebas para manejo de handlers no
+
+- Qué cambia: se añaden pruebas que verifican el comportamiento cuando se agregan handlers que no son instancias de GraphCallbackHandler.
+- Por qué: asegurar que la biblioteca pueda manejar correctamente handlers personalizados que no heredan de GraphCallbackHandler, evitando errores y garantizando el correcto funcionamiento del ciclo de vida de eventos.",1,0,1,1,1
+langchain-ai/langgraph,eae916719fe78de2900bb7cd45c212fffd64f88b,CLI bump,chore(langgraph): actualizar versión a 0.4.22 por corrección de bug,1,1,1,1,1
+langchain-ai/langgraph,4d64227c134b6845ce0517fa02588ace5b996f70,"chore: start tracking cli deploy source (#7520)
+
+Fixes #
+
+<!-- Replace everything above this line with a 1-2 sentence description
+of your change. Keep the ""Fixes #xx"" keyword and update the issue
+number. -->
+
+Read the full contributing guidelines:
+https://docs.langchain.com/oss/python/contributing/overview
+
+> **All contributions must be in English.** See the [language
+policy](https://docs.langchain.com/oss/python/contributing/overview#language-policy).
+
+If you paste a large clearly AI generated description here your PR may
+be IGNORED or CLOSED!
+
+Thank you for contributing to LangGraph! Follow these steps to have your
+pull request considered as ready for review.
+
+1. PR title: Should follow the format: TYPE(SCOPE): DESCRIPTION
+
+    - feat(langgraph): add multi-tenant support
+- Allowed TYPE and SCOPE values:
+https://github.com/langchain-ai/langgraph/blob/main/.github/workflows/pr_lint.yml#L19-L43
+
+2. PR description:
+
+  - Write 1-2 sentences summarizing the change.
+- The `Fixes #xx` line at the top is **required** for external
+contributions — update the issue number and keep the keyword. This links
+your PR to the approved issue and auto-closes it on merge.
+  - If there are any breaking changes, please clearly describe them.
+- If this PR depends on another PR being merged first, please include
+""Depends on #PR_NUMBER"" in the description.
+
+3. Run `make format`, `make lint` and `make test` from the root of the
+package(s) you've modified.
+
+  - We will not consider a PR unless these three are passing in CI.
+
+4. How did you verify your code works?
+
+Additional guidelines:
+
+- All external PRs must link to an issue or discussion where a solution
+has been approved by a maintainer, and you must be assigned to that
+issue. PRs without prior approval will be closed.
+- PRs should not touch more than one package unless absolutely
+necessary.
+- Do not update the `uv.lock` files or add dependencies to
+`pyproject.toml` files (even optional ones) unless you have explicit
+permission to do so by a maintainer.
+
+## Social handles (optional)
+<!-- If you'd like a shoutout on release, add your socials below -->
+Twitter: @
+LinkedIn: https://linkedin.com/in/","feat(libs/cli/langgraph_cli/analytics.py): añadir parámetro
+
+- Qué cambia: se añade el parámetro `cli_command` a la función `get_anonymized_params` y se utiliza para determinar si se debe agregar la fuente de análisis.
+- Por qué: al añadir el parámetro `cli_command`, la función puede adaptarse mejor a diferentes comandos CLI, permitiendo personalizar los datos de análisis según el contexto en que se ejecuta. Esto mejora la precisión y utilidad de los datos recopilados.",1,0,1,1,1
+langchain-ai/langgraph,2c98c59fca6c99b696988b97dfaeb885f652920c,"fix: populate assistant_id from config configurable instead of metadata (#7468)
+
+## Description
+The `_build_server_info` function was reading `assistant_id` and
+`graph_id` from `config[""metadata""]`, but the server puts these values
+in `config[""configurable""]`. This updates the source to read from
+`configurable` consistently.
+
+## Test Plan
+- [ ] Verify `server_info.assistant_id` and `server_info.graph_id` are
+correctly populated from `config[""configurable""]`
+
+_Opened collaboratively by Sydney Runkle and open-swe._
+
+Co-authored-by: open-swe[bot] <open-swe@users.noreply.github.com>
+Co-authored-by: Sydney Runkle <54324534+sydney-runkle@users.noreply.github.com>","test(langgraph): actualizar pruebas y funciones de construcción
+
+- Qué cambia: se actualizan las pruebas y la función `_build_server_info` para utilizar `configurable` en lugar de `metadata`.
+- Por qué: mejorar la coherencia y precisión al construir `ServerInfo` utilizando los datos disponibles en `configurable`.",1,1,1,1,1
+langchain-ai/langgraph,bede0b7acf4175f992dbdcafe9357798cd96f6a6,"test(langgraph): use monotonic clock in flaky streaming test (#7477)
+
+Switches test_sync_streaming_with_functional_api to time.monotonic() for
+both emitted task timestamps and observed arrival times so the assertion
+is based on a monotonic clock instead of wall time. This makes the
+streaming timing check less flaky on systems where time.time() can jump
+or lack sufficient precision.
+
+Created with [Deep Agents
+CLI](https://docs.langchain.com/oss/python/deepagents/cli/overview)
+using gpt-5.4 (provider: openai).","test(libs/langgraph/tests/test_pregel.py): actualizar función de tiempo
+
+- Qué cambia: se reemplaza `time.sleep` por `time.monotonic()` en la función `slow` y en el cálculo del delta de tiempos.
+- Por qué: `time.monotonic()` proporciona un valor de tiempo que no se reinicia con los relojes del sistema, lo que es más preciso para medir intervalos de tiempo.",1,1,1,1,1
+langchain-ai/langgraph,1629794658f3bba0b9190de7e67ce6588474afea,"chore: update conformance lint (#7459)
+
+Co-authored-by: Will Fu-Hinthorn <will@langchain.dev>","test(pregel): mejorar orden de asserts en
+
+- Qué cambia: se reorganiza el código para mejorar la legibilidad y orden de los asserts en `libs/langgraph/tests/test_pregel.py`
+- Por qué: facilitar la comprensión y mantenimiento del código, asegurando que los asserts estén en un orden lógico",1,0,1,1,1
+langchain-ai/langgraph,6242b99e061a9de9f702ea903e141380f5041b2a,"chore(checkpoint-conformance): remove test_list_global_search, bump to 0.0.2 (#7444)
+
+## Summary
+- Remove `test_list_global_search` from the conformance test suite. This
+test required cross-thread `alist(None, filter=...)` support that not
+all checkpointer implementations provide.
+- Remove the corresponding entry from `ALL_LIST_TESTS`.
+- Bump `langgraph-checkpoint-conformance` version from 0.0.1 to 0.0.2.
+
+## Test plan
+- [x] Verify `test_list_global_search` function definition is fully
+removed
+- [x] Verify `test_list_global_search` is removed from `ALL_LIST_TESTS`
+- [x] Verify version bumped to 0.0.2 in pyproject.toml
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-authored-by: Will Fu-Hinthorn <will@langchain.dev>
+Co-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>","test(checkpoint-conformance/langgraph/checkpoint/conformance/spec/test_l
+
+- Qué cambia: se eliminan las pruebas `test_list_global_search` y otras funciones relacionadas, actualizando el archivo `test_list.py`. Se incrementa la versión del proyecto a 0.0.2.
+- Por qué: reducir la complejidad del conjunto de pruebas y preparar una nueva versión del proyecto.",1,1,1,1,1
+langchain-ai/langgraph,71733797406c2fc55bf0bb36422447909d3ef268,"chore: bump langgraph version to 1.1.5 in CI and examples (#7435)
+
+## Summary
+- Bump `langgraph` version from `1.1.2` to `1.1.5` in the CI integration
+test workflow version check
+- Bump `langgraph` version from `1.1.2` to `1.1.5` in the prerelease
+example `pyproject.toml` files
+
+## Test plan
+- [ ] CI integration tests pass with the updated version expectation
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-authored-by: Will Fu-Hinthorn <will@langchain.dev>
+Co-authored-by: Claude Opus 4.6 (1M context) <noreply@anthropic.com>","fix(_integration_test.yml, pyproject.toml): actualizar versión
+
+- Qué cambia: se actualiza la versión de `langgraph` en los archivos `_integration_test.yml`, `pyproject.toml` y `libs/cli/examples/graph_prerelease_reqs/pyproject.toml`.
+- Por qué: para reflejar la nueva versión lanzada del paquete `langgraph`.",1,1,1,1,1
+langchain-ai/langgraph,b2893bc7788389ab2e39e5cb7e4398c042a47bc0,"chore: validate reconnect url (#7434)
+
+Co-authored-by: Will Fu-Hinthorn <will@langchain.dev>","perf(langgraph_sdk): añadir validación de Location para mejorar
+
+- Qué cambia: se actualizan los imports en varios archivos y se añade una función para validar que la URL de reconexión sea del mismo origen que el base URL.
+- Por qué: mejorar la seguridad al evitar la exposición de credenciales a servidores externos.",1,1,1,1,1
+langchain-ai/langgraph,c3ba5900797b8c6bf456cf6df2db2038e678adcc,release: langgraph 1.1.6 (#7407),chore(langgraph): actualizar versión a 1.1.6 - parche de seguridad,0,0,0,1,0
+langchain-ai/langgraph,7eb2d8d6d88937193da2936dbfdc39926ccf60ec,"ci: re-run `require_issue_link` check after PR reopen, close stale comments (#7403)
+
+Combined:
+
+(1)
+
+After reopening a PR and removing the `missing-issue-link` label, the
+`require_issue_link` check still shows as failed on the PR. Because the
+default `GITHUB_TOKEN` suppresses event-driven re-triggers, the old red
+check persists until the contributor pushes again. This adds a
+best-effort re-run of the failed check so the PR's status clears
+automatically on assignment.
+
+(2)
+
+When the `require_issue_link` workflow closes a PR and posts an
+enforcement comment, that comment was never cleaned up after the
+situation resolved — leaving a stale ""automatically closed"" message
+visible on reopened PRs. Now all three resolution paths (maintainer
+bypass, author fixing the issue link, and contributor assignment)
+minimize the enforcement comment as outdated via GraphQL. The cleanup is
+best-effort: failures log a warning but never block the primary workflow
+logic (label removal, bypass, reopen).","feat(workflows): re-ejecutar check de asignación al reabrir PRs
+
+- Qué cambia: se agrega código para re-ejecutar el workflow `require_issue_link.yml` cuando una PR es reabierta, asegurando que la verificación de asignación se actualice.
+- Por qué: mejorar la consistencia y precisión del estado de las PRs después de ser reabiertas.",1,1,1,1,1
+langchain-ai/langgraph,4705248c5b971cd1cf5b0bfffe5a2cccad501147,release: prebuilt 1.0.9 and langgraph 1.1.5 (#7401),"chore(langgraph): actualizar versión a 1.1.5
+
+- Qué cambia: bump de 1.1.4 a 1.1.5 en los archivos `pyproject.toml` y `uv.lock` de langgraph, langgraph-prebuilt y sdk-py
+- Por qué: incluir el fix de contadores de canal delta en update_state para Postgres (#8315), sin cambios de dependencias",0,0,0,0,0
+langchain-ai/langgraph,9f5f3fb35eac99491391ed1fc337c0f7fe254352,"Revert ""chore: update configurable metadata"" (#7393)
+
+Reverts langchain-ai/langgraph#7367","test(langgraph/_internal/_config.py): añadir lógica para filtrar
+
+- Qué cambia: se añade una función `_exclude_as_metadata` y se utiliza en `ensure_config` para filtrar metadatos innecesarios.
+- Por qué: mejorar la legibilidad y evitar que ciertos atributos como claves sensibles o prefijos ""__"" sean incluidos en la configuración final.",1,0,1,1,1
+ollama/ollama,479664e7aab979376cb36863f6f9a5c04244fd5d,mlx update (#17332),"chore(MLX_VERSION): actualizar versión
+
+- Qué cambia: se actualiza la versión del proyecto a `33c03c486c34a7dadab5339563612c9933c4a406`
+- Por qué: esta nueva versión incluye correcciones importantes en las funcionalidades y mejoras de rendimiento.",1,1,1,1,1
+ollama/ollama,e21d5327b01e8edeb47055733947a00d44f70751,"CI: fix missing CUDA v13.4 sub-package (#17288)
+
+Needed for cross-compiling WoA","chore(release): añadir ""cudart"" a la lista de componentes CUDA
+
+- Qué cambia: se añade ""cudart"" a la lista de componentes CUDA en ambos workflows (`release.yaml` y `test-llamacpp-update.yaml`)
+- Por qué: asegurar que el componente ""cudart"" esté incluido en los pasos de construcción para las versiones de CUDA 13.4.0",1,1,1,1,1
+ollama/ollama,72116bafb3604948bf9fbf345655d804887e85ab,"llama: enable dio on linux CUDA/ROCm iGPUs (#17286)
+
+Avoid double memory consumption by enabling direct IO for iGPUs","perf(llm): añadir opción de Direct I/O para GPUs integradas
+
+- Qué cambia: se agrega la opción `--direct-io` a los parámetros del servidor Llama cuando se usa una GPU integrada con bibliotecas CUDA o ROCm.
+- Por qué: mejorar el rendimiento al evitar el uso del caché de páginas en el sistema, lo que es beneficioso para GPUs que comparten memoria con el CPU.",1,1,1,1,1
+ollama/ollama,de1ce45913871c5e3fa58c8da7640f911bf23c24,"cuda: add CC 10.0 for linux in CUDA v12 (#17025)
+
+Add compute capability 10.0 to the Linux CUDA v12 preset so B200-class devices can use the cuda_v12 backend with drivers that do not meet the CUDA v13 minimum.
+
+Fixes #12583",perf(llama/server): actualizar arquitecturas CUDA a la versión 100,0,0,0,1,0
+ollama/ollama,51fc00122b7f384e9d7725f957e586f05864c375,"build: bump Linux toolchain to GCC 13 (#17244)
+
+GCC 11 builds broken AMX code which causes the Sapphire Rapids CPU backend to crash.
+
+Fixes #17006
+Fixes #17205",perf(dockerfile): actualizar versión de gcc-toolset a 13,0,1,1,1,1
+ollama/ollama,445284b428d24ca1c08735c52351f487e4551845,MLX update (#17189),chore(MLX_VERSION): actualizar versión,0,0,1,1,1
+ollama/ollama,5ba17e6fdf1f225780765aa05502969bebfd12fa,agent/tui: remove redundant context-window refreshes from event loop (#17241),"fix(cmd/tui/chat): eliminar llamadas redundantes
+
+- Qué cambia: se eliminan las llamadas redundantes a `refreshContextWindowTokens` en varios lugares del código.
+- Por qué: estas llamadas son innecesarias ya que el contexto de la ventana se resuelve post-carga (`chatModelPreloadDoneMsg`) o es estático (nube). Refrescarlas ahora solo rederiva el mismo valor y bloquea la construcción en una llamada a red.",1,0,1,1,1
+ollama/ollama,6f3b997decc0e57a2a1fe3bebe8116fdca761239,"cmd: route root command server start through checkServerHeartbeat (#17245)
+
+The bare `ollama` command (and `ollama launch` with no integration) used a
+bespoke `ensureServerRunning` that forked `ollama serve` directly and polled
+its heartbeat forever (no timeout, no platform-aware launch). Every other
+subcommand (`ollama run`, `ollama pull`, `ollama launch <integration>`, ...)
+goes through `checkServerHeartbeat` -> `startApp`, so the root command behaved
+differently and could hang indefinitely.
+
+Route `runInteractiveTUI` through `checkServerHeartbeat(cmd, nil)` — the same
+path `ollama launch <thing>` uses — so the root command is consistent and no
+longer runs an unbounded server-spawn loop. `ensureServerRunning` and its
+`backgroundServerSysProcAttr` helpers (only it referenced them) are removed,
+along with the now-unused `os/exec` import.
+
+The platform `startApp`/`waitForServer` paths are unchanged, so behavior on
+macOS/Windows is identical to the other subcommands, and on Linux the root
+command now errors the same way the subcommands already do when no server is
+running.","fix(cmd): eliminar funciones de inicio de servidor en Unix y Windows
+
+- Qué cambia: se eliminan las funciones `backgroundServerSysProcAttr` de `cmd/background_unix.go` y `cmd/background_windows.go`
+- Por qué: estas funciones ya no son necesarias después de la migración a un nuevo método de gestión del servidor",1,1,1,1,1
+ollama/ollama,cc626766564eb70c75e684f83642e051aafb40fa,llama.cpp update (#17186),chore: actualizar versión de LlamaCpp a 1.0.69,1,1,1,1,1
+ollama/ollama,794a254111a35218df6d736128390604e7a5ead4,anthropic: close text block before starting thinking block (#17225),"feat(anthropic): añadir pruebas unitarias para manejo de contenido
+
+- Qué cambia: se añaden pruebas unitarias que cubren el escenario donde hay texto antes del pensamiento en `StreamConverter`.
+- Por qué: asegurar que el procesamiento de mensajes con texto, pensamiento y herramientas funcione correctamente.",1,0,1,1,1
+ollama/ollama,5865a01e48cba1d6fa51c4fac415cc136c1ae4d7,agent: reorder working directory instruction (#17228),"fix(agent_tui.go): mover adición de directorio al final
+
+- Qué cambia: se mueve la adición del directorio de trabajo al final del sistema predeterminado.
+- Por qué: para mantener el orden lógico y coherente en la construcción del mensaje del sistema.",1,0,1,1,1
+ollama/ollama,e61c1c73fe7d5656707a8462c1b1cb971d92333d,cmd: remove dead agent prompt wrappers (#17227),"refactor(agent_tui.go): eliminar funciones redundantes y simplificar
+
+- Qué cambia: se eliminan las funciones `agentSystemPrompt`, `agentSystemPromptAt`, y `agentDefaultSystemPrompt` que son redundantes y duplicadas.
+- Por qué: mejorar la legibilidad del código, reducir la complejidad y evitar la duplicación de lógica innecesaria.",1,1,1,1,1
+ollama/ollama,03d61e19255158fc90552537aaec843b3867c2e1,launch: keep Claude Code channels available (#17210),"fix(cmd/launch): añadir soporte para canales en pruebas
+
+- Qué cambia: se añade un nuevo caso de prueba para el flag `--channels` en `claude_test.go`
+- Por qué: asegurar que la funcionalidad de canales esté correctamente implementada y no interfiera con otras variables de entorno",1,0,1,1,1
+ollama/ollama,30c390384e20333b67cadab60da5bcb669407f01,cmd: put current working dir in the system prompt (#17188),"refactor(cmd/agent_tui.go): remove redundant working directory handling
+
+This commit removes the redundant `cwd` variable and related logic from `cmd/agent_tui.go`. Instead, it introduces a helper function `agentWorkingDir()` that encapsulates the logic for retrieving the current working directory. This change improves code readability and maintainability by centralizing the working directory retrieval in one place.
+
+Additionally, this commit includes tests to ensure that the working directory is correctly handled even when `os.Getwd()` fails.
+
+This message clearly describes the changes made, provides context for why they were necessary, and mentions the additional testing included.",1,1,1,1,1
+ollama/ollama,d5908300911c7422576cd64f9057ce1c456b806c,agent/tools: isolate web tests from cloud policy (#17208),"perf(agent/tools/web_test.go): actualizar imports y agregar pruebas
+
+- **Motivación**: La actualización de los imports es necesaria para asegurar que todas las dependencias utilizadas en el archivo sean correctas y no redundantes. Esto mejora la legibilidad del código y facilita su mantenimiento.
+  
+- **Pruebas adicionales**: Se han añadido pruebas adicionales para cubrir diferentes escenarios, incluyendo pruebas de autenticación, manejo de errores y comportamiento cuando el servicio de nube está deshabilitado. Estas pruebas ayudan a garantizar que la funcionalidad del código sea robusta y confiable.
+
+- **Función `enableWebToolsForTest`**: Se ha creado una función auxiliar `enableWebToolsForTest` para aislar los tests de herramientas web del policy de nube del runner. Esto asegura que los tests no hereden configuraciones inesperadas desde el entorno del usuario, lo que mejora la consistencia y confiabilidad de las pruebas.
+
+- **Pruebas específicas**:
+  - `TestWebToolsReportAuthenticationError`: Prueba que se reporten errores de autenticación correctamente.
+  - `TestWebToolsPreserveNonAuthenticationErrors`: Prueba que los errores no relacionados con la autenticación sean manejados adecuadamente.
+  - `TestWebToolsIgnoreInheritedCloudPolicy`: Prueba que las políticas de nube heredadas se ignoran en el contexto de los tests.
+  - `TestWebToolsRejectWhenCloudDisabled`: Prueba que las herramientas web rechacen la ejecución cuando el servicio de nube está deshabilitado.
+
+Estas mejoras aseguran que el código sea más limpio, robusto y fácil de mantener.",1,1,1,1,1
+ollama/ollama,3bd506bd1cf9933bf06867ea9681daeb6d6479a8,agent/tools: surface actionable web auth error (#17169),"fix(agent/tools): actualizar errores de autenticación y pruebas
+
+- Qué cambia: se actualizan los mensajes de error para indicar que la autenticación es necesaria (`ErrWebAuthRequired`) y se añaden pruebas para verificar el comportamiento en caso de errores de autenticación.
+- Por qué: mejorar la claridad del mensaje de error y asegurar que las herramientas web manejen correctamente los errores de autenticación.",1,1,1,1,1
+ollama/ollama,123b1f24793f4d0edc77e09dfcafb4c23b94ea72,"mlxrunner: raise the MTP pending-flush cap to 256 tokens
+
+Per-token cost of the batched head forward keeps falling until the
+flush is large enough to reach the fastest kernels: NAX matmul tiles
+for dense heads, and the segmented gather path for MoE heads, which
+needs tokens*topK/experts >= 4. Measured across the qwen3.6 heads,
+256 is the smallest cap past every threshold and within a few percent
+of each head's per-token floor. The cost is bounded: up to 2.5 MiB of
+pinned hiddens per request and a flush stall under one decode step.","fix(x/mlxrunner/mtp.go): aumentar `mtpPendingFlushTokens` a 256
+
+- Qué cambia: se ajusta el valor de `mtpPendingFlushTokens` de 32 a 256 en `x/mlxrunner/mtp.go`.
+- Por qué: aumentar este valor permite manejar un mayor número de tokens pendientes antes del flush, lo que mejora la eficiencia y capacidad de procesamiento del sistema.",1,1,1,1,1
+ollama/ollama,4f7786d0baa9085e568c5d48135b5347daaddd8f,mlx: configurable model load timeout (#14796),fix(x/mlxrunner): actualizar timeout de WaitUntilRunning con valor,0,0,0,0,0
+ollama/ollama,59bd0b49bb2e3268562bfe92f98f00103ba06ec0,"mlx: restore NAX in Metal v4 builds (#17160)
+
+MLX now requires a macOS 26.2 deployment target for NAX kernels. Ollama's Metal v4 build still targeted 26.0, so recent MLX bumps silently built mlx_metal_v4 without NAX kernels.","perf(cmake): actualizar versión de SDK y ajustar condicionales
+
+- Qué cambia: se actualiza la versión de SDK a 26.2 en `cmake/local.cmake` y `cmake/mlx/CMakePresets.json`, y se refuerzan las condiciones para el uso del backend `metal_v4`.
+- Por qué: asegurar que el backend `metal_v4` solo esté disponible con la versión 26.2 o superior del SDK, evitando errores de compilación.",1,1,1,1,1
+ollama/ollama,d47859ce495496196df211e939702364492a2b7f,"create: select the qwen3.5 parser and renderer for Qwen3.5/Next
+
+Qwen3.5/Qwen3-Next architecture strings contain the substring ""qwen3"", so the
+broad qwen3 match claimed them for the generic parser and qwen3-coder
+renderer, whose template doesn't frame the thinking block — an empty
+<think></think> leaked into content and think=false was ignored. Match the
+family first via isQwen35Family so the parser, renderer, and
+thinking-capability checks share one variant list.","feat(x/create/client): añadir soporte para modelos Qwen 3.5
+
+- Qué cambia: se añade la función `isQwen35Family` y se utiliza en `getParserName`, `getRendererName`, y las pruebas correspondientes.
+- Por qué: permitir el reconocimiento y manejo de nuevos modelos Qwen 3.5 en el sistema.",1,1,1,1,1
+ollama/ollama,87b64213b4f5970214a406ccb5126f058b1f00fd,launch: disable claude code telemetry by default (#17061),"fix(cmd/launch): update imports and add tests for claude.go
+
+- Qué cambia: se actualizan los imports y se añaden pruebas para la función `envVars` en `claude_test.go`.
+- Por qué: mejorar la legibilidad y asegurar que las variables de entorno sean configuradas correctamente.",1,0,1,1,1
+ollama/ollama,f2d069f6df78201f5fd53526950007210613164c,mlx: update to de7b4ed9 (#17056),chore: actualizar versión a de7b4ed986b6d6f55b8ace5e73c24d1ca0bea89b,0,0,1,1,1
+ollama/ollama,9d779572a76bc25022a54144c8ae98a89d29c9e9,"llama.cpp update (#17055)
+
+Bump to b9888.",chore: actualizar versión de LlamaCpp a b9888,1,1,1,1,1
+ollama/ollama,e436db25ff444c0ea4eb5b60c402f3d6dca58c4e,"compat: use UTF-8-safe file open (#16999)
+
+Use ggml_fopen for compat tensor reads so Windows paths with Unicode characters are converted through the same UTF-8-to-wide path as llama.cpp model loading.
+
+Fixes #16493","fix(llama/compat): reemplazar `std::fopen` por `ggml_fopen`
+
+- Qué cambia: se reemplaza la función `std::fopen` con `ggml_fopen` en el archivo `llama/compat/llama-ollama-compat-util.cpp`.
+- Por qué: para utilizar una versión personalizada de la función de apertura de archivos que puede incluir mejoras o funcionalidades específicas.",1,1,1,1,1
+ollama/ollama,624cada952c87bcf1f0e7d00b669f0cc483103eb,"discover: fall back to standard CUDA when the JetPack runner is absent (#16949)
+
+* discover: use the SBSA CUDA build on JetPack 7 (L4T r38+)
+
+JetPack 7 supports SBSA-based CUDA, so the standard cuda_v13 build — shipped
+in the base linux-arm64 package, and given the Orin arch (CC 8.7) in #16628
+— runs on these devices.
+
+JETSON_JETPACK=7 previously selected a nonexistent jetpack7 runner, so
+runner.go skipped every CUDA library and discovery fell back to CPU. The L4T
+releases JetPack 7 uses (r38 on Thor, r39 on Orin) also hit the unrecognized
+branch, and install.sh warned the version was unsupported. Map JetPack 7+
+(L4T r38 and newer) to cuda_v13 (returned as """" from cudaJetpack); no
+Jetson-specific download is needed, so install.sh no longer warns.
+
+Fixes #16602
+
+* discover: fall back to standard CUDA when the JetPack runner is absent
+
+Per review, drop the L4T-version mapping (in cudaJetpack and install.sh) and
+instead clear the jetpack override in runner.go when the detected cuda_jetpack
+runner isn't installed. Normal discovery then selects the standard cuda_v13
+build, which supports Orin (CC 8.7) on JetPack 7.",chore(discover): añadir lógica para limpiar el override de JetPack si,0,0,0,0,0
+ollama/ollama,2ea95fb059278bcc6cb2016de1b5c5c1cc405644,"fix cuda toolkit lookup and parallel (#16613)
+
+* fix cuda toolkit lookup and parallel
+
+* support user override first
+
+* enable control over the nested parallel count","perf(cmake/local.cmake): mejorar rendimiento de construcción en Windows
+
+- Qué cambia: se añade la variable `OLLAMA_BUILD_PARALLEL` para controlar el número de trabajos paralelos en las construcciones nativas (Windows).
+- Cómo mejora el rendimiento: al permitir especificar el número de trabajos paralelos, se puede acelerar significativamente el proceso de construcción en sistemas con múltiples núcleos y procesadores. Esto es especialmente beneficioso en Windows, donde la gestión de las construcciones nativas puede ser más lenta debido a la naturaleza del sistema operativo.
+
+CONTEXTO DEL REPOSITORIO:
+- Rama: historico
+- Últimos commits:
+sin historial
+- Archivos modificados:
+no disponible
+- Estadísticas: +88 líneas / -1 línea / 1 archivos
+
+ANÁLISIS SEMÁNTICO:
+- Tipo detectado: perf
+- Scope detectado: cmake/local.cmake
+- Intención del cambio: Mejorar el rendimiento de la construcción en Windows mediante el control paralelo de las construcciones nativas.
+
+CONTEXTO DEL PROYECTO (RAG):
+Convenciones del proyecto:
+Ejemplos de commits similares en este repo:
+- Commit message example:
+Message: perf(prompts): eliminar archivo `templates.py` innecesario
+Author: Medina23334444
+Date: Sat May 16 21:00:09 2026 -0500
+- Commit message example:
+Message: test(conftest.py): añadir archivo para configuración de pruebas
+Author: Medina23334444
+Date: Sat May 16 23:49:49 2026 -0500
+- Commit message example:
+Message: style(tools): mejorar la legibilidad y estructura del código
+Author: Medina23334444
+Date: Sat May 16 20:55:17 2026 -0500",1,1,1,1,1
+ollama/ollama,8e7be3aed109bbba4fd000413136449fe471b2ab,"ci: avoid unbounded parallelism (#16966)
+
+build-darwin has gotten very slow in the past few releases, most likely due to unbounded parallelism in the MLX build causing the builder to thrash","chore(build): mejorar paralelismo y límite de carga en build_darwin.sh
+
+- Qué cambia: se añaden variables para controlar la paralelización (`BUILD_JOBS`) y el límite de carga (`BUILD_LOAD`) del proceso de construcción.
+- Por qué: mejorar la eficiencia y rendimiento al permitir una configuración personalizada de la paralelización y el límite de carga, lo que puede optimizar el uso de recursos en sistemas con múltiples núcleos.",1,1,1,1,1
+ollama/ollama,1c5ebbf5f4a41d37b65e100b4938ec6f710b74fe,llama.cpp update (#16960),"feat(src/llama-arch.cpp, src/llama-arch.h, src/llama-model.cpp): add",0,0,0,0,0
+ollama/ollama,32a97b7493786e5784e4445e80c1a078c14c255f,"tools: ignore braces inside JSON strings when detecting tool call end (#16937)
+
+Parser.done() counted the tag's open/close characters ({}, []) without
+tracking JSON string context, so a streamed tool call whose string
+argument value contained a closing brace or bracket (e.g.
+{""code"": ""if (x) { y }""}) was treated as complete too early and flushed to
+the user as plain text instead of being parsed as a tool call.
+
+findArguments() in the same file already tracks string context; apply the
+same handling in done() so open/close characters inside string values are
+ignored.","chore(tools): añadir pruebas para manejo de cierres de llaves
+
+- Qué cambia: se añaden pruebas unitarias para verificar el manejo correcto de cierres de llaves (`{}`) y corchetes (`[]`) dentro de cadenas en la función `done` del parser.
+- Por qué: asegurar que el parser no confunda cierres de estructuras JSON y listas con caracteres de escape o dentro de cadenas, lo que podría causar errores de sintaxis.",1,0,1,1,1
+ollama/ollama,d26a58557d83aa8892bdfa79b3550f5ee969cd1c,"MLX: wire up scheduler selected context size for ps (#16918)
+
+In the PS output, expose the scheduler selected size (clamped by model context size) instead of always reporting the model max context.  This will help provide a hint to clients to keep the context size below this value to avoid paging and poor performance on smaller VRAM systems.",perf(x/mlxrunner): actualizar imports y añadir parámetro opcional,0,0,0,0,0
+ollama/ollama,2e474c98f91a3995001abfa80c41f7e11ad5f4a3,parser/renderer: add Ornith 9B renderer/parser support (#16920),feat(model/renderers): añadir soporte para el renderizado de `ornith`,0,1,1,1,1
+ollama/ollama,0a408b2225e499411f4c64b34cc32623b5fdd4f6,"jetson: add CC 87 for CUDA v13 (#16628)
+
+The new Jetpack 7.2 supports SBSA based CUDA, so we can add the architecture now.","perf(llama/server): corregir arquitectura CUDA virtual
+
+- Qué cambia: se corrige la lista de arquitecturas CUDA virtual en `CMakePresets.json`
+- Por qué: asegurar que todas las arquitecturas virtuales sean incluidas correctamente",1,1,1,1,1
+ollama/ollama,33878e671ab3f02948d95b8e18965708306fcc79,"llama: default qwen2.5vl window attention metadata (#16868)
+
+Existing qwen2.5vl GGUFs can contain an empty qwen25vl.vision.fullatt_block_indexes array. The compat layer translated the projector metadata but left clip.vision.n_wa_pattern unset, causing llama-server to fail loading the CLIP model.
+
+Default the runtime compat value to the standard Qwen2.5-VL pattern when the key cannot be derived, and make the converter emit the same default for nil or empty fullatt block metadata.
+
+Fixes #16540","fix(llama/compat): añadir función para manejar valores faltantes en
+
+- Qué cambia: Se añade una función `inject_u32_if_missing` que inserta un valor predeterminado si no existe en el contexto.
+- Por qué: Evitar fallos de ejecución al acceder a valores que pueden estar ausentes.",0,0,0,0,0
+ollama/ollama,46bc1bcb4c32cded27b0a8dfb8b9ea1e960e897c,"llama: add sm_86 architecture to cuda_v13_windows preset (#16834)
+
+The llama_cuda_v13_windows preset in llama/server/CMakePresets.json was missing sm_86 and sm_80 architectures, causing RTX 3060 laptop and similar mobile RTX 30-series GPUs to be skipped during runtime GPU detection on Windows with CUDA 13. The Linux preset (llama_cuda_v13_linux) included these architectures as ""86-virtual"" and ""80-virtual"", but the Windows preset only had ""75-virtual;89-virtual;100-virtual;120-virtual"", excluding Ampere mobile GPUs.
+
+Signed-off-by: anish <anishesg@users.noreply.github.com>
+Co-authored-by: anish <anishesg@users.noreply.github.com>","perf(llama/server): actualizar arquitecturas CUDA en CMakePresets.json
+
+- Qué cambia: se actualizan las arquitecturas CUDA a ""75-virtual;80-virtual;86-virtual;89-virtual;100-virtual;120-virtual"" en el preset llama_cuda_v13.
+- Por qué: para incluir nuevas versiones de GPU y mejorar la compatibilidad con diferentes arquitecturas.",1,1,1,1,1
+ollama/ollama,2a8b31531e08f65ab4b21fbce558ec988435ae0a,"launch/codex: detect model drift when Codex App UI switches away from Ollama (#16864)
+
+ollama launch codex-app sets root-level model_provider = ""ollama-launch-codex-app""
+in ~/.codex/config.toml to route requests through the local Ollama server.
+In Codex, model_provider is a global config key, there is no per-model provider
+in the catalog schema (ModelInfo has no model_provider field), so it applies to
+every model, not just Ollama ones.
+
+When a user switches to a built-in OpenAI model (e.g. gpt-5.5) in the Codex App
+UI, the UI writes model = ""gpt-5.5"" to config.toml but does NOT update
+model_provider. The root model_provider stays ""ollama-launch-codex-app"", so the
+OpenAI model request goes to http://localhost:11434/v1/responses instead of
+OpenAI API, resulting in a 404 (""model gpt-5.5 not found""). The user is
+stuck: OpenAI models silently route to localhost until they know to run
+""ollama launch codex-app --restore"".
+
+Fix: CurrentModel() now verifies the configured model appears as a slug in the
+Ollama-managed catalog before reporting the integration as active. When the
+model has drifted (user selected a non-Ollama model in the UI), CurrentModel()
+returns empty, so the launcher accurately shows the integration as inactive and
+the user is directed to restore or re-launch.","fix(cmd/launch/codex_app.go): añadir validación de modelo en
+
+- Qué cambia: se agrega una función `codexAppCatalogContainsModel` para verificar si el modelo está presente en el catálogo Ollama. Se utiliza esta función en `CurrentModel` para asegurar que solo modelos válidos sean devueltos.
+- Líneas añadidas: 40
+- Líneas eliminadas: 2",1,1,1,1,1
+ollama/ollama,114875133b8bf190bfb0cf8448aee74696c34029,"mlxrunner: resolve each speculative round in one host sync
+
+Acceptance took two blocking evals per round: one to read the accepted mask,
+then a second for the bonus or residual token whose graph needed the
+host-known rejection point. Sample the residual at every rejection point in
+one batched draw alongside the bonus row, so a single eval covers acceptance
+and the next token.","refactor(x/mlxrunner/speculate.go): optimizar lógica de evaluación
+
+- Qué cambia: se refactoring la lógica de evaluación y muestreo en `speculate.go` para mejorar el rendimiento y eficiencia.
+- Por qué: optimizar el flujo de aceptación y rechazo, reduciendo el número de llamadas a `Eval` y eliminando funciones obsoletas.",0,0,0,0,0
+ollama/ollama,f93efe2809bbb37d228460ba11aff0ea8ce837c8,"mlxrunner: apply in-flight drafts to proposal penalty history
+
+Sampler.Distribution built row i as if draftTokens[:i] were appended, leaving
+a single-row proposal call with no draft history, so a drafter skipped the
+repeat/presence penalties the target's validation applies and re-proposed
+penalized tokens. Align rows with the end of the draft chain instead: the
+final row sees every draft token, each earlier row one fewer.",fix(x/mlxrunner/sample): mejorar documentación y validación,0,0,0,0,0
+tiangolo/fastapi,eb75fd078e83aed935016bcdf0705cd58bbf0d0e,🐛 Fix frontend fallback support for doted paths like `/users/john.doe` (#16011),"test(routing.py): mejorar la lógica de detección de navegación frontend
+
+- refactor(fastapi/routing.py): simplificar condición para detectar solicitudes de navegación frontend basada en encabezados `Accept`
+- test(test_frontend.py): añadir pruebas parametrizadas para verificar el comportamiento con diferentes encabezados `Accept`",0,0,0,0,0
+tiangolo/fastapi,24a957b5b01a25718b477897976bff7f032606f3,"🌐 Update translations for es (update-outdated) (#15997)
+
+Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>","docs(es/docs/tutorial/frontend.md): añadir sección sobre dependencias
+
+- Qué cambia: se agrega una nueva sección en el tutorial de frontend que explica cómo las responses frontend interactúan con el middleware HTTP y las dependencias de la aplicación.
+- Por qué: mejorar la comprensión del flujo de ejecución y las funcionalidades disponibles para los desarrolladores al trabajar con frontend en FastAPI.",1,0,1,1,1
+tiangolo/fastapi,ef3f1ac9c1483666fb70ced80b089f08f7c8d5bf,"⬆ Bump pre-commit hooks (#15985)
+
+Co-authored-by: github-actions[bot] <github-actions[bot]@users.noreply.github.com>",chore(historico): actualizar revisión de dependencia typos,0,0,0,1,0
+tiangolo/fastapi,b75bd318f30e57a93727b17b4ef246fc2af61863,👷 Use `FASTAPI_LATEST_CHANGES` token in `bump-pre-commit-hooks` workflow (#15984),"fix(workflows): update access tokens in pre-commit hooks
+
+- Qué cambia: se actualizan los tokens de acceso utilizados en el workflow para la gestión de cambios y creación de pull requests.
+- Por qué: asegurar que las credenciales utilizadas sean las más recientes y seguras.",1,1,1,1,1
+tiangolo/fastapi,8bd152772e7f0aa50b88006ec574cf23f92ba571,👷 Add GH workflow to bump pre-commit hook versions (#15873),"perf(workflows): añadir workflow para automatizar actualización
+
+- Qué cambia: se agrega un nuevo workflow `bump-pre-commit-hooks.yml` que automatiza la actualización de los hooks de pre-commit utilizando el comando `prek auto-update --freeze --cooldown-days 7`.
+- Por qué: mejorar la gestión y mantenimiento de las dependencias de pre-commit, asegurando que siempre estén al día con las últimas versiones.",1,1,1,1,1
+tiangolo/fastapi,4cafad584d5eb4cff0ace66f25b6b9a461d6fa6f,🔧 Update sponsors: add TutorCruncher (#15947),"docs(en/data): añadir sponsor TutorCruncher por patrocinio económico
+
+- Qué cambia: se agrega el sponsor TutorCruncher en README.md, sponsors.yml y sponsors_badge.yml.
+- Por qué: TutorCruncher es un patrocinador económico importante que nos ha proporcionado apoyo financiero para continuar desarrollando y manteniendo el proyecto.",1,1,1,1,1
+tiangolo/fastapi,787e11b4266581c7623afa1bd950aecfe64e8eea,👷 Fix notify translations checkout target (#15933),chore(notify-translations.yml): añadir referencia a la rama principal,1,1,1,1,1
+tiangolo/fastapi,f500ef131e0c00bd42b26706ce75ece89eb39081,👷 Fix latest-changes checkout target (#15932),chore(latest-changes.yml): set default branch ref,0,1,1,1,1
+tiangolo/fastapi,28c6fa1132b62489aef98234a09a8a663495d67b,🔧 Update sponsors: remove RapidProxy (#15929),"chore(README.md, docs/en/data/sponsors.yml): eliminar sponsor RapidProxy
+
+- Qué cambia: se elimina el sponsor RapidProxy del README y de la lista de sponsors en `sponsors.yml`
+- Por qué: el sponsor RapidProxy ya no es relevante para nuestro proyecto",1,1,1,1,1
+tiangolo/fastapi,9c913b7bf748db2f1b2ed7a02c45264abc208698,⬆️ Update issue-manager to 0.8.1 (#15928),chore(issue-manager.yml): actualizar versión de issue-manager a 0.8.1,1,1,1,1,1
+tiangolo/fastapi,a52b4b9283ef42704ce1392f9ef2819205400855,⬆️ Update latest-changes to 0.6.1 (#15926),fix(workflows): actualizar versión de acción `tiangolo/latest-changes`,1,1,1,1,1
+tiangolo/fastapi,8da95e1842e2eaa9c12e3ee5a7e3c5522376922e,👷 Remove not needed `allow-unsafe-pr-checkout: true` (#15876),"fix(workflows): eliminar configuración innecesaria
+
+- Qué cambia: se eliminan las configuraciones `allow-unsafe-pr-checkout` de varios workflows.
+- Por qué: esta configuración no es necesaria y podría ser una fuente de seguridad inadecuada.",1,1,1,1,1
+tiangolo/fastapi,403b1fa16f9519f4b5ab52413daae059479fae4a,🔧 Update sponsors: remove Stainless (#15862),"feat(docs): eliminar sponsor Stainless de README y documentación
+
+- Qué cambia: se eliminan referencias al sponsor Stainless de los archivos `README.md`, `docs/en/data/sponsors.yml` y `docs/en/docs/advanced/generate-clients.md`.
+- Por qué: el sponsor Stainless ya no es relevante para el proyecto.",1,1,1,1,1
+tiangolo/fastapi,82c527e714f16bf9e07202aff0fb91cada329844,👷 Simplify pull request workflow triggers (#15836),"chore(historico): eliminar eventos innecesarios en workflows
+
+- Qué cambia: se eliminan los tipos de evento `opened` y `synchronize` de los workflows de GitHub Actions.
+- Por qué: estos eventos no son necesarios para el flujo de trabajo actual, ya que solo causaban retrasos innecesarios en la ejecución del pipeline.",1,1,1,1,1
+tiangolo/fastapi,f6ea6b1f12e6d1a45c630a8fdf5d4c7c0959dad9,👷 Update issue-manager to 0.7.1 (#15833),chore(issue-manager.yml): actualizar versión de issue-manager a 0.7.1,1,1,1,1,1
+tiangolo/fastapi,fcc8e1f99431a0b381eaef03e07446e6975422b7,⬆️ Update issue-manager to 0.7.0 (#15831),"fix(workflows): actualizar issue-manager a 0.7.0 con mejoras
+
+- Qué cambia: se actualiza la versión del action `tiangolo/issue-manager` de 0.6.0 a 0.7.0 en el archivo `.github/workflows/issue-manager.yml`
+- Por qué: la nueva versión incluye mejoras y correcciones que optimizan el manejo de issues, como un nuevo mensaje para los issues marcados como ""maybe-ai"".",1,1,1,1,1
+tiangolo/fastapi,29fc8f61660b52cb626190f865680364d0f32ff2,🔧 Update sponsors: Add TestMu again (#15830),chore(docs): añadir patrocinador Bronze TestMu AI en documentos FastAPI,0,1,1,1,1
+tiangolo/fastapi,8f3db3d3e79465a97cbfd9ae47506aca67a58e0f,🔒️ Update zizmor workflow security checks (#15820),chore(zizmor.yml): añadir evento de pull_request a la configuración del,1,1,1,1,1
+tiangolo/fastapi,2260afaf433103c8104b34d256cf0b96b058823b,"🐛 Fix failing test, update format for raised errors (#15804)",fix(fastapi/routing.py): mejorar la legibilidad del mensaje de error,0,0,0,0,0
+tiangolo/fastapi,7cb1ab6264bc03319832f553730b511192a0c0d3,👷 Fix test-alls-green (#15803),chore(test): renombrar job `check` a `test-alls-green` en workflows,0,1,1,1,1
+tiangolo/fastapi,459a51097be8187115047149d77dab983a361fb3,✏️ Update white space characters in bigger apps (#15801),chore(docs): reorganizar estructura de carpetas en tutorial,0,1,1,1,1
+tiangolo/fastapi,2f4ba0bdd1f29c4aae3b308fb3aec8a9a5640f61,"🔨 Use `gpt-5.5` model in `translate.py`, specify `-chat` to avoid warnings (#15792)",refactor(translate.py): actualizar el modelo de lenguaje,0,0,0,0,0
+tiangolo/fastapi,818b97a68b7956e2a409203193110082046508cb,"⏪️ Revert removing scripts, only remove `coverage.sh` (#15772)","test(historico): añadir scripts de formateo y linting para mejorar
+
+- Qué cambia: se crean nuevos scripts en `scripts/` para formatear y lintear el código.
+  - `format.sh`: ejecuta ruff para formatear y corregir el código.
+  - `lint.sh`: ejecuta mypy, ty check y ruff para realizar análisis estático del código.
+  - `test-cov-html.sh`: ejecuta pruebas con cobertura de código en formato HTML.
+
+- Por qué: estos scripts mejorarán la calidad del código al automatizar el formateo y el linting, facilitando así el desarrollo y reduciendo errores comunes.",1,1,1,1,1
+tiangolo/fastapi,c054476c6f26ce3377eb58cd1ddae28b1c85607a,🔥 Remove unused scripts (#15771),"fix(scripts): eliminar archivos de script innecesarios
+
+- Qué cambia: se eliminan los archivos `coverage.sh`, `format.sh`, `lint.sh`, y `test-cov-html.sh` que no son necesarios.
+- Por qué: estos scripts ya no se utilizan en el proyecto, lo que simplifica la estructura y reduce la posibilidad de errores.",1,1,1,1,1
+tiangolo/fastapi,b78c82262f5170831ebd3f27873b09d8e579bac2,🚨 Fix typing checks for APIRoute (#15765),feat(fastapi/routing.py): añadir atributos adicionales a la clase,0,0,0,0,0
+tiangolo/fastapi,d8aad201eba558b20419a832e51a026b0e6ede0e,"🐛 Fix bug, allow empty path in path operation in prefixless router (#15763)","test(fastapi/routing.py): añadir pruebas para validación de rutas
+
+- Qué cambia: se añaden pruebas unitarias para verificar la validación de rutas cuando se incluyen routers con prefijos y sin prefijos.
+- Por qué: asegurar que las rutas sean correctamente identificadas y no estén vacías después de ser incluidas en un router padre.",1,0,1,1,1
+tiangolo/fastapi,e2fcd5562f41f2a0d01b1ff43773711bbeeb19e8,🔧 Update sponsors: remove TalorData (#15744),"feat(docs/en/data): eliminar sponsor TalorData innecesario
+
+- Qué cambia: se eliminó el sponsor TalorData de la lista de patrocinadores en README.md y sponsors.yml.
+- Por qué: el sponsor TalorData no es necesario para el proyecto y su presencia ocupa espacio innecesario.",1,1,1,1,1
+tiangolo/fastapi,e4b6a36c4fc0d0b37871fe317ab29fe074a3cdbe,🔧 Update sponsors: remove ExoFlare (#15736),"chore(docs): eliminar patrocinadores bronce
+
+- Qué cambia: se eliminan las entradas de patrocinadores bronce del archivo `sponsors.yml` y la sección correspondiente en el archivo `fastapi-people.md`
+- Por qué: reducir la cantidad de información innecesaria y mantener el contenido relevante",1,1,1,1,1
+tiangolo/fastapi,5d2dae82c4c6ff107147167d70d4fdbd35bc0706,🔧 Update sponsors: remove InterviewPal (#15735),feat(docs): eliminar sponsor InterviewPal de README y sponsors.yml,1,1,1,1,1
+tiangolo/fastapi,ee036a111ed1e96a7cb425158bda3dc0b45e3d0e,🔧 Update sponsors: remove Liblab (#15731),"fix(README.md, docs/en/data/sponsors.yml): remove liblab sponsor -",1,1,1,1,1
+tiangolo/fastapi,e52919282ab7ae101bcea400542088ff5791f4c4,🔧 Update sponsors: remove Scalar (#15730),"chore(README.md, docs/en/data/sponsors.yml): remove unused sponsor -",0,1,1,1,1
+tiangolo/fastapi,782476e7db6c1f008ad4321c597691e25e5a1f72,"🔧 Update sponsors, add Rapidproxy (#15689)","docs(README.md, docs/en/data/sponsors.yml): añadir sponsor RapidProxy",0,1,1,1,1
+tiangolo/fastapi,b3b6aba5ab1bb1cd348026421c969c87d174cb48,🔧 Update sponsors: Remove TestMu (#15688),chore(docs/en/data): eliminar sponsor TestMu AI por falta de uso,1,1,1,1,1
+tiangolo/fastapi,1990ecb446d4db044e8f2be26758aa42b2c62fa8,"🔥 Remove slim package stub, deprecated for a while (#15649)","chore(fastapi-slim): eliminar archivo README.md innecesario
+
+- Qué cambia: se elimina el archivo `README.md` que solo depende de `fastapi`.
+- Por qué: este archivo es redundante y no aporta valor adicional, ya que toda la información relevante está en el repositorio principal de FastAPI.",1,1,1,1,1
+tiangolo/fastapi,57535ef85b97d95862ec3de443c648e1c6aee139,✅ Use custom `changing_dir` instead of `CLIRunner.isolated_filesystem` to set working dir (#15616),"test(conftest.py): añadir contexto de directorio para pruebas
+
+- Qué cambia: se añade una función `changing_dir` que permite cambiar el directorio de trabajo temporalmente, y se actualiza la fixture `get_runner` para usarla.
+- Por qué: mejorar la flexibilidad y portabilidad de las pruebas al permitir el cambio de directorio sin afectar el estado global del sistema.",1,1,1,1,1
+tiangolo/fastapi,3e3d38930efbf9cd60fa35fa8c94bd0f2bf25bb4,✏️ Use `Annotated` in inline example in `docs/en/docs/tutorial/body-multiple-params.md` (#15591),"chore(docs): importar Annotated para mejorar legibilidad
+
+- Qué cambia: se actualiza la importación de `Annotated` para mejorar la legibilidad del código.
+- Por qué: el uso directo de `Body` sin anotaciones puede causar confusión y errores de tipo.",0,0,0,0,0
+tiangolo/fastapi,063b5bf582d31fb155cc6bc6f88cf512329d0fd5,♻️ Do not accept underscore headers when using `convert_underscores=True` (the default) (#15589),"test(fastapi/dependencies/utils.py): añadir procesamiento
+
+- Qué cambia: se añade lógica para manejar encabezados que utilizan guiones y subrayados, asegurando que solo el encabezado con guiones sea aceptado.
+- Por qué: mejorar la consistencia y evitar errores al procesar encabezados con diferentes convenciones de nomenclatura.",1,1,1,1,1
+tiangolo/fastapi,c7fb7851b3389f24c51701d705458989be53ccbb,♻️ Validate Server Sent Event fields to avoid applications from sending broken data (#15588),"test(fastapi/sse.py): añadir validaciones para campos SSE
+
+- Qué cambia: se añaden funciones de validación para asegurar que los campos `event` y `id` en `ServerSentEvent` sean una sola línea.
+- Por qué: evitar errores al procesar eventos SSE con múltiples líneas, lo cual no es compatible con la especificación de SSE. Las líneas múltiples pueden causar problemas de interpretación por parte del cliente, mientras que estas funciones de validación garantizan que los valores sean siempre una sola línea.",1,1,1,1,1
+tiangolo/fastapi,00f805cec94c0bf48c1f9a563535a3ab2e6f90ab,"✅ Update tests, don't double dispose the engine (#15587)","test(test_tutorial/test_sql_databases): eliminar duplicado de llamada
+
+test(test_tutorial/test_sql_databases): eliminar duplicado de llamada",0,0,0,0,0
+tiangolo/fastapi,8b647e340567ab0817aad3e1073553d4bce02f48,"⚡️ Speed up test suite via caching and fixture scopes to make it ~24% faster (#13583)
+
+Co-authored-by: Sebastián Ramírez <tiangolo@gmail.com>","test(test_tutorial/test_security/test_tutorial005.py): añadir decorador
+
+- Qué cambia: se añade el decorador `lru_cache` a la función `verify_password` en los archivos `test_tutorial005.py`, `test_tutorial001.py`, y `test_tutorial002.py`.
+- Por qué: mejorar el rendimiento al evitar cálculos repetitivos de la función `verify_password`.",1,1,1,1,1
+tiangolo/fastapi,973230c78293e627104b681c22850a234e074fe3,🔥 Remove config files now in central GitHub repo (#15585),"chore: eliminar archivos de políticas de seguridad y contribución
+
+- Qué cambia: se eliminan los archivos `.github/FUNDING.yml`, `CONTRIBUTING.md` y `SECURITY.md`.
+- Por qué: estos archivos no son necesarios en el proyecto actual.",1,1,1,1,1
+tiangolo/fastapi,2b5cd26248cebb5dfbf58ea747671114e3e178be,🍱 Update sponsors: TalorData image (#15562),chore(docs): actualizar imagen de patrocinador talordata,0,1,1,1,1
+tiangolo/fastapi,622dcdc99c9561bacce7f292bc0b38f49ec8fd57,🔒️ Only allow team members to modify dependencies (#15548),"feat(github/workflows): añadir flujo de trabajo para proteger cambios
+
+- Qué cambia: se agrega un flujo de trabajo que verifica si el autor de una PR es miembro del equipo o un bot permitido antes de permitir cambios en `pyproject.toml` y `uv.lock`.
+- Por qué: evitar cambios no autorizados a estos archivos, lo que podría aumentar el riesgo de vulnerabilidades de cadena de suministro.",1,1,1,1,1
+tiangolo/fastapi,b71da659cf19e4d8f0af8cc7cfc633c79288c3e3,🔧 Update sponsors badge (#15532),chore(docs/en/data): añadir login de talorelowen a la lista,1,1,1,1,1
+tiangolo/fastapi,2c26191e305da47362510506d6e5f7b6cef3085f,🔧 Add sponsor: TalorData (#15531),"docs(en/data/sponsors.yml): añadir sponsor TalorData a la documentación
+
+- Qué cambia: se agrega información del sponsor TalorData a los archivos `README.md`, `sponsors.yml` y se incluye una imagen en el directorio de imágenes.
+- Por qué: expandir la visibilidad y reconocimiento de FastAPI con nuevos patrocinadores.",0,0,0,0,0
+vuejs/core,b5f8518379b77c3b62a7a9d2b52f6c76cda09bd5,chore: allow `@parcel/watcher` builds (#15106),"chore(pnpm-workspace.yaml): permitir construcción de `@parcel/watcher`
+
+- Qué cambia: se permite la construcción de `@parcel/watcher` en el archivo `pnpm-workspace.yaml`
+- Por qué: es necesario para incluir dependencias adicionales en el proyecto",1,1,1,1,1
+vuejs/core,ec4682737783c1415bdfd834b6ad67f1cabd5d3c,chore(sfc-playground): limit displayed pre-release versions (#15137),"perf(sfc-playground/src/VersionSelect.vue): limitar pre-releases en Vue
+
+- Qué cambia: se refactoring la lógica para incluir hasta 10 pre-releases cuando el último es una versión preliminar, y luego saltar las versiones antiguas.
+- Por qué: mejorar la eficiencia al reducir el número de iteraciones necesarias y asegurar que las versiones estables tengan espacio en la lista.",1,1,1,1,1
+vuejs/core,7da6334f6162927cd41f9f369145722509540990,"Revert ""fix(runtime-core): pause tracking when invoking function refs"" (#15094)
+
+close #15039
+close #15041
+
+Reverts #14985 and restores dependency tracking inside function template refs.
+As Evan clarified in #4084 and #4646, this is intentional behavior: function refs may run on each render, and their dependencies should be tracked because reactive state may determine which ref receives the value.
+#14985 caused #15039, while #15041 introduced downstream regressions in radix-vue. Reverting is the smallest compatibility-preserving fix.","perf(renderer-core): eliminar código innecesario y optimizar imports
+
+- Qué cambia: se eliminan 27 líneas de código innecesario en los archivos `rendererTemplateRef.spec.ts` y `rendererTemplateRef.ts`, actualizando los imports correspondientes.
+- Por qué: mejorar el rendimiento al reducir la complejidad del código y optimizar las dependencias.",1,1,1,1,1
+vuejs/core,97f3525551ad06103083eb2cbf9858c5e57cd58e,"fix(runtime-core): skip lazy hydration for detached roots (#15092)
+
+close #15091","test(runtime-core): añadir pruebas para `hydrateOnVisible` cuando
+
+- Qué cambia: se añaden pruebas unitarias para verificar el comportamiento de `hydrateOnVisible` en diferentes escenarios (packages/runtime-core/__tests__/hydration.spec.ts)
+- Por qué: mejorar la cobertura de pruebas y asegurar que la función funcione correctamente cuando el componente es desmontado o removido del DOM",1,1,1,1,1
+vuejs/core,3eb66a9f6238d99632ce0dd2971ed66b7fc6a671,chore(deps): update actions/cache action to v6 (#15076),perf(workflows): actualizar versiones de actions/cache para Puppeteer,0,1,1,1,1
+vuejs/core,b06b3bb13582902dadae9f0cafdff007c6dede8a,fix(deps): update dependency postcss to ^8.5.19 (#15047),refactor(compiler-sfc): actualizar versión de postcss a 8.5.19,0,1,1,1,1
+vuejs/core,8801e51ece2bf0c115f3ba31279e0230010d1114,test: add expect warn,"perf(server-renderer): añadir verificación de errores no manejados en
+
+- Qué cambia: se añaden expectativas para verificar que se emite una advertencia cuando ocurre un error durante el renderizado.
+- Por qué: asegurar que los errores no manejados sean detectados y emitan una advertencia, mejorando la robustez del código.",1,0,1,1,1
+vuejs/core,378f9783248a4a4f20781d665d4f7089f39cae6e,"fix(reactivity): handle effect removal during scope stop (#15084)
+
+close #15083","feat(reactivity): añadir pruebas y refactorizar métodos de `effectScope`
+
+- Qué cambia: se añaden pruebas para verificar el comportamiento de los scopes en `effectScope` (packages/reactivity/__tests__/effectScope.spec.ts)
+- Por qué: mejorar la cobertura de pruebas y asegurar que los métodos `pause`, `resume`, y `stop` funcionen correctamente",1,1,1,1,1
+vuejs/core,e0d27234ddd2061383cb5dcc475d6b9558ed8e4f,"fix(hydration): pass namespace when patching dynamic props (#15082)
+
+close #15081
+close #15050","fix(hydration): añadir pruebas y parche para SVG y foreignObject en
+
+- Qué cambia: se añaden pruebas unitarias para verificar el correcto patcheo de atributos dinámicos en elementos SVG y foreignObject durante la hidratación.
+- Por qué: asegurar que los elementos SVG y foreignObject mantengan su namespace y atributos dinámicos correctamente al ser hidratados.",1,1,1,1,1
+vuejs/core,474907c0f01d021c564545137051a2b56eb4a769,"fix(server-renderer): handle errors in optimized component renders (#12601)
+
+close #12575","perf(server-renderer): mejorar manejo de errores durante el renderizado
+
+- Qué cambia: se añade la gestión de errores asincrónicos en `renderComponentVNode` y `renderComponentSubTree`, incluyendo el uso de `nextTick` y `handleError`.
+- Por qué: evitar que los errores no manejados interfieran con el flujo de renderizado y mejorar la propagación de errores durante el SSR.",1,1,1,1,1
+vuejs/core,bd962bbaca746d8f65775a07723420406ebad0da,"fix(shared): prevent SSR comment escaping from creating closing delimiters (#15045)
+
+Refs GHSA-9rff-vwfp-83hv.","perf(shared): mejorar escapeHtmlComment para eliminar secuencias
+
+- Qué cambia: se añade una prueba y mejora la lógica de `escapeHtmlComment` en `packages/shared/src/escapeHtml.ts`
+- Por qué: evitar inyección XSS al procesar comentarios HTML",0,0,0,0,0
+vuejs/core,164460a52988c44dc34a541219c88120078372a0,"fix(types): don't constrain component $el type to Element (#15040)
+
+`$el`'s type param (`TypeEl`) lives in `@vue/runtime-core`, which is
+renderer-agnostic, yet it's constrained to the DOM `Element` interface.
+Custom renderers (TUI, canvas, native, …) have host nodes that aren't DOM
+`Element`s, so they can't type `$el` without laundering through `& Element`.
+
+Relax the `TypeEl` bound to unconstrained (default stays `any`): DOM
+elements still qualify, non-DOM host nodes now do too. Backward compatible —
+it only widens accepted inputs.",feat(runtime-core): añadir soporte para host nodes no-DOM en `$el`,1,1,1,1,1
+vuejs/core,eb89e935a771ab7fc3f8e67a82bc8fc7ea28bdaa,"fix(runtime-dom): respect current select model type (#15010)
+
+close #15009","perf(runtime-dom): mejorar soporte para select multiple con tipos Array
+
+- Qué cambia: se añade una nueva prueba que verifica el comportamiento de `vModel` en elementos `<select>` múltiples con tipos `Array` y `Set`.
+- Por qué: asegurar que el componente maneje correctamente los valores seleccionados cuando el modelo es un `Array` o un `Set`.",1,1,1,1,1
+vuejs/core,9e03beb6b4c85a9d5b49b731c08263aa648e2a2a,chore(playground): improve version copy message (#15008),"chore(sfc-playground): mejorar mensaje de copia en VersionSelect.vue
+
+- Qué cambia: se actualiza el mensaje del alerta al copiar una versión.
+- Por qué: para que el mensaje sea más claro y específico, indicando la etiqueta exacta utilizada.",1,1,1,1,1
+vuejs/core,4b659e699925555464ea9ae8fa3e1984609f6dc2,"fix(runtime-dom): preserve option modifier event names (#8338)
+
+close #8334","perf(runtime-dom): mejorar soporte para eventos una vez pasivos
+
+- Qué cambia: Se añaden pruebas unitarias que cubren el soporte para eventos `once`, `passive` y `capture` en elementos de DOM y web components. Se actualiza la expresión regular para parsear los modificadores de opciones de eventos.
+- Por qué: Mejorar la cobertura de pruebas y asegurar que el código maneje correctamente eventos con modificadores específicos.",1,1,1,1,1
+vuejs/core,232f4022e3160b30b11748a6d97ea2c15ed3b74f,"fix(types): support named tuple emits (#12676)
+
+close #12673","fix(runtime-core): actualizar tipos de emites para soportar named tuple
+
+- Qué cambia: se actualizan los tipos de `EmitsOptions` y `ObjectEmitsOptions` para permitir arrays como valores de emite, lo que permite la sintaxis de tupla nombrada.
+- Por qué: mejorar la flexibilidad y precisión en la definición de eventos emitidos por componentes.",1,1,1,1,1
+vuejs/core,671997ade74e34880cebe3c340269b8598c3b26c,"fix(teleport): handle teleport unmount edge case (#12705)
+
+close #12702","perf(runtime-core): mejorar lógica de desmontaje en Teleport
+
+- Qué cambia: se añaden pruebas para verificar el comportamiento de Teleport cuando el objetivo es nulo o no está disponible, y se optimiza la lógica de desmontaje.
+- Por qué: asegurar que Teleport maneje correctamente los casos donde el objetivo es nulo o no está disponible, evitando errores y mejorando la eficiencia del componente.",1,1,1,1,1
+vuejs/core,164af639a120421194f7afe0e097bdf254c90199,"fix(hydration): respect data-allow-mismatch on conditional branches (#12801)
+
+close #12782","fix(hydration.ts): añadir pruebas unitarias y refactorizar lógica
+
+- Qué cambia: se añaden pruebas unitarias para casos específicos de mismatch en el proceso de hidratación (hydration.spec.ts) y se refactoring la lógica de validación de mismatch en hydration.ts.
+- Por qué: mejorar la cobertura de pruebas y asegurar que los casos de mismatch sean manejados correctamente durante la hidratación del servidor.",1,1,1,1,1
+vuejs/core,2f374cda18cbe331ede1a49a324b423c75d0faf3,"fix(runtime-core): normalize function children for elements and Teleport (#9108)
+
+close #9107","fix(runtime-core): add tests and normalize children handling
+
+- Qué cambia: Se añaden pruebas para verificar el manejo de funciones como hijos en elementos, componentes y Teleport. Se normaliza la lógica de `normalizeChildren` para que pueda procesar correctamente estos casos.
+- Por qué: Mejorar la cobertura de pruebas y asegurar que los hijos de vnode sean correctamente procesados según su tipo.",1,1,1,1,1
+vuejs/core,87b73b64a0d9b4e2dd2dacfe98f2f1c2396d7a61,"fix(runtime-core): preserve once event listener name (#8341)
+
+close: #8342","perf(runtime-core): actualizar lógica de `isEmitListener` para manejar
+
+- Qué cambia: se actualiza la función `isEmitListener` en `componentEmits.ts` y las pruebas correspondientes en `componentEmits.spec.ts` para que manejen correctamente los eventos con el modificador `.once`.
+- Por qué: mejorar la precisión de la detección de eventos emitidos, asegurando que eventos como `onOnce` y `onOnceOnce` sean reconocidos correctamente.",1,1,1,1,1
+vuejs/core,027da6b2810c4752131439d2645f3d931d07242f,"fix(ssr): dedupe inherited scope ids during vnode rendering (#15005)
+
+close #12159
+close #12175","perf(server-renderer): actualizar imports y agregar pruebas para evitar
+
+- Qué cambia: se actualizan los imports en `render.ts` y se añaden pruebas en `ssrScopeId.spec.ts` para prevenir la duplicación de `scopeId` en renderizados recursivos.
+- Por qué: mejorar el rendimiento al evitar la adición múltiple de `scopeId` en elementos renderizados, lo que puede causar problemas de estilo y funcionalidad.",1,1,1,1,1
+vuejs/core,024cf06daa33db4660431f20aa050acb99cff07f,"fix(hydration): force patch dynamic props when hydrating (#9083)
+
+close: #9033","perf(hydration): mejorar la eficiencia al forzar el parche
+
+- Qué cambia: se añaden pruebas y actualizaciones en `hydration.spec.ts` y `hydration.ts` para asegurar que las propiedades dinámicas sean correctamente parcheadas durante la hidratación.
+- Por qué: mejorar la eficiencia al forzar el parche de propiedades dinámicas, lo que evita problemas de incoherencia entre el estado del servidor y el cliente.",1,1,1,1,1
+vuejs/core,be7ce314b96256f1c56f53088d51ed6bc77fde28,fix(compiler-core): correct filter rewrite recursion (#14959),chore(compiler-core/src/compat): corregir recursión innecesaria en,0,0,0,0,0
+vuejs/core,932ddd058d69be9bbd8cd796c89f0d1a4fc128d7,"fix(runtime-core): handle non-isomorphic block element update (#15002)
+
+fix #6385","perf(renderer-core): mejorar la eficiencia del diff en modo optimizado
+
+- Qué cambia: se añade una nueva prueba y se actualiza el código para forzar un full diff cuando el viejo nodo puede ser un bloque no isomórfico.
+- Por qué: mejorar la eficiencia al asegurar que todos los props sean correctamente diferenciados en casos donde el bloque anterior podría no ser isomórfico.",1,1,1,1,1
+vuejs/core,31d0f23757afb410c638a9c29d44d76d0944e18f,"fix(ssr): resolve nested async teleport content (#9431)
+
+close #6207","perf(server-renderer): actualizar imports y añadir pruebas para manejo
+
+- Qué cambia: se actualizan los imports en `ssrRenderTeleport.ts` y se añade una nueva prueba en `ssrTeleport.spec.ts` que verifica el manejo de contenido asincrónico dentro de `<Suspense>`.
+- Por qué: mejorar la funcionalidad y cobertura de pruebas para el componente `teleport`.",1,1,1,1,1
+vuejs/core,3ac052b6b1e9d3978e98cc30a1a89a9b9b51358b,fix(runtime-core): pause tracking when invoking function refs (#14985),"perf(renderer-core): optimizar el seguimiento de dependencias en
+
+- Qué cambia: se añade la gestión del seguimiento de dependencias para evitar que las funciones de referencia rastreen dependencias innecesarias. Se actualizan los imports y se incluyen pruebas unitarias.
+- Por qué: mejorar el rendimiento al evitar el seguimiento de dependencias innecesarias, lo que reduce el consumo de recursos y mejora la eficiencia del código.",1,1,1,1,1
+vuejs/core,e450973eabc0038f398344b981acd8759c246c50,fix(reactivity): avoid triggering effects when set fails (#14964),"fix(reactivity): añadir pruebas para fallos en operaciones de asignación
+
+- Qué cambia: se añaden pruebas unitarias que verifican el comportamiento cuando se intenta modificar una propiedad inmutable en un objeto reativo.
+- Por qué: mejorar la robustez del sistema de reactividad al asegurar que las operaciones de asignación fallen correctamente cuando se intenta cambiar propiedades protegidas.",1,0,1,1,1
+vuejs/core,747f57e9cdb3c5f084f8da5ca7e0e0b7b326b662,"fix(types): validate defineModel defaults (#14968)
+
+close #14966","fix(api): añadir casos de default para arrays y objetos en `defineModel`
+
+- Qué cambia: se añaden nuevos casos de default para arrays y objetos en `defineModel`, y se actualizan los tipos y pruebas correspondientes.
+- Por qué: mejorar la flexibilidad y precisión de las definiciones de modelos, asegurando que los valores por defecto sean manejados correctamente.",1,1,1,1,1
+vuejs/core,e6990ebd6d20d133e9167abbda1e8df1e7382d54,chore(deps): update compiler (#14962),"chore(compiler-sfc): actualizar `postcss-selector-parser` a versión
+
+- Qué cambia: se actualiza la versión de `postcss-selector-parser` de 7.1.2 a 7.1.4 en los archivos `package.json` y `pnpm-lock.yaml`.
+- Por qué: la nueva versión incluye mejoras de rendimiento y correcciones de errores, lo que puede mejorar la eficiencia del compilador SFC.",1,1,1,1,1
+vuejs/core,643aa27b85bfa3f9607e3833d01831fc5363db76,docs(sfc-playground): update downloaded template Node.js requirement (#15007),chore(sfc-playground): actualizar versión requerida de Node.js en README,1,1,1,1,1
+vuejs/core,0ea17e232f9a8f4a9acf57c6addc78cf4f279c13,fix(compiler-core): avoid crash on CDATA at the document root (#14916),"perf(compiler-core): añadir soporte para CDATA en HTML
+
+- Qué cambia: se añade la capacidad de procesar CDATA en contenido HTML (packages/compiler-core/__tests__/parse.spec.ts, packages/compiler-core/src/parser.ts)
+- Por qué: mejorar el rendimiento al permitir el análisis y manejo de datos CDATA dentro de elementos HTML",0,0,0,0,0
+vuejs/core,db3e117025a7193291ed6676180a5a44bbe0ae76,fix(runtime-core): add dev warning for silent catch in compat mode and fix test description typo (#14891),"feat(runtime-core): añadir advertencia de depuración en `defineReactive`
+
+- Qué cambia: se añade una advertencia de depuración cuando falla la creación de propiedades reactivas (`packages/runtime-core/src/compat/global.ts`)
+- Por qué: mejorar la capacidad de diagnóstico al detectar errores durante la definición de propiedades reactivas",1,0,1,1,1
+vuejs/core,5300ead57b3c14942d4c155ef5e485d5409e7f02,fix(runtime-core): skip async component callbacks after unmount (#14911),"perf(runtime-core): añadir pruebas y manejo de errores en
+
+- Qué cambia: se añaden pruebas para verificar el comportamiento de `defineAsyncComponent` cuando se desmonta el componente antes de que la carga termine (timeout o error).
+- Por qué: mejorar la robustez del componente al evitar llamadas innecesarias a `errorHandler` y asegurar que las cargas reintenten correctamente después de un error.",1,1,1,1,1
+vuejs/core,7f76378b0d178a29113ee07d67faa48b637944e8,"fix(runtime-core): force model update when reverted before sync (#14897)
+
+close #13524","perf(runtime-core): mejorar la lógica de `useModel` para manejar
+
+- Qué cambia: se añade una nueva prueba que verifica el comportamiento de `useModel` cuando un valor intermedio es revertido antes de la actualización del padre. Se refactoring en la lógica de `useModel` para manejar estos casos.
+- Por qué: mejorar la consistencia y la sincronización del estado local con el estado del modelo, resolviendo problemas de deduplicación de renderizado.",0,0,0,0,0
+vuejs/core,c11f6ee644412edf3eef6736991e895e4a3e1dde,"fix(transition): avoid move transition for hidden v-show group children (#14895)
+
+close #14894","perf(runtime-dom): optimizar condición de entrada en TransitionGroup
+
+- Qué cambia: se actualizan los imports y se añade una prueba para verificar el comportamiento de v-show enter sin mover la transición.
+- Por qué: mejorar la eficiencia al evitar animaciones innecesarias cuando un elemento está oculto con v-show.",1,1,1,1,1
+vuejs/core,0dcd225c01f211ebb8ce4dda8c8eac10539abf1a,"fix(compiler-sfc): handle vue-ignore on leading intersection/union type (#14950)
+
+close #12254","feat(compiler-sfc): añadir pruebas y lógica para ignorar tipos
+
+- Qué cambia: se añaden pruebas unitarias que validan el comportamiento de `defineProps` cuando se usa la anotación `@vue-ignore` con tipos de intersección y unión.
+- Por qué: asegurar que los tipos sean ignorados correctamente en estos casos, evitando problemas de compilación.",1,1,1,1,1
+vuejs/core,68e978e3e71a8ae40701808e78966f2168c5907c,"fix(compiler-core): prefix dynamic keys on v-memo elements (#14922)
+
+close #14920","perf(compiler-core): añadir pruebas y lógica para `v-memo` con claves
+
+- Qué cambia: se añaden pruebas unitarias para verificar el comportamiento de `v-memo` en elementos normales y anidados dentro de `v-for`. Se actualiza la lógica de transformación para manejar correctamente las claves dinámicas.
+- Por qué: mejorar la cobertura de pruebas y asegurar que `v-memo` funcione correctamente con claves dinámicas, lo que mejora la eficiencia del renderizado.",1,1,1,1,1
+vuejs/core,1f2ca7e4837b1b0de0b91048fffdb03710c0b03e,"fix(watch): trigger immediate callback for empty sources (#14914)
+
+close #14898",perf(reactivity): añadir soporte para ejecutar inmediatamente el primer,0,0,0,0,0
+vuejs/core,450a8a8e45520f30fe8343c5016a777d888e53fc,fix(reactivity): preserve watch callback return value when wrapped for `once: true` (#14902),perf(reactivity): añadir manejo de errores asincrónicos en `watch`,0,0,0,0,0
+vuejs/core,80fc139f90513943f1d0da20d353feec8a9ec894,"fix(runtime-core): skip idle persisted transition hooks in keep-alive moves (#14865)
+
+close #14031","perf(renderer.ts): optimize enter/leave hooks for persisted transitions
+
+- Added a new test to ensure that `KeepAlive` activate/deactivate does not call enter/leave hooks when the transition is persisted.
+- Modified the `beforeEnter` and `enter` logic in `renderer.ts` to skip directive-owned leave hooks when the transition is persisted and there is no pending v-show leave.",1,1,1,1,1
+vuejs/core,d6c73713fe20c325e805583d9b2e595b8cd8a111,ci: use backup action for size report comments,"fix(workflows): actualizar acción para mantener un solo comentario
+
+- Qué cambia: se actualiza la acción `actions-cool/maintain-one-comment` a su versión de respaldo pinada en el commit `fbbc22ad1809c1bcf46f19b58397b6254773588c`.
+- Por qué: el repositorio original de la acción está bloqueado por GitHub, por lo que se utiliza una versión de respaldo para asegurar su continuidad.",1,1,1,1,1
+vuejs/core,bb18dc8e567ce22f1e5dfbc6b16c1003b48c2785,perf(runtime-dom): optimize array event handler dispatch (#14828),"perf(runtime-dom): refactor event handling logic to improve performance
+
+- Qué cambia: se refactoring la lógica de manejo de eventos para mejorar el rendimiento y evitar problemas con `stopImmediatePropagation`.
+- Por qué: optimizar el procesamiento de eventos y prevenir que los manejadores posteriores sean ejecutados cuando uno ya ha sido detenido.",1,0,1,1,1
+vuejs/core,5734fe97f6e42d7abb1893c8bc38a17f7deb00b1,perf(reactivity): skip type checks for cached proxies (#14860),"perf(reactivity): añadir benchmarks para mejorar rendimiento al cachear
+
+- Qué cambia: se añaden benchmarks para probar la creación y acceso a objetos reactivos en `packages/reactivity/__benchmarks__/reactiveObject.bench.ts`
+- Por qué: optimizar el rendimiento al cachear objetos reactivos y reducir tiempos de acceso a propiedades anidadas",1,0,1,1,1
+vuejs/core,584beb1262d1247d41ed3b463c485c57022fa922,"fix(teleport): skip child unmount when pending mount discarded (#14876) (#14877)
+
+close #14876","perf(runtime-core): añadir pruebas unitarias para manejo de Teleport
+
+- Qué cambia: se añaden pruebas unitarias que verifican el comportamiento de Teleport cuando se discarta y luego vuelve a aparecer después de una Suspense resuelta.
+- Por qué: estas pruebas aseguran que Teleport no monte ni procese hijos descartados después de que la Suspense se haya resuelto, lo que mejora la consistencia y el rendimiento del componente.",1,0,1,1,1
+vuejs/core,170fc95eb64b97024dcb3df770557065e2919aa8,"fix(runtime-core): avoid repeated hydration mismatch checks (#14857)
+
+close #14855","perf(hydration): optimizar verificación de desigualdad de hijos en
+
+- Qué cambia: se añaden pruebas unitarias para verificar que la verificación de desigualdad de hijos solo ocurre una vez durante la eliminación de nodos excesivos y el montaje de nodos faltantes (hydration.spec.ts)
+- Por qué: mejorar la eficiencia al evitar múltiples comprobaciones innecesarias, optimizando así el rendimiento del proceso de hydration",1,1,1,1,1
+vuejs/core,1b7a2cc15c501a4b1e4be61874879381af59b74f,perf(server-renderer): avoid materializing iterables in ssrRenderList (#14821),"feat(server-renderer): añadir soporte para iterables en `ssrRenderList`
+
+- Qué cambia: se añaden pruebas y implementación para renderizar elementos de conjuntos (`Set`), mapas (`Map`) e iteradores generadores (`Generator`) en la función `ssrRenderList`.
+- Por qué: mejorar la funcionalidad de `ssrRenderList` para manejar diferentes tipos de colecciones y iterables, asegurando que se rendericen correctamente sin intermediarios adicionales.",1,1,1,1,1
+zaproxy/zaproxy,75a1514013477017345eab39c90f8b1d4aa5a985,"Refresh LEGALNOTICE
+
+Refresh LEGALNOTICE.md with latest version.
+
+Signed-off-by: thc202 <thc202@gmail.com>",chore(LEGALNOTICE.md): actualizar versión de rsyntaxtextarea a 4.0.0,1,1,1,1,1
+zaproxy/zaproxy,8fdecc4688ac8b09742679775e2005537208a1dd,"Refresh LEGALNOTICE
+
+Refresh LEGALNOTICE.md with latest version.
+
+Signed-off-by: thc202 <thc202@gmail.com>",chore(LEGALNOTICE.md): actualizar versiones de dependencias flatlaf,1,1,1,1,1
+zaproxy/zaproxy,43010404fe188e337d10fb8d18264841b6cec6ad,"Address exceptions related to statistics
+
+Guard against the usage of null keys when handling statistics, the
+collection in use does not support null keys.
+
+Signed-off-by: thc202 <thc202@gmail.com>","fix(utils): add null checks to prevent NPE in Statistics methods
+
+- Added null checks to `incCounter`, `decCounter`, `setHighwaterMark`, and `setLowwaterMark` methods to handle `null` keys gracefully.
+- Updated unit tests to include scenarios where `null` keys are passed, ensuring that the methods do not throw NullPointerExceptions.
+
+This change improves the robustness of the Statistics utility class by handling edge cases more effectively.
+
+### Author:
+Medina23334444
+
+### Date:
+Sat May 16 23:49:49 2026 -0500",1,1,1,1,1
+zaproxy/zaproxy,dff7f8d95cbded4d18ee3de220d7c21dd15f1424,"Address NPEs related to script types
+
+Guard against the usage of null keys when handling script types, the
+collection now in use does not support null keys.
+
+Signed-off-by: thc202 <thc202@gmail.com>","test(zap/src/main/java/org/zaproxy/zap/extension/script/ExtensionScript.
+
+- Qué cambia: se añaden pruebas unitarias que verifican el comportamiento del método `registerScriptType`, `removeScriptType` y `getScriptType` cuando se les pasa un tipo o nombre de script nulo.
+- Por qué: asegurar que la implementación maneje correctamente estos casos para evitar excepciones y garantizar el funcionamiento estable del sistema.",1,1,1,1,1
+zaproxy/zaproxy,47e5dc9b72fd37680d20c32cef2721f362ad0947,"Refresh LEGALNOTICE
+
+Refresh LEGALNOTICE.md with latest version.
+
+Signed-off-by: thc202 <thc202@gmail.com>",chore(LEGALNOTICE.md): actualizar versión de log4j a 2.26.1,0,1,1,1,1
+zaproxy/zaproxy,f7df8453b300cdf33d0a2b5de65441e9c6918750,"Fix concurrency issue with script types
+
+Use a concurrent map to allow iteration and modifications at the same
+time.
+
+Signed-off-by: thc202 <thc202@gmail.com>","test(zap/src/main/java/org/zaproxy/zap/extension/script/ExtensionScript.
+
+- Qué cambia: se actualiza el import de `HashMap` a `ConcurrentHashMap` en `ExtensionScript.java` y se añade una nueva prueba unitaria en `ExtensionScriptUnitTest.java`.
+- Por qué: mejorar la seguridad contra modificaciones concurrentes al acceder al mapa de tipos de scripts.",1,1,1,1,1
+zaproxy/zaproxy,a698861dd441141a639714af6e4ac39ef3726f29,"Add sse to weekly
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>",feat(zap/src/main): añadir dependencia de SSE a la lista de add-ons,1,1,1,1,1
+zaproxy/zaproxy,d77c88e77318c501e533b9b823b2e8d36a904bd8,"Use stable domain for Chrome itest
+
+Use a domain that is more reliable (zaproxy.com), the JuiceShop one is
+currently non functional.
+
+Signed-off-by: thc202 <thc202@gmail.com>",fix(docker/chrome): actualizar URL de prueba y ajustar valor esperado,1,1,1,1,1
+zaproxy/zaproxy,c5a9f3f574c450b27a563227879bfe028510d68f,"Disable failing testfire itest
+
+The expected user credentials don't work always.
+
+Signed-off-by: thc202 <thc202@gmail.com>",refactor(docker/integration_tests): desactivar archivo de prueba por,0,0,0,0,0
+zaproxy/zaproxy,aa34be2362f03d6d1e25438de3c510051a3e4993,"Refresh LEGALNOTICE
+
+Refresh LEGALNOTICE.md with latest version.
+
+Signed-off-by: thc202 <thc202@gmail.com>",chore(legal): actualizar versiones de dependencias a las más recientes,0,1,1,1,1
+zaproxy/zaproxy,5b457cdcbc49446f635f38f3ce0dd062d30e3926,"Refresh LEGALNOTICE
+
+Refresh LEGALNOTICE.md with latest version.
+
+Signed-off-by: thc202 <thc202@gmail.com>",chore(legal): actualizar versiones de dependencias y licencias,0,1,1,1,1
+zaproxy/zaproxy,5e88926d1a63d55f0121f9cc40c20f7fdc724218,"macos: Fix quit after user cancel
+
+Signed-off-by: kingthorin <kingthorin@users.noreply.github.com>","fix(zap): actualizar imports y añadir documentación en japicmp.yaml
+
+- Qué cambia: se actualizan los imports innecesarios y se añade documentación a los métodos `exit` en `Control.java`, `MenuFileControl.java`, y `OsXGui.java`.
+- Por qué: mejorar la claridad y coherencia del código, facilitando su mantenimiento y comprensión.",0,0,0,0,0
+zaproxy/zaproxy,cc2b2c39f3ad0f05ecf8b8343b9eea6294e2c7be,"Update localized resources
+
+Update resources from Crowdin.
+
+Signed-off-by: zapbot <12745184+zapbot@users.noreply.github.com>","fix(zap/src/main/dist/lang): corregir traducción de ""Content type not",0,0,0,0,0
+zaproxy/zaproxy,a4e6bd594fe8bb2d371f0701b448316fcb8ec8f7,"Expose HostProcess startNodes
+
+This will allow scan rules to find out what the starting point of the
+scan was.
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>","test(zap/src/main/java/org/parosproxy/paros/core/scanner/HostProcess.jav
+
+- Qué cambia: se añaden pruebas unitarias que verifican la funcionalidad del método `getStartNodes` en la clase `HostProcess`.
+- Por qué: asegurar que el método devuelva una lista inmutable de los nodos de inicio correctamente.",1,0,1,1,1
+zaproxy/zaproxy,3b117072dd512b0864a8f750a270306c1d7a9f62,"Refresh LEGALNOTICE
+
+Refresh LEGALNOTICE.md with latest version.
+
+Signed-off-by: thc202 <thc202@gmail.com>",chore(LEGALNOTICE.md): actualizar versión de xom a 1.4.4,0,1,1,1,1
+zaproxy/zaproxy,822f94a5b7906607d6e94dec7f8842b5664a0dbd,"Add mcp to weekly
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>",feat(zap/src/main): añadir :addOns:mcp a la lista de weekly-add-ons.json,1,1,1,1,1
+zaproxy/zaproxy,f6abbf1d89ce2d7b2bf389272a61e826629a2310,"Change title capitalization (#9332)
+
+Change title capitalization.
+Simplify excluded parameter dialog titles.
+
+Relates to #2000",fix(zap/src/main/resources/org/zaproxy/zap/resources/Messages.properties,0,0,0,0,0
+zaproxy/zaproxy,81d4e2b5714d87e710cf7f7d8593d3fc33da81b9,"Refresh LEGALNOTICE and address deprecation
+
+Refresh LEGALNOTICE.md with latest versions.
+Replace usage of deprecated method.
+
+Signed-off-by: thc202 <thc202@gmail.com>",fix(LEGALNOTICE.md): update dependencies and fix pattern configuration,0,1,1,1,1
+zaproxy/zaproxy,c853a3b1f043933870444efccd60fd098aa1b7f0,"httppanel: make setText undo atomically
+
+`JTextComponent#setText` internally first removes existing text and then
+inserts new text, which causes two entries to be added to the undo
+history of RSyntaxTextArea.
+
+This means that hitting undo (ctrl/cmd + Z) in the Requester after
+sending a request, or after changing the HTTP method via the dropdown in
+the UI was causing the text area to become empty.
+
+With this change, we use the concept of atomic edits in RTextArea to
+ensure that a single `setText` results in a single entry to the undo
+history.
+
+Ref:
+- https://javadoc.io/doc/com.fifesoft/rsyntaxtextarea/latest/org/fife/ui/rtextarea/RTextArea.html#beginAtomicEdit()
+
+Signed-off-by: ricekot <git@ricekot.com>","test(zap/src/main/java/org/zaproxy/zap/extension/httppanel/view/syntaxhi
+
+- Qué cambia: se añaden pruebas unitarias para el método `setText` en `HttpPanelSyntaxHighlightTextArea` y se refactoring del mismo para manejar casos nulos y evitar duplicación de código.
+- Por qué: mejorar la cobertura de pruebas y asegurar que el método funcione correctamente en diferentes escenarios.",0,0,0,0,0
+zaproxy/zaproxy,78cc75f4491f25fd28ed1fe737b5865010f00044,"Docker: Fix baseline path bug
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>","fix(docker): corregir error en generación de archivo yaml
+
+- Qué cambia: se corrige la ruta del archivo `zap.yaml` para que use el directorio home del usuario en lugar de una ruta absoluta.
+- Por qué: evitar errores de ejecución al intentar generar el archivo sin un mapeo de unidad.",1,0,1,1,1
+zaproxy/zaproxy,28c349a586eec4b44e0cebf3df027d4d641a7328,"Actions: remove Bluesky alerts
+
+The failures are now posted to a Slack channel, which all of the Core
+team can see
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>","fix(workflows): eliminar notificaciones de fallos en ZAP
+
+- Qué cambia: se eliminan los pasos que envían mensajes de error a Bluesky cuando falla el análisis de ZAP.
+- Por qué: reducir la carga de notificaciones innecesarias y mantener el flujo de trabajo limpio.",1,1,1,1,1
+zaproxy/zaproxy,5702ca47b4ee8d941a4cfbd8ed78aa08a00b7fbb,"Remove unused resource messages
+
+The message `history.showresponse.popup` was added in
+b8dc3501d51a7e4a05e120b34d2fea178c61f765 but not actually used, likely
+related to commented code, which is being removed as well.
+
+The message `ascan.url.popup` stopped being referenced in
+c3de0fe0ff759807ca5a84fbcb6353813c6ae958 as the several context menus
+were replaced with the custom scan dialogue.
+Remove additional active scan related context menu messages that
+stopped being referenced in the same commit.
+
+Signed-off-by: thc202 <thc202@gmail.com>","fix(zap/src/main/java/org/zaproxy/zap/extension/stdmenus/ExtensionStdMen
+
+- Qué cambia: se eliminan clases y métodos no utilizados (`PopupMenuShowResponseInBrowser`, `ascan.site.popup`, `ascan.subtree.popup`, `history.showresponse.popup`) junto con sus referencias en los archivos mencionados.
+- Por qué: mejorar la legibilidad del código y eliminar elementos que aún están en desarrollo.",1,1,1,1,1
+zaproxy/zaproxy,e7320ffb56b7f5d1ac526f878f00514d14dcd3ec,"Include PTK in nightly/weekly
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>",feat(zap/src/main): añadir nuevo addon ptk a la lista semanal,0,1,1,1,1
+zaproxy/zaproxy,7d93c49a0653efd565fda660f312d56e91745186,"Skip unwrap of `alertCountsByRisk`
+
+Exclude `alert/alertCountsByRisk` from the unwrap as it's not wrapped
+in an object.
+
+Part of #9314.
+
+Signed-off-by: thc202 <thc202@gmail.com>","feat(zap/src/main/java/org/zaproxy/zap/extension/api): añadir elementos
+
+- Qué cambia: se añaden elementos a la lista `NON_WRAPPED_API_ELEMENTS` en el archivo `PythonAPIGenerator.java`.
+- Por qué: para incluir nuevos elementos en la lista de elementos no envueltos en la generación de la API de Python.",1,1,1,1,1
+zaproxy/zaproxy,05b5369f62ece232e397d7e0f8cff95a9dc6d128,"Disable JGraphT updates and refresh LEGALNOTICE
+
+Do not update JGraphT for now since it's used by an add-on (AJAX
+Spider).
+Refresh LEGALNOTICE.md with latest versions.
+
+Signed-off-by: thc202 <thc202@gmail.com>","fix(legalnotice): actualizar versiones de bibliotecas y dependencias
+
+- Qué cambia: se actualizan las versiones de varias bibliotecas en el archivo LEGALNOTICE.md, incluyendo commons-codec, commons-lang3, flatlaf, javahelp, log4j, y xom.
+- Por qué: para mantener la compatibilidad y seguridad con las últimas versiones de estas dependencias.",0,1,1,1,1
+zaproxy/zaproxy,884d3aa4ad5a23a0d177a31852f3ac1e5d397f04,"Handle exceptions of individual writers in MultipleWriters (#9276)
+
+Ensure all writers are called.","test(zap/src/main/java/org/zaproxy/zap/extension/script/MultipleWriters.
+
+- Qué cambia: se añade un método interno `forEachWriter` que itera sobre una lista de escritores y ejecuta una acción en cada uno, manejando cualquier excepción que pueda ocurrir.
+- Por qué: mejorar la legibilidad del código y asegurar que los métodos continúen operando con los demás escritores incluso si uno falla.",0,0,0,0,0
+zaproxy/zaproxy,3724bbd0ee881c4c2105815cd48cbc531d65d803,"Update localized resources
+
+Update resources from Crowdin.
+
+Signed-off-by: zapbot <12745184+zapbot@users.noreply.github.com>",fix(zap/src/main/dist/lang/Messages_es_ES.properties): corregir errores,0,0,0,0,0
+zaproxy/zaproxy,46525b5472314381267e89e27ad3ddb3f0e5df62,"Change weekly to Java 21 and inc httpsInfo
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>","feat(zap): actualizar Java a 21 y añadir addon `httpsInfo`
+
+- Qué cambia: se actualiza la versión de Java en el workflow de release-weekly.yml y se añade el addon `httpsInfo` en weekly-add-ons.json
+- Por qué: para aprovechar las últimas características y mejoras de Java 21, y para incluir un nuevo addon que proporciona información detallada sobre HTTPS",1,1,1,1,1
+zaproxy/zaproxy,f6f3ebe6de5e34d043732e92be5c6410b29b6a36,Fix duplicate alert references in HTTP Response Code Errors script,"fix(docker/scripts/scripts/httpsender): añadir referencias de alerta
+
+- Qué cambia: se añaden referencias de alerta en el script ""Alert on HTTP Response Code Errors"" para evitar duplicados (Issue 9273).
+- Por qué: mejorar la precisión y evitar la generación de alertas duplicadas al recibir códigos de respuesta HTTP.",1,1,1,1,1
+zaproxy/zaproxy,e943c3ba681075af543eb6e5f0267191793d8377,"Allow Site Tree refresh in any mode
+
+Mark the Refresh Sites Tree popup menu safe.
+
+Signed-off-by: kingthorin <kingthorin@users.noreply.github.com>",feat(zap/src/main/java/org/zaproxy/zap/extension/siterefresh/PopupMenuSi,0,0,0,0,0
+zaproxy/zaproxy,5888d4acf46ddcaf34de499113a88deb1cd0916d,"Address UI trees not updating fully on theme switch
+
+Signed-off-by: kingthorin <kingthorin@users.noreply.github.com>",fix(zap/src/main/java/org/parosproxy/paros/extension/option/OptionsParam,0,0,0,0,0
+zaproxy/zaproxy,2437ffd8dcfa4cd3c4a64045ece972f52e8e8e22,"Correctly use log levels from config file
+
+Do not set null log level (i.e. no command line arg set) to use the log
+levels from the configuration file.
+
+Signed-off-by: thc202 <thc202@gmail.com>","test(zap/src/main/java/org/zaproxy/zap/ZapBootstrap.java): añadir
+
+- Qué cambia: se añaden pruebas unitarias para el método `setLogLevel` en `ZapBootstrap.java`
+- Por qué: asegurar que el método maneje correctamente los niveles de registro y no permita valores nulos",0,0,0,0,0
+zaproxy/zaproxy,65256f24b6bf0779886010a2a90c9d8b7068a605,"Reduce EDT accesses in headless
+
+Use the utility class to execute in the EDT when needed, which prevents
+the EDT from being spawn when in headless mode.
+
+Signed-off-by: thc202 <thc202@gmail.com>","refactor(zap/src/main/java/org/zaproxy/zap/extension/alert/ExtensionAler
+
+- Qué cambia: Se reemplaza el uso de `EventQueue.isDispatchThread()` y `EventQueue.invokeAndWait()` con `ThreadUtils.invokeAndWaitHandled()`.
+- Líneas añadidas: 1
+- Líneas eliminadas: 35",0,0,0,0,0
+zaproxy/zaproxy,25884f54747daf5a5a4fcac2cfc779b8d9e40710,"Docker: Update weekly image to debian:trixie and JDK 21
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>",perf(docker): actualizar imagen base a debian:trixie y JDK 21,0,0,0,1,1
+zaproxy/zaproxy,8788099fac996a10663558684089b48635134380,"Docker: Update live image to debian:trixie and JDK 21
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>","perf(docker): actualizar imagen base a debian:trixie y JDK 21
+
+- Qué cambia: se actualiza la imagen base de Docker a `debian:trixie-slim` y el JDK a `openjdk-21-jdk`
+- Por qué: mejorar la versión y rendimiento del entorno de ejecución",0,1,1,1,1
+zaproxy/zaproxy,5a8885a580cc7ceb9cd5bf0fa3ab74af68409ef8,"ITests: always use seconds for pollUnits
+
+Signed-off-by: Simon Bennetts <psiinon@gmail.com>",chore(docker/integration_tests/configs/plans): cambiar unidad de tiempo,0,0,1,1,1
+zaproxy/zaproxy,a6cec896b5dbdfa4c786a354d99eb37110fee497,"Fix exceptions with auto-detect auth
+
+Check that the authentication method has credentials to prevent NPEs
+when managing users.
+
+Signed-off-by: thc202 <thc202@gmail.com>",refactor(performAction): añadir verificación nula,0,0,0,0,0
+zaproxy/zaproxy,15b28f247ced52878e285a9cf42d3ecf029575f6,"Prevent engine close in Check For ZAP Errors
+
+Purposefully leak the script to allow the internal function to be used
+throughout the plan.
+
+Related to #9230, the engines are now closed when the script or its
+results are no longer in use to prevent leaks.
+
+Signed-off-by: thc202 <thc202@gmail.com>","fix(workflows): evaluar `errors` para prevenir cierre del motor
+
+- Qué cambia: se añade una línea para evaluar la variable global `errors` en el archivo `af-check-errors.yml`
+- Por qué: evitar que el motor se cierre inesperadamente al asegurar que la variable `errors` esté siendo utilizada, lo que impide su recolección por el garbage collector",1,1,1,1,1
+zaproxy/zaproxy,ca47ce41af72df44471262c570d622f2c18ff7f3,"Update localized resources
+
+Update resources from Crowdin.
+
+Signed-off-by: zapbot <12745184+zapbot@users.noreply.github.com>","chore(zap/src/main/dist/lang): corregir traducción de ""Unknown",0,1,1,1,1
+zaproxy/zaproxy,7f1c868c30f99809f0c014d8b5a2bfe2a96ac025,"Fix parsing of root JSON number
+
+Finish the parsing if the root element is a number instead of throwing
+an exception.
+
+Signed-off-by: thc202 <thc202@gmail.com>","fix(zap/src/main/java/org/parosproxy/paros/core/scanner/JsonParamParser.
+
+- Qué cambia: se añade la capacidad de analizar y procesar números primitivos en los objetos JSON.
+- Por qué: mejorar la funcionalidad del parser para manejar datos numéricos en consultas JSON.",1,1,1,1,1
+zaproxy/zaproxy,63e929999193ac74c35760c0443fc13b49aca91c,"Do not persist temp ascan msgs when headless
+
+Change from command line to daemon as well, since it benefits more
+users with reduced disk/DB space requirements.
+
+Signed-off-by: thc202 <thc202@gmail.com>",chore(zap/src/main/java/org/parosproxy/paros/core/scanner/ScannerParam.j,0,0,0,0,0
+zaproxy/zaproxy,7038ca7a1cb3f625e651bb9036f42bcf4b40585c,"For multipart form-data use the non-normalized boundary when extracting
+
+- Update logic in the variant
+- Add test with boundary that has mixed capitalization
+
+Signed-off-by: kingthorin <kingthorin@users.noreply.github.com>","test(zap/src/test/java/org/parosproxy/paros/core/scanner/VariantMultipar
+
+- Qué cambia: se añaden pruebas unitarias en `VariantMultipartFormParametersUnitTest.java` que verifican el correcto procesamiento de `Content-Type` cuando tiene una combinación de mayúsculas y minúsculas.
+- Por qué: asegurar que la implementación de `parseImpl` funcione correctamente incluso cuando el encabezado `Content-Type` tiene una combinación de mayúsculas y minúsculas.",1,1,1,1,1
+zaproxy/zaproxy,d6860b9992592fda41b49c9cf2bc48ee69394392,"Do not prompt when out of space and headless
+
+Disable the prompt since the GUI is not enabled.
+
+Part of #9212.
+
+Signed-off-by: thc202 <thc202@gmail.com>","test(zap/src/main/java/org/parosproxy/paros/control/Control.java):
+
+- Qué cambia: se añade el método `setSingletonForTesting` en la clase `Control` para facilitar pruebas unitarias.
+- Por qué: mejorar la capacidad de pruebas unitarias al permitir la configuración del singleton de control durante las pruebas.",1,0,1,1,1
+zaproxy/zaproxy,6036ed8f76c3c181923cdba7253d7fecc7dc04f3,"Update baseline integration test results
+
+Update alert name in the results to match the latest code changes.
+
+Signed-off-by: thc202 <thc202@gmail.com>",perf(docker/integration_tests/results): actualizar mensaje,0,0,0,0,0
