@@ -8,7 +8,7 @@ sns.set_theme(style="whitegrid")
 plt.rcParams.update({'font.size': 12, 'font.family': 'sans-serif'})
 
 def generar_graficas_investigacion():
-    ruta_csv = "CMG_eval_binary_metrics.csv"
+    ruta_csv = "CMG_eval_original_n250.csv"
     
     if not os.path.exists(ruta_csv):
         print(f"Error: No se encontró el archivo {ruta_csv}")
