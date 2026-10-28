@@ -1,5 +1,7 @@
 # src/nodes/comprehension.py
+from langchain_core.messages import HumanMessage, SystemMessage
 from agent.state import AgentState
+from utils.prompt_loader import load_prompt
 from tools.analyzer_tools import (
     detect_commit_type,
     detect_scope,
@@ -17,21 +19,20 @@ class ComprehensionNode:
     - Clasifica el tipo de commit (heurística, sin LLM)
     - Identifica módulos afectados / scope (heurística, sin LLM)
     - Genera resumen estructurado del diff (heurística, sin LLM)
+    - Infiere la intención ("por qué") real del cambio (1 llamada LLM)
     - Recupera contexto semántico histórico (RAG)
 
-    NOTA DE OPTIMIZACIÓN:
-    Antes este nodo hacía una llamada LLM adicional (_inferir_intencion) solo
-    para describir el "por qué" del cambio en una oración. Esa llamada era
-    redundante: el generator ya recibe el diff completo y su system prompt
-    le pide priorizar la intención por sobre el "cómo". Se eliminó esa llamada
-    y se reutiliza `resumen` (ya calculado sin LLM) como campo de "intención"
-    para generator/validator. Esto reduce de 3 a 2 las invocaciones al LLM
-    por corrida exitosa.
+    NOTA: se restauró la llamada LLM a _inferir_intencion. Se había sacado
+    para pasar de 3 a 2 llamadas por corrida, reutilizando `resumen` (el
+    "qué", heurístico) como si fuera la "intención" (el "por qué"). Eso
+    dejaba al generador sin ningún "por qué" razonado de verdad -- solo
+    con el "qué" duplicado bajo otro nombre, lo que probablemente pesaba
+    en la métrica de Rationality. Si `self.llm` no está disponible o la
+    llamada falla, cae de nuevo a `resumen` como antes (mismo
+    comportamiento de fallback, no rompe la resiliencia del pipeline).
     """
 
     def __init__(self, llm=None):
-        # Se mantiene el parámetro por compatibilidad con CommitGraph,
-        # pero ya no se usa un LLM en este nodo.
         self.llm = llm
 
     def run(self, state: AgentState) -> AgentState:
@@ -50,8 +51,8 @@ class ComprehensionNode:
         # ── 4. Búsqueda RAG (Semántica Inteligente) ─────────────────────────────
         contexto_rag = get_repo_context_rag(query=resumen, k=3)
 
-        # ── 5. "Intención" reutiliza el resumen — ya no hay llamada LLM aquí ────
-        intencion = resumen
+        # ── 5. Inferir intención real del "por qué" (1 llamada LLM) ─────────────
+        intencion = self._inferir_intencion(diff, archivos, tipo_detectado, resumen)
 
         return {
             **state,
@@ -99,3 +100,31 @@ class ComprehensionNode:
             })
         except Exception:
             return "sin resumen disponible"
+
+    def _inferir_intencion(self, diff: str, archivos: str, tipo_detectado: str, resumen: str) -> str:
+        """
+        Llama al LLM para inferir el PORQUÉ real del cambio, en una sola
+        oración corta, distinto del resumen heurístico del QUÉ.
+        Si no hay LLM disponible o la llamada falla, cae a `resumen`
+        (mismo comportamiento que antes de restaurar esta llamada).
+        """
+        if self.llm is None:
+            return resumen
+        try:
+            system_prompt = load_prompt("comprehension_system.md")
+            user_prompt = load_prompt(
+                "comprehension_user.md",
+                tipo_detectado=tipo_detectado,
+                archivos=archivos,
+                resumen=resumen,
+                diff_resumido=sample_diff_por_archivo(diff, limite_total=2000),
+            )
+            messages = [
+                SystemMessage(content=system_prompt),
+                HumanMessage(content=user_prompt),
+            ]
+            respuesta = self.llm.invoke(messages)
+            texto = respuesta.content.strip()
+            return texto if texto else resumen
+        except Exception:
+            return resumen
