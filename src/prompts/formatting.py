@@ -25,6 +25,9 @@ class PromptFormatter:
         if contexto_rag:
             secciones.append(contexto_rag)
 
+        # ── NUEVO: Checklist de Cobertura ─────────────────────────────────────
+        secciones.append(self._seccion_cobertura(state))
+
         # ── Diff ──────────────────────────────────────────────────────────────
         secciones.append(self._seccion_diff(state))
 
@@ -68,6 +71,21 @@ class PromptFormatter:
 - Intención del cambio: {intencion}
 - Resumen: {resumen}"""
 
+
+    def _seccion_cobertura(self, state: AgentState) -> str:
+        archivos = state.get("archivos", [])
+        if not archivos:
+            return ""
+            
+        partes = [
+            'CHECKLIST DE ARCHIVOS OBLIGATORIOS (Comprehensiveness):',
+            'Tu viñeta "- Qué cambia:" DEBE mencionar explícita o implícitamente la modificación de TODOS estos archivos para ser aprobada:'
+        ]
+        for archivo in archivos:
+            partes.append(f"- {archivo}")
+            
+        return "\n".join(partes)
+
     def _seccion_rag(self, state: AgentState) -> str:
         contexto_repo = state.get("contexto_repo")
         if not contexto_repo:
@@ -87,38 +105,42 @@ class PromptFormatter:
 
         return "CONTEXTO DEL PROYECTO (RAG):\n" + "\n".join(partes)
 
+    def _resumir_diff_estructural(self, diff: str) -> str:
+        """Comprime diffs conservando firmas de clases/funciones y archivos."""
+        import re
+        lineas_importantes = []
+        for linea in diff.splitlines():
+            if linea.startswith('diff --git') or linea.startswith('+++') or linea.startswith('---'):
+                lineas_importantes.append(linea)
+            # Regex mejorada para soportar JS/TS (Angular, Deno, etc)
+            elif re.match(r'^[\+\-]\s*(export\s+|async\s+|public\s+|private\s+|protected\s+|static\s+)*(class|def|function|interface|type|const|let|var)\s', linea):
+                lineas_importantes.append(linea)
+        
+        if not lineas_importantes:
+            return diff[:8000]
+            
+        return "\n".join(lineas_importantes)[:8000]
+
     def _seccion_diff(self, state: AgentState) -> str:
         diff = state.get("diff", "")
         archivos = state.get("archivos", [])
+        
+        # --- REGLA CI/CD RESTAURADA ---
+        archivos_ci = [f for f in archivos if any(kw in f for kw in [".github/workflows", "gitlab-ci", "jenkins", "docker-compose"])]
+        todo_es_ci = len(archivos_ci) > 0 and len(archivos_ci) == len(archivos)
 
-        # Si el diff contiene archivos CI/CD, no lo envía completo
-        archivos_ci = [
-            a
-            for a in archivos
-            if any(
-                x in a.lower()
-                for x in [".github", "ci.yml", "cd.yml", "dockerfile", "jenkinsfile"]
-            )
-        ]
-
-        if archivos_ci and len(diff) > 2000:
+        if todo_es_ci and len(diff) > 2000:
             return f"""DIFF (resumido por contener archivos CI/CD):
     Archivos de automatización modificados:
     {chr(10).join(archivos_ci)}
 
     Nota: El diff completo fue omitido por contener configuración de CI/CD.
     Usa el tipo 'ci' o 'build' para este cambio."""
+        # -------------------------------
 
-        # --- NUEVO: CORTE DE EMERGENCIA (TRUNCAMIENTO POR HARDWARE) ---
-        LIMITE_CARACTERES = 8000
-        if len(diff) > LIMITE_CARACTERES:
-            diff_truncado = diff[:LIMITE_CARACTERES]
-            return f"""DIFF (⚠️ resumido por hardware):
-{diff_truncado}
-...
-
-[!] NOTA DEL SISTEMA: El diff original era demasiado largo ({len(diff)} caracteres) y fue truncado por restricciones de hardware.
-Tu tarea sigue siendo la misma. Genera el mensaje de commit basándote únicamente en el fragmento del diff proporcionado arriba."""
-        # --------------------------------------------------------------
-
+        # Umbral en 8000: con 4000 el generador veía solo ~5% de las líneas cambiadas en los commits de 4000-4500 chars
+        if len(diff) > 8000:
+            diff_resumido = self._resumir_diff_estructural(diff)
+            return f"""DIFF (⚠️ Resumido estructuralmente por longitud):\n{diff_resumido}\n...\n[!] NOTA: El diff es masivo, se muestran solo las firmas de funciones/clases alteradas para guiarte."""
+        
         return f"DIFF:\n{diff}"
