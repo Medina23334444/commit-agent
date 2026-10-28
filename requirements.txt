@@ -1,0 +1,10 @@
+# Dependencias necesarias para ejecutar el agente
+langchain-core
+langchain-ollama
+langchain-text-splitters
+langgraph
+langchain-chroma
+langchain-huggingface
+sentence-transformers
+python-dotenv
+typing-extensions
