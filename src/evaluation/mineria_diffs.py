@@ -22,7 +22,7 @@ HEADERS_DIFF = {
     "Accept": "application/vnd.github.v3.diff"
 }
 
-# 2. Muestra controlada de repositorios (Licencias permisivas)
+# 2. Muestra controlada de repositorios
 REPOSITORIOS = [
     "angular/angular",
     "vitejs/vite",
@@ -32,24 +32,17 @@ REPOSITORIOS = [
 ]
 
 COMMITS_POR_REPO = int(os.getenv("COMMITS_POR_REPO", "30"))
-
-# CAMBIO 1: bajado de 8000 a 4500. Por encima de 5000 chars, el pipeline
-# del agente falla en ~48% de los casos (context window), y >6000 en ~62%.
-# Ver análisis: tasa de ERROR_DE_GENERACION correlaciona con diff_len.
 MAX_DIFF_CHARS = int(os.getenv("MAX_DIFF_CHARS", "4500"))
-
-# CAMBIO 2: mínimo de líneas de cambio reales (+/-) para descartar diffs triviales
 MIN_LINEAS_CAMBIO = int(os.getenv("MIN_LINEAS_CAMBIO", "3"))
-
-# CAMBIO 3: cuota máxima por tipo de commit (estratificación), para que
-# "fix" no domine el dataset solo por ser el más frecuente cronológicamente.
-CUOTA_MAX_POR_TIPO = int(os.getenv("CUOTA_MAX_POR_TIPO", "20"))  # de 50 por repo
+CUOTA_MAX_POR_TIPO = int(os.getenv("CUOTA_MAX_POR_TIPO", "20"))
+# NUEVO: Longitud mínima del mensaje original para evitar mensajes vacíos o muy pobres
+MIN_MENSAJE_CHARS = 15 
 
 
 def clasificar_tipo(mensaje: str) -> str:
     """Clasifica el commit según Conventional Commits, o 'otro' si no aplica."""
     match = re.match(
-        r"^(feat|fix|refactor|perf|test|build|ci|style|chore|docs)(\(.+\))?:",
+        r"^(feat|fix|refactor|perf|test|build|ci|style|chore|docs)(\(.+\))?(!)?:\s*.+",
         mensaje.lower()
     )
     return match.group(1) if match else "otro"
@@ -65,7 +58,7 @@ def contar_lineas_cambio(diff_texto: str) -> int:
 
 def extraer_diffs():
     dataset = []
-    vistos_diff_hash = set()  # CAMBIO 4: dedup por contenido, no solo por SHA
+    vistos_diff_hash = set()
 
     descartados_por_tamano = 0
     descartados_por_bots = 0
@@ -75,6 +68,11 @@ def extraer_diffs():
     descartados_por_trivial = 0
     descartados_por_duplicado = 0
     descartados_por_cuota = 0
+    
+    # NUEVOS CONTADORES
+    descartados_reverts = 0
+    descartados_no_convencional = 0
+    descartados_mensaje_corto = 0
 
     print("Iniciando minería de datos avanzada y limpieza...")
 
@@ -84,7 +82,7 @@ def extraer_diffs():
         validos_repo = 0
         page = 1
         vistos_shas = set()
-        contador_tipo_repo = {}  # CAMBIO 3: cuota por tipo, por repo
+        contador_tipo_repo = {}
 
         while validos_repo < COMMITS_POR_REPO:
             url_commits = (
@@ -114,32 +112,49 @@ def extraer_diffs():
                 mensaje = commit['commit']['message']
                 mensaje_lower = mensaje.lower()
 
-                # Filtro 1: Omitir commits de merge
-                if mensaje.startswith("Merge"):
+                # NUEVO FILTRO: Mensajes demasiado cortos (ej: "fix")
+                if len(mensaje.strip()) < MIN_MENSAJE_CHARS:
+                    descartados_mensaje_corto += 1
                     continue
 
-                # Filtro 2: Ignorar bots
-                if "dependabot" in mensaje_lower or "renovate" in mensaje_lower:
+                # Filtro 1: Omitir commits de merge
+                if mensaje.startswith("Merge") or mensaje.startswith("pull request"):
+                    continue
+
+                # NUEVO FILTRO: Omitir commits de tipo Revert
+                if mensaje_lower.startswith("revert"):
+                    descartados_reverts += 1
+                    continue
+
+                # Filtro 2 MEJORADO: Ignorar bots (Lista expandida)
+                bots_conocidos = ["dependabot", "renovate", "snyk", "bot", "github-actions", "snyk-bot"]
+                if any(bot in mensaje_lower for bot in bots_conocidos) or commit['commit']['author']['name'].lower().endswith("bot"):
                     descartados_por_bots += 1
                     continue
 
                 # Filtro 3: Eliminar ruido administrativo en el mensaje
-                ruido_textual = [
-                    "release note", "changelog", "bump version", "chore(release",
-                    "release(", "📝", "docs:"
-                ]
-                if any(ruido in mensaje_lower for ruido in ruido_textual):
+                is_release_or_bump = re.match(
+                    r'^(?:chore(?:\(.*\))?:\s*)?(release[:(]|bump\b|version\b)', 
+                    mensaje_lower
+                )
+                ruido_textual = ["release note", "changelog", "📝", "docs: update changelog"]
+                
+                if is_release_or_bump or any(ruido in mensaje_lower for ruido in ruido_textual):
                     descartados_administrativos += 1
                     continue
 
-                # CAMBIO 3: cuota por tipo — si ya llegamos al máximo de este
-                # tipo en este repo, saltamos el commit (así no se llena todo de "fix")
+                # NUEVO FILTRO: Estricto Conventional Commits
                 tipo = clasificar_tipo(mensaje)
+                if tipo == "otro":
+                    descartados_no_convencional += 1
+                    continue
+
+                # Control de cuota por tipo
                 if contador_tipo_repo.get(tipo, 0) >= CUOTA_MAX_POR_TIPO:
                     descartados_por_cuota += 1
                     continue
 
-                # Extraer el diff crudo de la modificación
+                # Extraer el diff crudo
                 url_diff = f"https://api.github.com/repos/{repo}/commits/{sha}"
                 diff_response = requests.get(url_diff, headers=HEADERS_DIFF)
 
@@ -147,13 +162,24 @@ def extraer_diffs():
                     diff_texto = diff_response.text
                     texto_lower = diff_texto.lower()
 
-                    # Filtro 4: Bloquear archivos de bloqueo/historiales
-                    archivos_basura = [
-                        "b/uv.lock", "b/poetry.lock", "b/package-lock.json",
-                        "b/CHANGELOG.md", "b/docs/en/docs/release-notes.md",
-                        "b/pyproject.toml"
-                    ]
-                    if any(archivo in diff_texto for archivo in archivos_basura):
+                    # Filtro 4 MEJORADO: Bloquear locks, historiales y archivos generados (dist/build)
+                    rutas_modificadas = re.findall(r'^diff --git a/(\S+)', diff_texto, re.MULTILINE)
+                    
+                    archivos_basura_exactos = {
+                        'Cargo.lock', 'package-lock.json', 'yarn.lock', 
+                        'pnpm-lock.yaml', 'uv.lock', 'poetry.lock', 'pyproject.toml'
+                    }
+                    
+                    tiene_basura = any(
+                        ruta.split('/')[-1] in archivos_basura_exactos or 
+                        'CHANGELOG' in ruta.upper() or
+                        '/dist/' in ruta or 
+                        '/build/' in ruta or
+                        ruta.endswith('.min.js')
+                        for ruta in rutas_modificadas
+                    )
+
+                    if tiene_basura:
                         descartados_archivos_irrelevantes += 1
                         continue
 
@@ -166,18 +192,18 @@ def extraer_diffs():
                         descartados_por_idioma += 1
                         continue
 
-                    # Filtro 6: Límite de tamaño (ahora 4500, ver CAMBIO 1)
+                    # Filtro 6: Límite de tamaño 
                     if len(diff_texto) > MAX_DIFF_CHARS:
                         descartados_por_tamano += 1
                         continue
 
-                    # CAMBIO 2: descartar diffs triviales (whitespace, permisos, etc.)
+                    # Filtro 7: Descartar diffs triviales
                     lineas_cambio = contar_lineas_cambio(diff_texto)
                     if lineas_cambio < MIN_LINEAS_CAMBIO:
                         descartados_por_trivial += 1
                         continue
 
-                    # CAMBIO 4: dedup por contenido del diff (no solo SHA)
+                    # Filtro 8: Dedup por contenido del diff
                     diff_hash = hashlib.md5(diff_texto.encode()).hexdigest()
                     if diff_hash in vistos_diff_hash:
                         descartados_por_duplicado += 1
@@ -189,9 +215,9 @@ def extraer_diffs():
                         "commit_hash": sha,
                         "mensaje_original": mensaje,
                         "diff": diff_texto,
-                        "diff_len": len(diff_texto),          # CAMBIO 5: metadata
-                        "diff_lineas_cambio": lineas_cambio,   # CAMBIO 5: metadata
-                        "tipo_commit": tipo,                   # CAMBIO 5: metadata
+                        "diff_len": len(diff_texto),
+                        "diff_lineas_cambio": lineas_cambio,
+                        "tipo_commit": tipo,
                     })
                     validos_repo += 1
                     contador_tipo_repo[tipo] = contador_tipo_repo.get(tipo, 0) + 1
@@ -213,18 +239,20 @@ def extraer_diffs():
         print(f"\n¡Extracción finalizada exitosamente! Se guardaron {len(df)} registros en '{nombre_archivo}'.")
         print("\n--- Resumen de Limpieza (Descartes) ---")
         print(f" - Administrativos / Releases: {descartados_administrativos}")
-        print(f" - Archivos irrelevantes (locks, changelogs): {descartados_archivos_irrelevantes}")
+        print(f" - Archivos irrelevantes (locks, changelogs, build/dist): {descartados_archivos_irrelevantes}")
         print(f" - Tamaño excedido (> {MAX_DIFF_CHARS} chars): {descartados_por_tamano}")
         print(f" - Triviales (< {MIN_LINEAS_CAMBIO} líneas de cambio): {descartados_por_trivial}")
         print(f" - Duplicados por contenido de diff: {descartados_por_duplicado}")
         print(f" - Descartados por cuota de tipo (máx {CUOTA_MAX_POR_TIPO}/repo): {descartados_por_cuota}")
         print(f" - Autogenerados por bots: {descartados_por_bots}")
         print(f" - Idiomas no admitidos (docs/i18n): {descartados_por_idioma}")
+        print(f" - Reverts (generados por git): {descartados_reverts}")
+        print(f" - No cumplen formato Conventional Commits: {descartados_no_convencional}")
+        print(f" - Mensajes demasiado cortos (< {MIN_MENSAJE_CHARS} chars): {descartados_mensaje_corto}")
         print("\n--- Distribución final por tipo de commit ---")
         print(df["tipo_commit"].value_counts())
     else:
         print("\nNo se pudieron extraer datos.")
-
 
 if __name__ == "__main__":
     extraer_diffs()
