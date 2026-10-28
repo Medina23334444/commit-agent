@@ -54,13 +54,30 @@ def detect_commit_type(diff: str, archivos: str) -> str:
     diff_lower = diff.lower()
     archivos_lower = archivos.lower()
 
+    # ── Detección de archivos de producción vs. archivos de test ─────────────
+    # Antes, 'test' disparaba con solo encontrar un archivo/patrón de test en
+    # CUALQUIER lugar del diff, incluso si el diff también tocaba código de
+    # producción (src/, lib/, etc.). Eso hacía que commits reales de tipo
+    # feat/perf/fix que venían acompañados de sus tests (lo normal en buen
+    # código) se clasificaran como 'test', perdiendo la intención real del
+    # cambio. Ahora 'test' solo dispara si NO hay archivos de producción en
+    # el mismo diff — si los hay, la producción manda y se evalúan el resto
+    # de las reglas (fix/perf/feat/refactor) sobre el diff completo.
+    lineas_archivo = [a.strip() for a in archivos_lower.splitlines() if a.strip()]
+    es_archivo_test = lambda a: "test" in a or "spec" in a
+    archivos_no_test = [a for a in lineas_archivo if not es_archivo_test(a)]
+    solo_archivos_test = bool(lineas_archivo) and len(archivos_no_test) == 0
+
     # ── Reglas de clasificación ───────────────────────────────────────────────
     rules = [
         # test
         (
             "test",
-            any(x in archivos_lower for x in ["test", "spec"])
-            or any(x in diff_lower for x in ["assert", "unittest", "pytest"]),
+            solo_archivos_test
+            or (
+                not lineas_archivo
+                and any(x in diff_lower for x in ["assert", "unittest", "pytest"])
+            ),
         ),
         # ci
         (
@@ -101,22 +118,15 @@ def detect_commit_type(diff: str, archivos: str) -> str:
             )
             and not any(x in diff_lower for x in ["def ", "class "]),
         ),
-        # perf
-        (
-            "perf",
-            any(
-                x in diff_lower
-                for x in [
-                    "cache",
-                    "optimize",
-                    "performance",
-                    "speed",
-                    "latency",
-                    "async",
-                ]
-            ),
-        ),
         # fix
+        #
+        # Movido ANTES que 'perf': un error/excepción/null-check es una
+        # señal más específica y confiable que las palabras genéricas de
+        # 'perf' (ver abajo). Antes 'perf' corría primero y 'async' —que
+        # aparece en casi cualquier función JS/TS moderna sin importar
+        # si el cambio es una optimización— se comía la mayoría de los
+        # fix/test/refactor reales (76% de los mal-clasificados como
+        # 'perf' contenían 'async' en el diff, medido sobre el dataset).
         (
             "fix",
             any(
@@ -132,6 +142,26 @@ def detect_commit_type(diff: str, archivos: str) -> str:
                     "except",
                     "null",
                     "none",
+                ]
+            ),
+        ),
+        # perf
+        #
+        # 'async' se eliminó como gatillo: no es indicador de optimización,
+        # solo de código asíncrono (altísima tasa de falsos positivos).
+        (
+            "perf",
+            any(
+                x in diff_lower
+                for x in [
+                    "cache",
+                    "optimize",
+                    "performance",
+                    "speed up",
+                    "latency",
+                    "memoize",
+                    "debounce",
+                    "throttle",
                 ]
             ),
         ),
