@@ -8,23 +8,8 @@ from tools.validation_tools import validate_commit_message
 class ValidatorNode:
     """
     Nodo 3.4 — Semantic Validator Node
-
-    Responsabilidades:
-    - Valida formato Conventional Commits + calidad semántica heurística
-      (regex, sin LLM) vía validate_commit_message
-    - Solo si el mensaje es un caso límite, hace una segunda pasada semántica
-      con LLM para desempatar
-    - Genera crítica específica para el refiner
-
-    NOTA DE OPTIMIZACIÓN:
-    Antes se llamaba al LLM siempre, en cada validación, incluso cuando
-    validate_commit_message (regex + reglas de vaguedad) ya era concluyente.
-    Ahora el LLM solo se invoca en casos ambiguos (ver _necesita_revision_llm),
-    ahorrando ~1-1.5s en el camino feliz (mensaje claro y bien formado).
     """
 
-    # Umbral: si la descripción tiene menos palabras que esto, es "corta"
-    # y se considera caso límite digno de una segunda opinión del LLM.
     MIN_PALABRAS_SIN_DUDA = 5
 
     def __init__(self, llm):
@@ -34,49 +19,37 @@ class ValidatorNode:
         message = state.get("message", "")
         diff    = state.get("diff", "")
 
-        # ── 1. Validación estructural + semántica heurística (regex) ───────────
         resultado_formato = self._validar_formato(message, diff)
         if resultado_formato != "VALID":
             return self._rechazar(state, resultado_formato)
 
-        # ── 2. Validación semántica con LLM — SOLO si es un caso límite ────────
         if self._necesita_revision_llm(message):
             resultado_semantico = self._validar_semantica(state)
             if resultado_semantico != "APROBADO":
                 critica = resultado_semantico.replace("MEJORAR:", "").strip()
                 return self._rechazar(state, critica)
 
-        # ── 3. Aprobado ────────────────────────────────────────────────────────
         return self._aprobar(state)
 
     # ── Helpers ────────────────────────────────────────────────────────────────
 
     def _necesita_revision_llm(self, message: str) -> bool:
-        """
-        Decide si el mensaje amerita una segunda pasada semántica con LLM.
-
-        Se considera caso límite (necesita LLM) si:
-        - La descripción tiene pocas palabras (riesgo de vaguedad que el
-          regex de validate_commit_message no haya detectado).
-        - El mensaje tiene body con cambios secundarios (más superficie
-          para inconsistencias que vale la pena que revise el LLM).
-
-        Si el mensaje es claro, con descripción de longitud normal y sin
-        body, se confía en la validación heurística y se ahorra la llamada.
-        """
-        primera_linea = message.strip().splitlines()[0] if message.strip() else ""
-
-        # Extrae la descripción después de ":"
-        partes = primera_linea.split(":", 1)
-        descripcion = partes[1].strip() if len(partes) > 1 else ""
-        n_palabras = len(descripcion.split())
-
-        tiene_body = len(message.strip().splitlines()) > 1
-
-        return n_palabras < self.MIN_PALABRAS_SIN_DUDA or tiene_body
+        """Filtra commits triviales para ahorrar llamadas al LLM."""
+        lineas = message.strip().splitlines()
+        
+        # Si no tiene body, y el header es corto, no revisar
+        if len(lineas) == 1:
+            return False
+            
+        # Si tiene body, pero el body no tiene viñetas claras ("Qué cambia:", "Por qué:"), revisar
+        NL = chr(10)
+        body = NL.join(lineas[1:])
+        if "Qué cambia:" not in body or "Por qué:" not in body:
+            return True
+            
+        return False
 
     def _validar_formato(self, message: str, diff: str) -> str:
-        """Validación estructural + semántica heurística usando validation_tools."""
         try:
             return validate_commit_message.invoke({
                 "message": message,
@@ -84,40 +57,43 @@ class ValidatorNode:
             })
         except Exception as e:
             print(f"⚠️ Validación de formato falló, dejando pasar sin validar: {e}")
-            return "VALID"  # fail-open registrado: si falla la tool, deja pasar al LLM
+            return "VALID"
 
     def _validar_semantica(self, state: AgentState) -> str:
-        """Validación semántica usando LLM (solo para casos límite)."""
+        """Validación semántica simulando revisión de un Senior Code Reviewer."""
         try:
-            # El límite de contexto que ve el validador depende de si el
-            # mensaje tiene body: solo ahí necesita verificar cobertura de
-            # múltiples archivos/cambios contra el diff completo. Para el
-            # caso "descripción corta sin body" (cambios triviales de 1
-            # línea) no vale la pena pagar el token extra.
             message = state.get("message", "")
-            tiene_body = len(message.strip().splitlines()) > 1
-            limite = 4500 if tiene_body else 500
+            archivos_lista = state.get("archivos", [])
+            NL = chr(10)
+            archivos = NL.join(f"- {a}" for a in archivos_lista) if archivos_lista else "(No se detectaron archivos)"
+
+            diff_resumido = state.get("diff", "")[:4500]
 
             system_prompt = load_prompt("validator_system.md")
-            user_prompt   = load_prompt(
-                "validator_user.md",
-                message      = message,
-                intencion    = state.get("intencion", "no disponible"),
-                diff_resumido = state.get("diff", "")[:limite]
-            )
+            
+            user_prompt = f"""Evalúa el siguiente mensaje de commit basándote en claridad, trazabilidad y completitud técnica.
 
-            response = self.llm.invoke([
-                ("system", system_prompt),
-                ("human",  user_prompt)
-            ])
+Archivos modificados:
+{archivos}
+
+Diff de referencia:
+{diff_resumido}
+
+Mensaje generado:
+{message}
+
+Si el mensaje omite archivos importantes del diff o si su sección 'Por qué' es genérica (ej. 'para mejorar' o 'para optimizar') sin explicar qué regla de negocio o problema técnico motivó el cambio, RECHÁZALO.
+
+Responde ÚNICAMENTE con la palabra "APROBADO" si cumple todo perfectamente.
+Si falla, responde "MEJORAR:" seguido de la instrucción exacta de lo que debe corregir el Refinador."""
+
+            response = self.llm.invoke([("system", system_prompt), ("human",  user_prompt)])
             return response.content.strip()
-
         except Exception as e:
-            print(f"⚠️ Validación semántica (LLM) falló, dejando pasar sin validar: {e}")
-            return "APROBADO"  # fail-open registrado: si falla el LLM, deja pasar
+            print(f"⚠️ Validación semántica (LLM) falló: {e}")
+            return "APROBADO"
 
     def _rechazar(self, state: AgentState, critica: str) -> AgentState:
-        """Rechaza el mensaje e incrementa intentos."""
         intentos = state.get("intentos", 0) + 1
 
         return {
@@ -134,7 +110,6 @@ class ValidatorNode:
         }
 
     def _aprobar(self, state: AgentState) -> AgentState:
-        """Aprueba el mensaje."""
         return {
             **state,
             "critica":       None,
