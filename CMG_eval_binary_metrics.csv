@@ -1,0 +1,2987 @@
+commit_hash,mensaje_generado,respuesta_cruda,json_valido,Rationality,Comprehensiveness,Non-redundancy,Authenticity,Logicality
+389676f42152ff0fba0e144d29b927b77359adaa,"fix(router): establecer nombre predeterminado para excepciones
+
+- Qué cambia: Se ha añadido la propiedad `override readonly name: string` a las clases `NoMatch` y `AbsoluteRedirect` para establecer nombres predeterminados.
+- Por qué: Esto mejora la clara identificación de las excepciones personalizadas al sobrescribir el nombre de la clase de error, lo que facilita el manejo y el depurado en el código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+be7ee3a68b220d4782481c5a69da4feefb677bc9,"fix(angular/upgrade): actualizar mensaje de mantenimiento
+
+- Qué cambia:
+  - `packages/upgrade/PACKAGE.md`: Añadir mensaje de mantenimiento.
+  - `packages/upgrade/README.md`: Añadir mensaje de mantenimiento.
+  - `packages/upgrade/static/PACKAGE.md`: Añadir mensaje de mantenimiento.
+  - `packages/upgrade/static/testing/PACKAGE.md`: Añadir mensaje de mantenimiento.
+- Por qué:
+  - El paquete `@angular/upgrade` está en modo de mantenimiento y solo se aceptarán correcciones de seguridad.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+95e8dec4e225643c7ae8aa356fb693757aed8b76,"fix(core): corregir ortografía de ""deprecated"" en comentarios del código
+
+- Qué cambia:
+  - Corrijo la ortografía de ""deprecated"" en los comentarios de los archivos `provider.ts`, `compiler.ts` y `di.ts`.
+- Por qué:
+  - La ortografía incorrecta puede causar confusión y errores de análisis por parte de herramientas de codificación y revisión.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+42da94c7fd35c408acf9d4881016709907dd43c3,"feat(adev/src/content/guide/components/lifecycle.md): agregar salto de línea en tabla de ciclo de vida
+
+- Qué cambia: Añadí un salto de línea después de ""Change"" en la tabla de ciclo de vida de los componentes.
+- Por qué: Mejorar la legibilidad del código al separar claramente las secciones de la tabla.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+44355181e25905c79045e6344e73c5648ed1d2a4,"fix(platform-server): corregir la interpretación de URLs con espacios Unicode como prefijo
+
+- Qué cambia: Se ha eliminado el método `trim()` de la URL en el interceptor `relativeUrlsTransformerInterceptorFn` para evitar la eliminación de espacios Unicode como prefijo.
+- Por qué: Las URLs con espacios Unicode como prefijo deben ser interpretadas correctamente como rutas relativas en el mismo origen, evitando la eliminación de estos espacios que pueden ser parte integral de la URL.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c0c5d452c3bf8967d7011d9f14831741ea95d2ee,"refactor(chrome-application-operations.spec.ts): extraer el método `eval` en una variable separada
+
+- Qué cambia: Se ha extraído el método `eval` en una variable separada `evalSpy` para mejorar la claridad y la reutilización del código.
+- Por qué: Para facilitar el mantenimiento y la lectura del código, al extraer el método `eval` en una variable separada, se facilita su modificación y seguimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+fe75da1af561df7ff82b3ddecda8ad0e1067df98,"docs(adev/src/content/guide/templates/error-boundaries.md): mejorar documentación
+
+- Qué cambia:
+  - Añadida documentación detallada en `adev/src/content/guide/templates/error-boundaries.md` para explicar cómo los límites de error pueden capturar errores de contenido proyectado.
+
+- Por qué:
+  - La documentación faltaba para explicar cómo los límites de error pueden capturar errores de contenido proyectado, lo que dificultaba la comprensión del comportamiento del sistema.
+
+test(render3/error_boundary_spec.ts): añadir prueba para verificar captura de errores de contenido proyectado.
+
+- Qué cambia:
+  - Añadida prueba en `packages/core/test/render3/error_boundary_spec.ts` que verifica que los límites de error capturan correctamente errores de contenido proyectado.
+
+- Por qué:
+  - La prueba faltaba para verificar que los límites de error capturan correctamente errores de contenido proyectado, lo que dificultaba la verificación del comportamiento del sistema.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8d8859cb2113b90db3da1315877a2d7fd4ceb392,"refactor(action_resolver.ts, cache.ts): utilizar `Object.create(null)` para evitar propiedades prototipo
+
+- Qué cambia: Reemplazamos los objetos literales vacíos con `Object.create(null)` en `action_resolver.ts` y `cache.ts`.
+- Por qué: Mejora el rendimiento al evitar la creación innecesaria de propiedades prototipo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+5cb3ed2958a4358cfc2a712950c56e41fe3a7413,"perf(core/primitives/event-dispatch): agregar prueba para verificar que el mapa de acciones no resuelva propiedades del prototipo `Object` como acciones
+
+- Qué cambia:
+  - Se añade una nueva prueba en `dispatcher_test.ts` para verificar que el mapa de acciones no resuelva propiedades del prototipo `Object` como acciones.
+- Por qué:
+  - Para evitar que las propiedades del prototipo `Object` sean interpretadas como acciones, lo que podría causar comportamientos inesperados o inseguros.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+58a4ca67ec2fbb105172a1b65ced02ba54682488,"refactor(adev/src/content/tools/libraries/angular-package-format.md): Mejorar la claridad y coherencia del texto
+
+- Qué cambia: Se reorganizan y reformulan las secciones del documento para que sean más fáciles de entender y mantener.
+- Por qué: La reorganización y reformulación mejoran la claridad y coherencia del texto, facilitando su lectura y mantenimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+fc637788a0a968285d6bfb1fba3aede3ab71f30d,"chore(adev/src/content/tools/libraries/angular-package-format.md): Mejora la estructura y jerarquía del contenido del archivo, haciendo que los títulos de las secciones sean más descriptivos y fáciles de navegar.
+
+- Qué cambia:
+  - Cambia los títulos de las secciones de `package.json`, `Entrypoints and code splitting`, `Resolution of secondary entry points`, y `README.md` a subsecciones para una mejor jerarquía.
+  - Añade una nueva sección `Library Compilation and Package Optimizations` y mueve el contenido de `Partial compilation` y `Flattening of ES modules` a esta nueva sección.
+  - Añade enlaces a los paquetes de Angular en el ejemplo final.
+
+- Por qué:
+  - Para mejorar la estructura y la jerarquía del contenido del archivo, facilitando la navegación y comprensión del mismo.
+  - Para organizar mejor el contenido relacionado con la compilación y optimización de los paquetes de bibliotecas.
+  - Para proporcionar ejemplos prácticos de paquetes de Angular que cumplen con el formato APF.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+bf73d872eaf28ef8b85cce4bbf8b73067e6c69fe,"fix: eliminar configuración de flujo de trabajo de GitHub Actions no utilizado
+
+- Qué cambia: Se eliminó el archivo `.github/workflows/merge-ready-status.yml`.
+- Por qué: La configuración de flujo de trabajo no estaba siendo utilizada y su eliminación evita un uso innecesario de recursos y posibles problemas de seguridad.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+5cd618f85cf57358f8c7eabc8958dd8db7b74cdc,"fix(determine_review_type.sh): mejorar la robustez y la claridad del script
+
+- Qué cambia:
+  - Añade verificación de la cantidad de argumentos.
+  - Mejora el formato de los mensajes de error.
+  - Asegura que el CLI `gh` esté instalado antes de ejecutar comandos relacionados con GitHub.
+  - Utiliza `command -v` para verificar la instalación del CLI `gh`.
+  - Añade el uso de `--` en el comando `gh pr view` para evitar problemas con argumentos que comiencen con un guion.
+
+- Por qué:
+  - Evita ejecutar comandos que requieren el CLI `gh` sin estar instalado, lo que podría causar errores.
+  - Mejora la claridad y la descriptividad de los mensajes de error, facilitando la depuración.
+  - Asegura que el script funcione correctamente incluso si el usuario no está autenticado en el CLI `gh`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+6647a07d8e5a238d95cbcaa8eb023f9f23aef5f7,refactor(adev/src/content/guide/forms/signals/custom-controls.md): actualizar tipificación de `disabledReasons` y `rawValue` para permitir campos opcionales,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+8c6e6a52896510db37b46eb2430c01ae7c1f3fd0,"fix(vscode-ng-language-service/syntaxes/src/template-blocks.ts, vscode-ng-language-service/syntaxes/template-blocks.json, vscode-ng-language-service/syntaxes/test/data/template-blocks.html, vscode-ng-language-service/syntaxes/test/data/template-blocks.html.snap): añadir soporte para el bloque ""boundary"" en plantillas de Angular
+
+- Qué cambia:
+  - Añade el patrón `boundary` en `template-blocks.ts` y `template-blocks.json`.
+  - Actualiza el archivo de pruebas `template-blocks.html` para incluir un ejemplo de uso del bloque `boundary`.
+  - Ajusta el archivo de snap de pruebas `template-blocks.html.snap` para reflejar el nuevo bloque.
+
+- Por qué:
+  - El bloque `boundary` es necesario para mejorar la detección y análisis de bloques de código en plantillas de Angular, permitiendo una mayor flexibilidad y control en la estructura de las plantillas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+5128dec0ca178ec1441cea020611eac36e62fdf1,"fix(common/http): mejorar gestión de memoria al evitar suscripción indefinida del listener de aborto
+
+- Qué cambia: Se modifica la función `onAbort` para agregar la opción `{once: true}` en `abortSignal.addEventListener('abort', onAbort, {once: true})`. Esto asegura que el listener de aborto se desuscriba automáticamente una vez que se ha ejecutado, evitando así fugas de memoria.
+- Por qué: La suscripción indefinida del listener de aborto podría causar fugas de memoria, ya que el listener no se desuscribiría automáticamente. Al agregar la opción `{once: true}`, se asegura que el listener se desuscriba una vez que se ha ejecutado, lo que mejora la gestión de la memoria.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+b0d4010d50ac535cf5ecf4420eafe07a30849132,"fix(router): simplificar expresión condicional
+
+- Qué cambia: Eliminar el método `as` innecesario de la expresión condicional.
+- Por qué: Evitar el uso de `as` innecesario que puede ocultar problemas de tipo y mejorar la legibilidad del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+40f82682083cfe1507dac659b3a35e539ebc4cdd,"docs(router): mejorar la documentación de `ResourceContext`
+
+- Qué cambia: Se actualiza la descripción de `ResourceContext` para incluir tanto los parámetros de ruta como los de matriz.
+- Por qué: Se necesita una documentación más precisa y completa para que los desarrolladores entiendan completamente los parámetros disponibles en `ResourceContext`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+93a351d6ad7dcf8a617736e3e7df017b31d2ad6f,"feat(abstract_emitter): añadir función para agregar comentarios únicos
+
+- Qué cambia: Se añade la función `addUniqueSingleLineComment` en `abstract_emitter.ts`.
+- Por qué: Evita la duplicación de comentarios únicos en una línea.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+34c84cdad05f0f1ffd819147ccd58239e3f2c7cc,"fix(adev/src/content/guide/image-optimization.md, adev/src/content/guide/zoneless.md): corregir formación de frases
+
+- Qué cambia:
+  - Ajustar la formación de la frase en `image-optimization.md` para que sea más clara y coherente.
+  - Ajustar la formación de la frase en `zoneless.md` para que sea más clara y coherente.
+- Por qué:
+  - La frase original estaba mal formada, lo que dificultaba la comprensión del texto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+11750ee2da7b43e708d00a4defd2157ba2cb5161,"refactor(adev/src/content/ai/develop-with-ai.md): eliminar sección sobre Web Codegen Scorer
+
+- Qué cambia: Se eliminó la sección sobre el ""Web Codegen Scorer"" del archivo `adev/src/content/ai/develop-with-ai.md`.
+- Por qué: El Web Codegen Scorer ha sido descontinuado o reemplazado por otras herramientas y enfoques, por lo que su contenido ya no es relevante.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d6b8d99a64bb65e38f01ad6f1f0d1e8e9d34e55b,"fix(adev/src/content/ecosystem/service-workers/devops.md): agregar información sobre la actualización del service worker cuando solo cambian sus encabezados de respuesta
+
+- Qué cambia: Se añade una sección que explica cómo actualizar el service worker cuando solo cambian sus encabezados de respuesta, asegurando que los cambios en la configuración del encabezado, como la Política de Seguridad de Contenido, se reflejen en el service worker instalado.
+- Por qué: Browsers solo instalan un nuevo service worker cuando el script del service worker es byte-diferente del instalado. Cambiar solo los encabezados de respuesta que el servidor envía no actualiza el service worker instalado. Para forzar la instalación del service worker nuevamente, se debe registrar con una URL de script versionada y cambiar la versión cuando esos encabezados cambien.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c2143bb2405e36d8ee4b88c3c1a4a05fea1f60c8,"refactor(chrome-message-bus, iframe-message-bus): tipificar y mejorar la legibilidad de los listeners
+
+- Qué cambia:
+  - En `chrome-message-bus.ts`, cambia el tipo de `_listeners` de `any[]` a `ListenerFn[]`, donde `ListenerFn` es una función que acepta un mensaje de tipo `ChromeMessage`.
+  - En `iframe-message-bus.ts`, cambia el tipo de `listeners` de `any[]` a `ListenerFn[]`, donde `ListenerFn` es una función que acepta un evento de tipo `MessageEvent`.
+- Por qué:
+  - Para mejorar la tipificación y legibilidad del código, definiendo tipos más específicos para los listeners. Esto facilita la comprensión y mantenimiento del código al proporcionar información adicional sobre los tipos de datos esperados y manejados por los listeners.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+7569a02d2961155cc32b9491918bde8ae4c47616,"fix(core): corregir el valor de un código de error para que sea negativo
+
+- Qué cambia: Ajustar el valor de `SIGNAL_WRITE_FROM_ILLEGAL_CONTEXT` a `-600` en `errors.ts` y crear un nuevo archivo `NG0600.md` con detalles sobre el error.
+- Por qué: El valor original `600` no es negativo, lo que podría confundir a los desarrolladores sobre el tipo de error. Al cambiarlo a `-600`, se indica claramente que es un error de tipo ""error"" en lugar de ""warning"". Además, se añade una documentación detallada en `NG0600.md` para explicar el error y cómo solucionarlo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c4dc56bd1ff050d707b0370aaa4b2b8ddbae000e,"docs(NG0501): mejorar la documentación del error
+
+- Qué cambia: Se añaden detalles sobre las causas comunes y explicación del proceso de hidratación fallido.
+- Por qué: Se necesita una documentación más clara y detallada para ayudar a los desarrolladores a entender y resolver el error NG0501.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+994a2d717534f3e4ec96c7661cec774893dca2b6,"feat(adev/src/content/guide/di/hierarchical-dependency-injection.md):
+
+- Qué cambia:
+  - Se añade una sección detallada en el archivo `hierarchical-dependency-injection.md` explicando cómo permitir que el contenido proyectado acceda a un inyector de vista.
+  - Se proporciona un ejemplo de cómo actualizar el componente `Child` para que pueda proporcionar `AnimalService` en `viewProviders`, consultar la plantilla proyectada y renderizarla con `NgTemplateOutlet` y `ngTemplateOutletInjector` establecidos en un inyector que pueda ver ese servicio.
+  - Se muestra cómo el consumidor debe envolver el marcado proyectado en un `<ng-template>`.
+- Por qué:
+  - Se resuelve el problema de inyección de dependencias en componentes que utilizan `<ng-content>`, permitiendo que el contenido proyectado acceda a servicios de nivel de vista.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a783c4e7b753929ababa610e305112b82aaa0eb0,"refactor(dom_renderer): utilizar tipos más específicos y constantes
+
+- Qué cambia: 
+  - Cambia el tipo de `shadowRoot` de `any` a `ShadowRoot`.
+  - Cambia el tipo de `hostEl` de `any` a `Element`.
+- Por qué: 
+  - Mejora la seguridad y la claridad del código al utilizar tipos más específicos y constantes, lo que facilita la comprensión y mantenimiento del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+814919b5698989357d3688c6d9054d4f6b084235,"## Caso A — Commit Simple (Exactamente 1 archivo modificado y cambio trivial):
+feat(adev/src/content/guide/components/programmatic-rendering.md): actualizar import y refactorizar `CustomDialog`","{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+1500458e0e935e2833aaa511f56e9928d9245e2c,"feat(core): actualizar tipo de retorno de funciones flecha
+
+- Qué cambia: Añade el tipo de retorno `o.DYNAMIC_TYPE` a la función `getArrowFunctionFactory` y cambia el tipo de retorno de la función `ɵɵarrowFunction` a `any`.
+- Por qué: Permite que las funciones flecha generadas sean más flexibles y puedan manejar diferentes tipos de valores de retorno.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9486df5e26388e975dfc222902505c2e864636ef,"refactor(idle_scheduler): añadir bloque `try...finally` para asegurar
+
+- Qué cambia: Se añade un bloque `try...finally` en el método `callback` para garantizar que los métodos `bucket.queue.delete(cb)` y `this.callbackBucket.delete(cb)` se ejecuten siempre, independientemente de si ocurre una excepción en `cb()`.
+- Por qué: Evitar que se produzcan fugas de memoria o recursos no liberados debido a excepciones no manejadas en `cb()`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+463cbea4fa075ca6f19d0126cab699045266e17d,"refactor(directive-forest.component.spec.ts): simplificar configuración de TestBed
+
+- Qué cambia: Optimizo la configuración de TestBed y elimino la redundancia de la inicialización de `deepLinkInstanceIdSignal`.
+- Por qué: La configuración original estaba redundante y complicada, lo que dificultaba la lectura y mantenimiento del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+e6239827c71249b61e565763034c289684df06cb,"fix(compiler-cli): desactivar verificación de eventos no reclamados en modo estricto
+
+- Qué cambia: Desactiva la verificación de eventos no reclamados en el modo estricto.
+- Por qué: Esta verificación es solo relevante para bibliotecas de terceros y no para proyectos internos, por lo que su activación en proyectos internos puede causar errores inesperados.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+15bfc1a4befdef22188c23a4d0313140595012fd,"fix(ng_control): asegurar que el formulario se marque como sucio cuando el valor cambia debido a la escritura de un valor por parte de FVC
+
+- Qué cambia: Se añade una prueba que verifica que el formulario se marque como sucio (`dirty`) cuando el valor cambia debido a la escritura de un valor por parte de FVC. Se corrige la lógica en `ng_control.ts` para asegurar que el formulario se marque como sucio antes de establecer el nuevo valor.
+- Por qué: Se rompe el comportamiento esperado del formulario al no marcarlo como sucio cuando el valor cambia debido a la escritura de un valor por parte de FVC. Esto puede llevar a problemas en la validación y el manejo de cambios en el formulario.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+430a8eb5b5529c99f9607a0b8effeabd5d91c518,"## fix(adev/src/content/guide/signals/effect.md, packages/core/src/render3/reactivity/effect.ts): corregir redundancia en referencias a ""Effects""
+
+- Qué cambia:
+  - Elimina etiqueta de encabezado innecesaria en `adev/src/content/guide/signals/effect.md`.
+  - Actualiza enlaces para que apunten directamente a la sección correcta en `adev/src/content/guide/signals/effect.md`.
+  - Corrige enlace en `packages/core/src/render3/reactivity/effect.ts`.
+
+- Por qué:
+  - La redundancia en las etiquetas de encabezado y los enlaces incorrectos causaban confusión y redundancia en la documentación y el código fuente.
+  - La corrección de estos elementos mejora la claridad y la coherencia del contenido, facilitando la lectura y el mantenimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+45e314fc5f0baa335dd770c00f69c63dbff4df31,"refactor(pipeline): eliminar variables innecesarias y optimizar asignación de slots
+
+- Qué cambia:
+  - Eliminó la variable `slotMap` en `slot_allocation.ts` ya que no era utilizada.
+  - Eliminó la variable `released` en `temporary_variables.ts` ya que no era utilizada.
+- Por qué:
+  - La eliminación de estas variables reduce la complejidad del código y mejora su legibilidad.
+  - La optimización de la asignación de slots puede mejorar el rendimiento del compilador.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+bf343eff5a5413212e06c06bf550ac4b4317677e,"fix(adev/src/content/guide/http/making-requests.md, adev/src/content/guide/ssr.md): aclarar que durante el SSR, la implementación de Fetch lee completamente el cuerpo de la respuesta para verificar la integridad antes de devolver la respuesta
+
+- Qué cambia: Se añade una nota crítica en ambos archivos para aclarar que durante el SSR, la implementación de Fetch lee completamente el cuerpo de la respuesta para verificar la integridad antes de devolver la respuesta, como lo requiere el estándar Fetch.
+- Por qué: Esto es necesario porque la implementación de Fetch en el lado del servidor no está limitada por `maxResponseBodySize` de Angular, lo que puede llevar a problemas de rendimiento y seguridad si no se maneja adecuadamente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+83d2ef35ef3fc8338f56b89cc18f976413ed707e,"refactor(adev/src/content/tools/devtools/injectors.md): reorganizar títulos y secciones
+
+- Qué cambia: Reorganizo los títulos y secciones del archivo `injectors.md` para mejorar la estructura y coherencia.
+- Por qué: La reorganización facilita la navegación y la comprensión del contenido, mejorando la localización de información específica.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+fc2f6fd67de91225f505269f728ca1574b3f5b66,"chore(adev/src/content/examples/aria/toolbar/src/disabled/app/app.html, adev/src/content/examples/aria/toolbar/src/disabled/material/app/app.html, adev/src/content/examples/aria/toolbar/src/disabled/retro/app/app.html): eliminar eventos de clic para establecer la alineación
+
+- Qué cambia: Se eliminan los eventos de clic que establecen la alineación a ""left"", ""center"" y ""right"" en los elementos del menú de alineación.
+- Por qué: Para reducir el código innecesario y mejorar la claridad del componente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+2dcdf9aae637a247d1a9bdcf03c740d0b3036cd0,chore(router): añadir decorador `/* @__PURE__ */` a símbolos,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+c097c0144c58cac685cf7297b199ad35c0b7cfa3,"refactor(adev/src/content/guide/security.md): reorganizar imports
+
+- Qué cambia: Se reorganizan las importaciones para que `CSP_NONCE` venga antes que `bootstrapApplication`.
+- Por qué: Para mejorar la claridad y organización del código, facilitando la lectura y mantenimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+ae33a5f55ec1d31ea4e216b32cd1ddc535a3b331,"feat(core): agregar estrategia de detección de cambios OnPush
+
+- Qué cambia: Se ha añadido la propiedad `changeDetection: ChangeDetectionStrategy.OnPush` al componente `PushComponentNeedsChangeDetectorRef` en el archivo `view_injector_integration_spec.ts`.
+- Por qué: Para evitar re-renderizaciones innecesarias hasta que se resuelva el problema #69898.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9e5ae4b710a4973f4bffd7ac15226d12469553c1,"refactor(core): eliminar redundancia de importación
+
+- Qué cambia: Elimino la redundancia de la importación de `ChangeDetectionStrategy` en los archivos mencionados.
+- Por qué: La importación estaba repetida, lo que redundaba y no era necesario.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4380e683d80a86c7f40677046f991538e587cdd3,"refactor(router_config): actualizar clase para utilizar inyección de dependencias y reestructurar el código
+
+- Qué cambia: Se actualiza la clase `AppComponent` para utilizar inyección de dependencias y reestructura el código para mejorar la gestión de estado y la inmutabilidad.
+- Por qué: Se necesitaba mejorar la gestión de estado y la inmutabilidad en la clase `AppComponent`. La inyección de dependencias facilita la prueba y la reutilización del código, mientras que la reestructura mejora la legibilidad y el mantenimiento del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8ca879e2d86c077e0eaeee043fc337fbc0040345,"feat(goldens/public-api/forms/signals/index.api.md): añadir propiedad `annotations`
+
+- Qué cambia: Añade la propiedad `annotations` a la interfaz `FormOptions` para proporcionar información adicional sobre las herramientas experimentales.
+- Por qué: Esta propiedad es necesaria para mejorar la configuración y la documentación de las herramientas experimentales en el formulario.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+96dbae53bbf818ad3ec8cb1796f614b5db3376b1,"feat(types): añadir campo `consequentialHint` a las anotaciones
+
+- Qué cambia: Añade el campo `consequentialHint` a la interfaz `Annotations` en `types.ts` y lo configura en los tests de `declare_tool_spec.ts`.
+- Por qué: Para indicar que la herramienta tiene efectos consecuentes, como modificar el estado o interactuar con el mundo exterior.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+593a5df61c3f296cf2dd984129708d2ece259bdb,"chore(core/third_party/@mcp-b/webmcp-types): simplificar reescritura
+
+- Qué cambia: Reemplazo de `cp` y `sed -i` por `sed` directo para actualizar los archivos `common.d.ts` y `json-schema.d.ts`.
+- Por qué: Elimina la necesidad de copiar archivos innecesarios y simplifica el proceso de reescritura de importaciones.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+cea6896a0fef4fa4f37a4c7a43c7a880900eb21d,"fix(render3/util/discovery_utils): manejar casos `null` y `undefined`
+
+- Qué cambia: Añade una verificación para manejar casos en los que se le pase `null` o `undefined` a la función `getDirectiveMetadata`, retornando `null` en estos casos.
+- Por qué: Evita errores al llamar a la función con valores no válidos y proporciona un valor de retorno consistente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+679c50dcbe8cf7e5d0009e2b5fbf7289f305856b,"fix(models): eliminar propiedad `snapshot` de `ResourceContext`
+
+- Qué cambia:
+  - Eliminó la propiedad `snapshot` de la interfaz `ResourceContext` en `goldens/public-api/router/index.api.md`.
+  - Eliminó la propiedad `snapshot` de la interfaz `ResourceContext` en `packages/router/src/models.ts`.
+  - Eliminó la propiedad `snapshot` de la función `setupNewRouterResources` en `packages/router/src/operators/setup_and_run_resources.ts`.
+
+- Por qué:
+  - La propiedad `snapshot` está obsoleta y no se recomienda para nuevas implementaciones. Su uso puede llevar a confusiones y problemas de mantenimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+b7d432794e51f3fa6489c9d76f9a2a8ce0fedfaa,"feat(adev/src/app/core/services/theme-manager.service.ts): evitar cambio de esquema de color preferido cuando el tema está configurado manualmente a 'auto'
+
+- Qué cambia: Se añade una condición para verificar si el tema actual es 'auto' antes de cambiar el esquema de color preferido.
+- Por qué: Evitar que el servicio cambie el esquema de color preferido cuando el tema está configurado manualmente a 'auto', lo que permite mantener la configuración del usuario.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+77e2a2a85cdbc13f13e37dd495df07f2f2d20c05,"fix(core/testing): añadir método `onDestroy` a `DirectiveFixture`
+
+- Qué cambia:
+  - Añadido el método `onDestroy(callback: () => void)` a la clase `DirectiveFixture` en `packages/core/testing/src/fixture.ts`.
+  - Añadida una prueba que verifica la invocación de callbacks de destrucción cuando la instancia de `DirectiveFixture` se destruye en `packages/core/test/test_bed_spec.ts`.
+- Por qué:
+  - Solucionar el problema de falta de mecanismo para invocar callbacks de destrucción en `DirectiveFixture`, lo que permite una mejor gestión del ciclo de vida de las instancias de componentes y directivas en pruebas unitarias.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f155b62ceabbaaf71abbf59933968787e3961c56,"feat(create-vite): agregar soporte para nuevos frameworks y comandos personalizados
+
+- Qué cambia:
+  - Añadida soporte para 'custom-tanstack-start-react', 'custom-tanstack-router-react', 'custom-tanstack-start-solid', y 'custom-tanstack-router-solid' en `packages/create-vite/src/index.ts`.
+- Por qué:
+  - Para mejorar la flexibilidad y la interactividad del proceso de creación de aplicaciones, permitiendo la creación de proyectos con frameworks y comandos personalizados.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+39330f489a0ae08923557f0ce10a307d6662a3f5,"perf(importsRE): Mejorar precisión del regex para detectar imports en el código
+
+- Qué cambia:
+  - Actualizado el regex `importsRE` para evitar coincidencias no deseadas.
+  - Añadido pruebas para validar los cambios.
+- Por qué:
+  - El regex original estaba causando coincidencias no deseadas, lo que podría llevar a fallos en la detección de imports.
+  - Se añadieron pruebas para asegurar que el nuevo regex funcione correctamente con diferentes tipos de imports, incluyendo casos que antes fallaban.
+  - El cambio mejora la precisión del regex, evitando false positives y asegurando que solo se detecten imports válidos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+6a84c72100da4e4be4badb2d9a0026279b4df136,"perf(vite/src/node/optimizer/index.ts): actualizar documentación de `include` para permitir patrones globales experimentales
+
+- Qué cambia: Se actualiza la documentación de la propiedad `include` para permitir patrones globales experimentales.
+- Por qué: Para mejorar la flexibilidad y optimización de las dependencias, permitir patrones globales experimentales permite una selección más precisa y recursiva de módulos a optimizar, lo que puede reducir el tiempo de compilación y mejorar el rendimiento general del proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4aba8d8720e82e4c5b694a4b7877755a3f84fc57,"refactor(vite): reorganizar código para mejorar la legibilidad
+
+- Qué cambia: Reorganizar bloques de código para mejorar la legibilidad y consistencia.
+- Por qué: La reorganización facilita la lectura y mantenimiento del código, sin modificar su funcionalidad.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9913672bee9c34a2df7fff4c2538783cd4f43b4e,"feat(node/utils.ts, node/__tests__/utils.spec.ts): añadir soporte para CRLF en `generateCodeFrames`
+
+- Qué cambia:
+  - Añadir función `lineTerminatorLengthAt` para determinar la longitud del terminador de línea en cadenas que usan CRLF.
+  - Actualizar `posToNumber` para considerar la longitud del terminador de línea.
+  - Añadir pruebas para verificar el comportamiento de `generateCodeFrames` con CRLF.
+
+- Por qué:
+  - El código actual no soporta correctamente las cadenas que usan CRLF como terminador de línea, lo que puede causar errores en la generación de trazas de código.
+  - Añadir soporte para CRLF es necesario para mejorar la compatibilidad y la precisión de las trazas de código en entornos que utilizan CRLF como terminador de línea.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8abf700eeb2411d8402d08f8e2696effafdbe774,"refactor(proxy): pre-compilar contextos de proxy y almacenarlos en una estructura más organizada
+
+- Qué cambia:
+  - Se añade una nueva estructura `ProxyContextEntry` para almacenar el contexto de proxy pre-compilado.
+  - Se crea una función `createProxyContextMatcher` para pre-compilar los contextos de proxy.
+  - Se actualiza la función `proxyMiddleware` para utilizar la estructura `ProxyContextEntry` y la función `createProxyContextMatcher`.
+
+- Por qué:
+  - Para mejorar la eficiencia y la legibilidad del código al pre-compilar los contextos de proxy y almacenarlos en una estructura más organizada. Esto evita la re-compilación de expresiones regulares y mejora el rendimiento al evitar el re-parsing de contextos de proxy en cada solicitud.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+ef0dc17ada53d1169ae5a89cb8f6482831466755,"fix(node): refactorizar la detección de rutas dentro de `node_modules`
+
+- Qué cambia:
+  - Se ha reemplazado la simple cadena de texto `id.includes('node_modules')` por una expresión regular `inNodeModulesRE.test(id)` en el archivo `packages/vite/src/node/utils.ts`.
+  - Se ha añadido una nueva función `isInNodeModules` en el archivo `packages/vite/src/node/utils.ts` que utiliza la expresión regular para detectar rutas dentro de `node_modules`.
+  - Se han añadido pruebas unitarias para la nueva función `isInNodeModules` en el archivo `packages/vite/src/node/__tests__/utils.spec.ts`.
+
+- Por qué:
+  - El cambio es necesario para mejorar la precisión y eficiencia de la detección de rutas dentro de `node_modules`. La expresión regular proporciona una mejor capacidad de coincidencia y reduce el riesgo de falsos positivos o negativos en comparación con la simple cadena de texto. Las pruebas unitarias aseguran que la nueva función funcione correctamente en diferentes escenarios.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+b919a1a8b5a7c694667f993d677973f42d349458,"chore(types): simplificar documentación de tipos de datos
+
+- Qué cambia:
+  - Eliminación de comentarios redundantes en `customEvent.d.ts` y `hmrPayload.d.ts`.
+  - Mejora de la claridad del código mediante la eliminación de etiquetas `@remarks`.
+
+- Por qué:
+  - Reducción de la redundancia en la documentación.
+  - Mejora la legibilidad del código, facilitando su mantenimiento y comprensión.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4ec58d159df4a1b4799356a1fda62db88ed14752,"chore(vite/src/node/shortcuts.ts): refactorar la creación de la matriz `shortcuts` usando `concat`
+
+- Qué cambia: Se reemplaza la sintaxis de propagación (`...`) por el método `concat` para crear la matriz `shortcuts`. Esto mejora la legibilidad y la clara separación de los elementos de la matriz.
+- Por qué: La sintaxis de propagación puede ser menos clara y menos intuitiva para algunos desarrolladores. El método `concat` es más explícito y fácil de entender, lo que facilita la lectura y mantenimiento del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f40efefbb3630cdb7235286bc2b51673d9fbfc27,"fix(vite/src/node/plugins/esbuild.ts): eliminar funciones no utilizadas y actualizar imports
+
+- Qué cambia: Se eliminaron funciones y patrones no utilizados, actualizando los imports correspondientes.
+- Por qué: Para mejorar la legibilidad y mantenibilidad del archivo, eliminando código innecesario y actualizando referencias.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+b50e1b4a3d66128a4076e19769b2e29657985516,"chore(vite): ajustar regex para permitir descriptores de densidad sin cero inicial
+
+- Qué cambia:
+  - En `packages/vite/src/node/utils.ts`, ajusta la regex `imageCandidateRegex` para permitir descriptores de densidad sin cero inicial (ej: `.5x`).
+  - En `packages/vite/src/node/__tests__/utils.spec.ts`, añade pruebas para verificar que los descriptores de densidad omitan el cero inicial sin alterar la URL.
+
+- Por qué:
+  - Corregir el comportamiento actual que omite descriptores de densidad sin cero inicial, lo que puede causar problemas en el análisis de cadenas `srcset`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+ee644014aab61e546742b862a7d7b0d6c7d67a7b,"fix(pluginContainer): eliminar opciones no utilizadas
+
+- Qué cambia: Se eliminaron las opciones `output` y `modules` de la interfaz `PluginContainerOptions` ya que no eran utilizadas.
+- Por qué: Estas opciones no eran necesarias y su eliminación simplifica la interfaz, eliminando posibles confusión y reduciendo el tamaño del objeto de configuración.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+41f3c6fff88ade015669cac5c42db946e0b6f5c9,"fix(utils): mejora precisión del patrón de expresión regular en `removeTimestampQuery`
+
+- Qué cambia:
+  - Actualiza el patrón de expresión regular en `removeTimestampQuery` para que solo remueva el parámetro de consulta de tiempo戳 (`t`) y no otros parámetros que puedan coincidir parcialmente.
+  - Añade pruebas unitarias para verificar el comportamiento del nuevo patrón.
+- Por qué:
+  - El patrón original (`\bt=\d{13}&?\b`) no distingue entre parámetros de consulta que contienen `t` como parte de otro nombre de parámetro, lo que puede causar errores al eliminar el parámetro de tiempo戳. El nuevo patrón (`(\?|&)t=\d{13}(?:&|$)`) asegura que solo se remueva el parámetro de consulta `t` cuando esté en el formato correcto (`t=1234567890123`) y no esté parte de otro nombre de parámetro. Las pruebas unitarias aseguran que el comportamiento es correcto en diferentes escenarios.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c31c499ca04c7557d9093291b08b6e3087df0542,"feat(create-vite): soportar gestor de paquetes `nub`
+
+- Qué cambia: Se añade soporte para el gestor de paquetes `nub` en las funciones `getFullCustomCommand`.
+- Por qué: El gestor `nub` no utiliza el verbo `create`, sino `nubx create-` y `nubx`. Este cambio permite que el comando de creación funcione correctamente con `nub`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8b3b4894afd98a8807ef985b601410d40b795d79,"feat(playground/css/async/async-3.js): ignorar formateador automático
+
+- Qué cambia: Añadir comentario `// oxfmt-ignore` para ignorar la formateación de la línea que importa `styles`.
+- Por qué: Evitar problemas con el formateador automático que podría alterar la importación de `styles`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+5fdfd26ed10ffd08928a8d13b71650f3444221ca,"fix(README): corregir lista de dependencias que no pueden ser empaquetadas adecuadamente
+
+- Qué cambia: Se corrige la lista de dependencias que no pueden ser empaquetadas adecuadamente, eliminando `esbuild` y agregando `rolldown` y `lightningcss`.
+- Por qué: `esbuild` no puede ser empaquetado debido a archivos binarios, mientras que `rolldown` y `lightningcss` son dependencias que pueden ser empaquetadas correctamente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+3e34883afff1f4823a406dafa3c9e449e80074a5,"chore(semantic-pull-request.yml): actualizar tipos de eventos de PR
+
+- Qué cambia: Se actualiza la lista de tipos de eventos de pull request para incluir `reopened`.
+- Por qué: Para permitir que el flujo de trabajo responda a los eventos `opened`, `reopened`, y `edited` de las solicitudes de extracción, además de `synchronize`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4f9d2f4dadc83191200de7d2154c957a711e8c3d,"feat(packages/vite/src/node/utils.ts, packages/vite/src/node/__tests__/utils.spec.ts): convertir separadores de línea en espacios en la función `processSrcSetSync`
+
+- Qué cambia:
+  - En `packages/vite/src/node/utils.ts`, eliminamos la línea que reemplazaba `\r?\n` por un espacio en la función `parseSrcset`.
+  - En `packages/vite/src/node/__tests__/utils.spec.ts`, añadimos dos pruebas para verificar que la función `processSrcSetSync` convierte correctamente los separadores de línea (nuevos o de retorno carriage) en espacios.
+
+- Por qué:
+  - El cambio es necesario para mejorar la compatibilidad de la función `processSrcSetSync` al convertir los separadores de línea en espacios, asegurando que la función funcione correctamente con diferentes formatos de entrada.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+75196079fcbbd432887e01844371f2c238a7ed85,"fix(playground/assets): añadir pruebas unitarias y archivo de asset
+
+- Qué cambia:
+  - Añadida prueba unitaria `typeof asset import` en `assets.spec.ts`.
+  - Añadida prueba unitaria `typeof asset import` en `assets-encoded-base.spec.ts`.
+  - Añadida prueba unitaria `typeof asset import` en `assets-relative-base.spec.ts`.
+  - Añadida prueba unitaria `typeof asset import` en `assets-runtime-base.spec.ts`.
+  - Añadida prueba unitaria `typeof asset import` en `assets-url-base.spec.ts`.
+  - Añadida etiqueta `Typeof asset import: failed` en `index.html`.
+  - Añadido archivo `asset2.png` en `nested`.
+
+- Por qué:
+  - Se añaden pruebas unitarias para asegurar que los escenarios de importación de assets funcionan correctamente.
+  - Se corrige la etiqueta `Typeof asset import: failed` en `index.html` para reflejar el tipo correcto del import.
+  - Se añade un nuevo archivo `asset2.png` para cubrir un nuevo escenario de importación.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+0291408b8443129ce6f6d1d440be8facabe9683b,"test(assets): agregar pruebas unitarias para verificar el cambio de hash del archivo cuando cambia la función `renderBuiltUrl`
+
+- Qué cambia:
+  - Se agregaron pruebas unitarias en `packages/vite/src/node/__tests__/build.spec.ts` para verificar que el hash del archivo cambia cuando cambia la función `renderBuiltUrl`.
+  - Se creó un archivo de prueba `packages/vite/src/node/__tests__/packages/build-project/asset.txt` con contenido `asset`.
+
+- Por qué:
+  - Se necesitaban pruebas unitarias para asegurar que el hash del archivo cambia cuando cambia la función `renderBuiltUrl`, lo que garantiza la integridad y consistencia del sistema de construcción.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a6c08e10a624bd89b78683ff1b0e8cfa1d89aa45,"fix(plugins/asset, plugins/css, plugins/html): simplificar expresión regular y eliminar parámetro opcional
+
+- Qué cambia:
+  - En `packages/vite/src/node/plugins/asset.ts`, simplificamos la expresión regular `assetUrlRE` y eliminamos el parámetro opcional `postfix` de la función `renderAssetUrlInJS`.
+  - En `packages/vite/src/node/plugins/css.ts`, simplificamos la expresión regular `assetUrlRE` y eliminamos el parámetro opcional `postfix` del reemplazo en `chunkCSS`.
+  - En `packages/vite/src/node/plugins/html.ts`, simplificamos la expresión regular `assetUrlRE` y eliminamos el parámetro opcional `postfix` del reemplazo en `result`.
+
+- Por qué:
+  - El parámetro opcional `postfix` no estaba siendo utilizado en ninguna parte del código, lo que causaba redundancia y complicación innecesaria. Simplificar la expresión regular y eliminar el parámetro opcional mejora la legibilidad y reduce el riesgo de errores.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+5164b6a979da2f0889fbb2fcb6ea07ac5add9b7a,"chore(playground/hmr/__tests__/hmr.spec.ts): omitir prueba de propagación de invalidación de módulos virtuales en entorno de desarrollo empaquetado
+
+- Qué cambia: Se ha modificado la prueba `invalidate virtual module propagates to importers` para que se ejecute solo cuando el entorno no sea de desarrollo empaquetado (`isBundledDev`). Se ha añadido el decorador `test.skipIf(isBundledDev)` para omitir la ejecución de la prueba en ese contexto.
+- Por qué: Para mejorar la cobertura de pruebas en el entorno de desarrollo empaquetado, omitiendo la prueba de propagación de invalidación de módulos virtuales que no es relevante en ese contexto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8156684572bdcf73e9d8568ed67971f0467fab60,"fix(css-lightningcss, minify): añadir pruebas y estilos adicionales
+
+- Qué cambia:
+  - Añadida prueba para minificar estilos en línea en `playground/css-lightningcss/__tests__/css-lightningcss.spec.ts`.
+  - Añadida prueba para escapa las etiquetas de cierre de estilo en línea en `playground/css-lightningcss/__tests__/css-lightningcss.spec.ts`.
+  - Añadida prueba para minificar estilos en línea con esbuild en `playground/minify/__tests__/minify.spec.ts`.
+  - Añadida prueba para escapa las etiquetas de cierre de estilo en línea con esbuild en `playground/minify/__tests__/minify.spec.ts`.
+  - Añadidos estilos adicionales en `playground/css-lightningcss/index.html` y `playground/minify/index.html` para probar la funcionalidad.
+
+- Por qué:
+  - Para asegurar que la minificación y el manejo de estilos en línea funcionen correctamente en el proyecto.
+  - Para evitar problemas de rendimiento y errores de sintaxis en la salida de los estilos minificados.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8cb872e7fb65b03f6068923c6aa7fcf3e71baf21,"fix(pluginContainer): asegurar que los errores de `buildEnd` se pasen a `closeBundle`
+
+- Qué cambia:
+  - En `packages/vite/src/node/server/pluginContainer.ts`, se ha modificado la lógica de `close` para capturar cualquier error de `buildEnd` y pasarlo a `closeBundle`.
+  - Se han añadido pruebas unitarias en `packages/vite/src/node/server/__tests__/pluginContainer.spec.ts` para verificar que los errores de `buildEnd` se propagan correctamente a `closeBundle`.
+
+- Por qué:
+  - El problema existía en que los errores de `buildEnd` no se estaban pasando a `closeBundle`, lo que podría llevar a una finalización del bundle sin errores, ocultando problemas reales.
+  - La necesidad de este cambio surge del deseo de asegurar que todos los errores relevantes durante el proceso de construcción sean correctamente manejados y propagados durante el cierre del bundle, lo que mejora la confiabilidad y la depurabilidad del sistema.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+6bacc956df5a76cc5653b9de4493453b953439fd,"feat(rolldown): asegurar que el objeto `result` sea de tipo `RolldownOutput` y garantizar el cierre del `bundle`
+
+- Qué cambia: Se añade el tipo `RolldownOutput` a la variable `result` y se utiliza un bloque `try...finally` para asegurar que el `bundle` se cierre correctamente.
+- Por qué: Esto mejora la seguridad y la robustez del código al garantizar que el objeto `result` sea siempre de tipo `RolldownOutput` y asegura que el `bundle` se cierre correctamente, incluso si ocurre un error durante la generación del bundle.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+cb77e2a93bad2a8ece00b4aa0ef507c092582c45,"feat(ssrTransform.spec.ts): añadir pruebas para desestructuración en el código SSR
+
+- Qué cambia: Se añaden pruebas unitarias para verificar el correcto funcionamiento de las asignaciones de desestructuración en el código SSR.
+- Por qué: Se necesitan pruebas adicionales para asegurar que el código SSR maneje correctamente las asignaciones de desestructuración, evitando posibles errores en el rendimiento y la funcionalidad.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1fb8afe2b3a386f9c879f80841bf5aefc732f807,"docs(plugin-react): mejorar la documentación del compilador nativo
+
+- Qué cambia: Se añade información adicional sobre la opción experimental de compilador nativo de React en el plugin-react.
+- Por qué: Se necesita proporcionar más contexto y opciones para los usuarios que quieran utilizar el compilador nativo de React en su proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+bdfadefb207039bdb06d547da67dc81a92fe8750,"perf(vitest.config.e2e.ts): habilitar opción experimental `bundledDev`
+
+- Qué cambia:
+  - Se añade la opción experimental `bundledDev` en la configuración de Vitest en `vitest.config.e2e.ts`.
+  - Se actualizan los imports en `playground/hmr-ssr/__tests__/hmr-ssr.spec.ts` para incluir la función `isBundledDev`.
+  - Se añade la prueba de HMR-SSR en `playground/hmr-ssr/__tests__/hmr-ssr.spec.ts` a la lista de pruebas excluidas en `vitest.config.e2e.ts`.
+- Por qué:
+  - Habilitar la opción experimental `bundledDev` permite probar el comportamiento de Vitest en modo de desarrollo empaquetado, lo que es crucial para asegurar que las pruebas de HMR-SSR funcionen correctamente en entornos de desarrollo empaquetados.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8413052731836d4aaf3eb94a0f25788dd35d2888,"fix(node): agregar pruebas y fixture para resolución de raíz del proyecto con enlaces simbólicos
+
+- Qué cambia:
+  - Se agregaron pruebas en `packages/vite/src/node/__tests__/config.spec.ts` para verificar la resolución de la raíz del proyecto cuando se utilizan enlaces simbólicos.
+  - Se creó un fixture en `packages/vite/src/node/__tests__/fixtures/config/root-resolution` con un enlace simbólico y un directorio real.
+- Por qué:
+  - Se necesitaba asegurar que Vite maneje correctamente la configuración en entornos donde la raíz del proyecto es un enlace simbólico, evitando problemas de resolución de rutas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+05a003e6a17a84d75f907ea0f1598bc39b8dce6c,"refactor(config): refactor bundleConfigFile and add nested config test
+
+- Qué cambia:
+  - Refactorizamos la función `bundleConfigFile` para que acepte un parámetro adicional `sourcemapPath` y use `path.dirname(sourcemapPath)` en lugar de `fileName` para transformar rutas de sourcemap.
+  - Añadimos un nuevo archivo de configuración anidado `vite.config.mts` en `packages/vite/src/node/__tests__/fixtures/config/nested/.nested/`.
+  - Añadimos una nueva prueba `sourcemap of a nested config file points to itself` en `packages/vite/src/node/__tests__/config.spec.ts` para verificar que la sourcemap de un archivo de configuración anidado apunte a sí mismo.
+
+- Por qué:
+  - La refactorización mejora la modularidad y la reutilización del código, facilitando la gestión de configuraciones anidadas.
+  - La adición de la prueba asegura que la sourcemap de configuraciones anidadas funcione correctamente, evitando problemas de rutas de sourcemap incorrectas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1d9fa392a43229241f80630236f8552ce8f7cd0f,"feat(vite/src/node/constants.ts): actualizar importación de versión del paquete
+
+- Qué cambia: Se reemplaza la lectura y parseo del archivo `package.json` por la importación directa de la propiedad `version`.
+- Por qué: Evitar el uso de `readFileSync` y `JSON.parse` para obtener la versión del paquete, simplificando el código y mejorando la eficiencia.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+2804636ff608d105928009d274ffba7cfbe55340,"fix(css): manejo de casos de entrada no soportados en `convertTargets`
+
+- Qué cambia:
+  - Añade pruebas para verificar el comportamiento de `convertTargets` con entradas no soportadas.
+  - Modifica la función `convertTargets` para devolver `undefined` cuando no hay restricciones y optimiza la caché para evitar duplicados innecesarios.
+- Por qué:
+  - Evita que la función devuelva un objeto vacío cuando no hay restricciones, lo que podría causar comportamientos inesperados en la función `LightningCSSOptions`.
+  - Mejora el rendimiento al evitar la creación de objetos innecesarios en la caché.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4a261f242831bef92afd2f1aacfb81eab9dec371,"## Caso B — Commit Detallado (Obligatorio para >1 archivo o tipos fix/refactor/perf/chore/build):
+**fix:** agregar pruebas unitarias para manejar importaciones circulares en el código
+
+- **Qué cambia:** Se crean pruebas unitarias en `a.js`, `b.js` y `index.js` para manejar importaciones circulares utilizando `top-level await`. Se actualizan los imports en estos archivos para asegurar la correcta resolución de las dependencias.
+- **Por qué:** Las importaciones circulares pueden causar problemas de resolución y comportamientos inesperados en el código. Estas pruebas aseguran que el sistema maneje correctamente las importaciones circulares utilizando `top-level await`, evitando problemas futuros y garantizando el correcto funcionamiento del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c0f2fc607ee97ee4499337b04826420c00654065,"refactor(vite): actualizar enlaces a las licencias y fuentes
+
+- Qué cambia:
+  - `packages/vite/rollupLicensePlugin.ts`: Actualiza el enlace a la versión específica de `rollup` en el archivo de licencia.
+  - `packages/vite/src/node/optimizer/index.ts`: Actualiza el enlace a la versión específica de `node-graceful-fs` en el archivo de licencia.
+  - `packages/vite/src/types/alias.d.ts`: Actualiza el enlace a la versión específica de `rollup/plugins` en los tipos de alias.
+
+- Por qué:
+  - Para garantizar la integridad y la transparencia de las dependencias, es crucial especificar la versión exacta de los paquetes utilizados en los archivos de licencia y fuentes.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+3ba026dade4af56df08815310d3458fa110f5c5c,"fix(triggerLazyBundlingMiddleware): capturar y registrar errores
+
+- Qué cambia:
+  - En `packages/vite/src/node/server/middlewares/triggerLazyBundling.ts`, se añade un bloque `try-catch` para capturar y registrar errores al intentar iniciar el enlazamiento diferido. Si ocurre un error, se registra el error y se devuelve un error con código de estado 500.
+  - En `playground/hmr-full-bundle-mode/__tests__/hmr-full-bundle-mode.spec.ts`, se añade una prueba que verifica que los errores en el enlazamiento diferido devuelvan un código de estado 500.
+
+- Por qué:
+  - El middleware de enlazamiento diferido no estaba capturando ni registrando errores, lo que podía causar que los errores propagaranse y no se notificaran adecuadamente. Este cambio asegura que los errores sean capturados, registrados y que el servidor devuelva un código de estado 500, mejorando la resiliencia del sistema.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+02cffa9e2d38d5d8f12e4043ee9d0f7abb1471e2,"fix(static): agregar función para detectar nombres de archivo cortos
+
+- Qué cambia:
+  - Se añade la función `looksLikeWindowsShortNamePath` en `static.ts` para detectar si un camino de archivo parece ser un nombre de archivo corto de Windows 8.3.
+  - Se actualizan los imports en `static.spec.ts` para incluir la nueva función.
+  - Se añaden pruebas unitarias para verificar el comportamiento de la nueva función en `static.spec.ts`.
+
+- Por qué:
+  - La función `looksLikeWindowsShortNamePath` es necesaria para evitar la bypass de alias de nombres de archivos cortos de Windows 8.3, lo que mejora la seguridad del sistema al evitar la manipulación de rutas de archivos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+5c1c6c609718303202832f706884192e1f1e9223,"refactor(vite): definir regex predefinida para patrones de archivo
+
+- Qué cambia:
+  - En `packages/vite/src/node/config.ts`, se añade la variable `configFileRegex` para definir un patrón regular que coincide con archivos de JavaScript y TypeScript.
+  - En `packages/vite/src/node/nativeConfigCompat.ts`, se actualiza la propiedad `include` del filtro para que utilice `configFileRegex` en lugar de una expresión regular literal.
+- Por qué:
+  - Para mejorar la claridad y consistencia en la definición de patrones de archivo para JavaScript y TypeScript, utilizando una variable regular expresión predefinida.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+dcf88bd2ad2b1a8845f9029587cc8c825e382d42,"feat(plugins/define): agrega prueba para reemplazo de claves `define`
+
+- Qué cambia:
+  - En `packages/vite/src/node/__tests__/plugins/define.spec.ts`: Se añade una nueva prueba que verifica el reemplazo de claves `define` que contienen el carácter `$`.
+  - En `packages/vite/src/node/plugins/define.ts`: Se ajusta la expresión regular `escapedDotRE` para que escape correctamente el punto en las cadenas.
+
+- Por qué:
+  - Se necesita una prueba que verifique el correcto reemplazo de claves `define` que contienen el carácter `$`, ya que esto puede causar problemas en el procesamiento de variables de entorno.
+  - La expresión regular original no estaba escapando correctamente el punto, lo que podría llevar a errores en el procesamiento de cadenas que contienen puntos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d615bcdb23d96c1ca5ce1ee45e21d8d87381106f,"refactor(rolldown.config.ts, rolldown.dts.config.ts): optimizar importación de `package.json` y eliminar lectura del archivo de sistema
+
+- Qué cambia:
+  - `packages/vite/rolldown.config.ts`: Eliminó la lectura del archivo `package.json` y actualizó la importación.
+  - `packages/vite/rolldown.dts.config.ts`: Eliminó la lectura del archivo `package.json` y actualizó la importación.
+- Por qué:
+  - Reducir la sobrecarga en tiempo de ejecución al eliminar la lectura del archivo `package.json`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+b4d66fee14d970f45b8a6f3d7d6aee73ca9b88ab,"fix(vite): asegurar que el bundler se cierre correctamente después
+
+- Qué cambia: Se añade un bloque `try...finally` para asegurar que el bundler se cierre correctamente después de generar el código.
+- Por qué: Evitar posibles fugas de recursos al no cerrar el bundler adecuadamente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8fb76752836f61224d3095b502fa237b478a06b2,"refactor(optimizer): cierra correctamente los bundles temporales utilizados
+
+- Qué cambia:
+  - Se añade una prueba unitaria en `packages/vite/src/node/__tests__/optimizer/customExtensionBundleClose.spec.ts` para verificar que los bundles temporales utilizados para analizar extensiones de optimización de módulos se cierren correctamente.
+  - Se actualiza la función `extractExportsData` en `packages/vite/src/node/optimizer/index.ts` para asegurar que los bundles temporales se cierren correctamente después de su generación.
+
+- Por qué:
+  - Se requiere una prueba unitaria para asegurar que los bundles temporales utilizados para analizar extensiones de optimización de módulos se cierren correctamente, evitando posibles fugas de recursos y problemas de rendimiento.
+  - La función `extractExportsData` no estaba cerrando correctamente los bundles temporales, lo que podría llevar a fugas de recursos y problemas de rendimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a0cfcf72f8ef8bf0f2f11d553333b9bb31f1d316,"test(vite): mejorar la tipificación y la legibilidad del código
+
+- Qué cambia: Añadir un tipo de aserción explícita para `OutputAsset`.
+- Por qué: Para mejorar la tipificación y la legibilidad del código, asegurando que el tipo de `output` sea `OutputAsset` en la función de filtro.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+16944824fd5fae014101737ec0029ab6a58e774b,"refactor(playground/css/__tests__/tests.ts, playground/hmr/__tests__/hmr.spec.ts): reemplazar expect por expect.poll para mejorar la robustez de las pruebas
+
+- Qué cambia:
+  - playground/css/__tests__/tests.ts: Reemplazado `expect(await getBg(urlSeparated)).toMatch(...)` por `await expect.poll(() => getBg(urlSeparated)).toMatch(...)`.
+  - playground/hmr/__tests__/hmr.spec.ts: Reemplazado `expect((await page.$$('link')).length).toBe(1)` por `await expect.poll(async () => (await page.$$('link')).length).toBe(1)`.
+
+- Por qué:
+  - El cambio mejora la robustez de las pruebas al esperar a que las condiciones cambien antes de realizar la validación, en lugar de asumir que se cumplirán inmediatamente. Esto evita fallas en pruebas que dependen de condiciones asincrónicas que pueden no estar listas inmediatamente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+de041a79b05a0be965c874592fe2c1505bcd48df,"feat(css): agregar soporte para media queries en el minificador CSS
+
+- Qué cambia: Se añade soporte para media queries en el minificador CSS de Vite, mejorando así la capacidad de manejar estilos responsive.
+- Por qué: Antes, el minificador CSS no soportaba media queries, lo que limitaba la capacidad de crear estilos responsivos. Con este cambio, se permite la optimización de estilos basados en diferentes tamaños de pantalla, mejorando la experiencia del usuario en diferentes dispositivos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+ad55e344217ad86c1572567e10ba5f40002a13a3,"chore(historico): actualizar funciones y pruebas para diferenciar el comportamiento durante la compilación y la ejecución en modo de desarrollo
+
+- Qué cambia:
+  - En `playground/html/__tests__/html.spec.ts`, se actualizan las funciones `testPage`, `build only transform`, `css`, `describe.runIf(isServe)('invalid')`, y `describe.runIf(isServe)('warmup')` para diferenciar el comportamiento durante la compilación y la ejecución en modo de desarrollo.
+  - En `playground/html/vite.config.js`, se actualiza el contenido del archivo para diferenciar el comportamiento durante la compilación y la ejecución en modo de desarrollo.
+  - En `vitest.config.e2e.ts`, se actualiza la configuración para excluir el archivo `playground/html/__tests__/html.spec.ts` durante la compilación.
+
+- Por qué:
+  - Para asegurar que el comportamiento del código sea correcto tanto durante la compilación como durante la ejecución en modo de desarrollo, es necesario diferenciar las acciones realizadas en cada uno de estos contextos. Esto evita problemas de incoherencia y asegura que las pruebas y la configuración sean adecuadas para cada entorno.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+fe37d670ed1f335ec6df7b92304aefd4fd43fa23,"chore(legacy-styles-only-entry-watch.spec.ts): añadir retraso
+
+- Qué cambia: Se ha añadido un retraso de 100 ms utilizando `setTimeout` para esperar a que ambos ""output"" completen su ejecución.
+- Por qué: Se requiere un retraso para asegurar que ambos ""output"" hayan terminado su ejecución antes de continuar con el resto del código. Esto es una solución temporal para un problema conocido en el proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+e72036eed2e28936ed824971b18aeaa3900857f6,"fix(rolldown): eliminar función `asyncFlatten` y simplificar
+
+- Qué cambia: Eliminó la función `asyncFlatten` y ajustó la manipulación de los plugins de Rolldown.
+- Por qué: La función `asyncFlatten` no era necesaria y complicaba el código. Simplificar la manipulación de plugins mejora la legibilidad y el rendimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1331b0b438b1e7193effb7d2341660bccb9c3155,"refactor(css): reemplazar `includes` con `Set` para mejorar la eficiencia
+
+- Qué cambia: Se reemplaza el método `includes` con `Set.has` para optimizar la búsqueda de nombres de chunks CSS puros.
+- Por qué: El uso de `Set.has` es más eficiente que `includes` para verificar la existencia de un elemento en una colección, especialmente cuando se trabaja con grandes conjuntos de datos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9cbeecbd359179bd7ae2b658687e093e1f2f2dd4,"fix(playground/assets): agregar pruebas y nuevos archivos para manejar el importe de recursos con extensiones desconocidas y rutas relativas, y ajustar la configuración de Vite
+
+- Qué cambia:
+  - Se agregaron pruebas en `assets.spec.ts` para verificar el importe de recursos con extensiones desconocidas y rutas relativas.
+  - Se crearon nuevos archivos de prueba para cubrir diferentes escenarios de importación.
+  - Se ajustó la configuración de Vite en `vite.config.js` para incluir archivos con extensiones `.custom` en la lista de recursos incluidos.
+
+- Por qué:
+  - Se necesitaban pruebas adicionales para asegurar que los recursos con extensiones desconocidas y rutas relativas se importen correctamente.
+  - Se necesitaba ajustar la configuración de Vite para que los archivos incluidos sean resueltos correctamente, lo que permitía que las pruebas pasaran con éxito.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1e0d05408bd6c987407b9b54cc8459fdd3218ad3,"refactor(playground/vitestSetup.ts): mejorar la gestión del estado de la aplicación durante el desarrollo y las pruebas
+
+- Qué cambia:
+  - Se importa `vi` de `vitest` para utilizar `vi.waitUntil`.
+  - Se actualiza la lógica de `startDefaultServe` para esperar a que el primer build termine correctamente o falle antes de continuar.
+  - Se añade una espera adicional para asegurar que la página esté completamente cargada y que el cliente esté conectado.
+
+- Por qué:
+  - El cambio es necesario para manejar correctamente el estado de la página de reemplazo durante la construcción inicial, asegurando que los tests puedan interactuar con la página de manera adecuada.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+057a3da09762617c88a06e9be199ca99a276e57e,"fix(ext/http/00_serve.ts): convertir nombres de cabeceras HTTP a minúsculas
+
+- Qué cambia:
+  - ext/http/00_serve.ts: Convertir nombres de cabeceras HTTP a minúsculas al mapear las solicitudes HTTP.
+  - tests/specs/cli/otel_basic/http_traceparent_header_case.ts: Añadir prueba que verifica el comportamiento de la propagación de cabeceras HTTP en mayúsculas.
+- Por qué:
+  - Corregir el comportamiento incorrecto de la propagación de cabeceras HTTP en mayúsculas, asegurando que el sistema maneje correctamente las cabeceras en cualquier caso.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+800a5e996c0050a1757478bec3e8e1030f8295d2,"fix(check_node_builtin_modules): corregir error de tipo en llamada a `fs.readFileSync`
+
+- Qué cambia: Cambio el segundo argumento de `fs.readFileSync` de `123` a `'utf8'`, que es un tipo válido según la documentación de Node.js.
+- Por qué: El error `TS2769` indica que el tipo `123` no es asignable al parámetro esperado, que debe ser `BufferEncoding | (ObjectEncodingOptions & { flag?: string | undefined; }) | null | undefined`. Corregir esto asegura que la función se llame correctamente y evita el error de tipo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c8401c52c2b8f4c914ad6bd33585f4eb9ddc8e1d,"test(cli_parser): añadir pruebas para verificar la generación de completions
+
+- Qué cambia: Añadir pruebas unitarias para verificar que la función `generate_bash` produce la salida esperada con nuevas líneas y estructuras de control legibles.
+- Por qué: Para asegurar que la función `generate_bash` funcione correctamente y que su salida sea fácil de leer y mantener.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+185ff77ba51795b57b4b9608e742dae3ccca1746,"fix(audit/ca_store): añadir pruebas para verificar el comportamiento de la auditoría de paquetes con un certificado de emisor desconocido
+
+- Qué cambia:
+  - Añadida nueva configuración `.npmrc` en `tests/specs/audit/ca_store/` para establecer un registro local.
+  - Añadida nueva prueba en `tests/specs/audit/ca_store/__test__.jsonc` que verifica el comportamiento de la auditoría cuando se usa un certificado de emisor desconocido.
+
+- Por qué:
+  - Se necesita una prueba para asegurar que el sistema maneje correctamente el comportamiento de la auditoría cuando se recibe un certificado de emisor desconocido, lo que puede indicar una vulnerabilidad de seguridad.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+af3d9bc7a58b15a2c2051f62dab2feabdfe6e83a,"test(ext/node/ops/process.rs): agregar pruebas para verificar el comportamiento de `process.resourceUsage()` en Node.js
+
+- Qué cambia:
+  - Se añaden pruebas en `tests/unit_node/process_test.ts` para verificar que `maxRSS` esté en kilobytes y que sea una medida razonable del uso de memoria.
+  - Se actualiza la documentación de `op_node_process_resource_usage` para reflejar la normalización de `maxRSS` en kilobytes en plataformas Apple.
+
+- Por qué:
+  - Se necesitan pruebas para asegurar que `maxRSS` esté en kilobytes y que sea una medida razonable del uso de memoria, lo que es crucial para la compatibilidad y el rendimiento de Deno en diferentes plataformas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+60e01b1dabc1fce03ccd819a01796b52496671a4,"chore(cli/schemas): añadir campo ""identifier"" para mejorar la identificación única
+
+- Qué cambia: Se añade un nuevo campo ""identifier"" en el esquema JSON de configuración para mejorar la identificación única de aplicaciones.
+- Por qué: Este cambio es necesario para proporcionar un identificador único basado en Reverse-DNS, lo que facilita la distinción entre diferentes aplicaciones en entornos de producción.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+e5575e2c0ac3c6ea5281d685bab4c33be8c8b38d,"perf(ext/node/polyfills/_http_incoming.js): reemplazar `{}` con `ObjectCreate(null)` para mejorar el rendimiento
+
+- Qué cambia:
+  - En `ext/node/polyfills/_http_incoming.js`, reemplazamos `{}` con `ObjectCreate(null)` en las propiedades `headersDistinct` y `trailersDistinct` de la clase `IncomingMessage`.
+- Por qué:
+  - Evitar la búsqueda innecesaria de propiedades en el prototipo global, lo que optimiza el rendimiento al crear objetos que no heredan propiedades del prototipo global.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+3dd9e0949fb6a7b433a0558b30a36eb798a47529,"test(cli/tools/installer/global.rs): mejorar la validación de URLs de tarballs npm
+
+- Qué cambia: Se añade una función `tarball_url_matches_registry` para verificar si una URL de tarball npm pertenece a un registro autorizado, considerando el esquema, el host, el puerto, el usuario y la contraseña. Se actualiza la función `validate_npm_tarball_urls` para usar esta nueva función.
+- Por qué: Se requiere una validación más precisa de las URLs de tarballs npm para asegurar que sean seguras y que pertenezcan a registros autorizados, incluyendo el manejo de rutas de registro con alcance.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+78d22b260da62e18c5b3748a4a043d42778ed6b3,"fix(tests/node_compat): añadir parámetro de timeout personalizado
+
+- Qué cambia:
+  - Añadido el parámetro `timeoutMs` a `config.jsonc` para pruebas que requieren más tiempo.
+  - Actualizado el struct `TestConfig` en `mod.rs` para incluir el nuevo parámetro y manejar su valor.
+  - Añadido la definición del parámetro `timeoutMs` en `schema.json`.
+
+- Por qué:
+  - La prueba `pummel/test-blob-slice-with-large-size.js` falla debido a la asignación y copia de un buffer de 2 GiB, lo que excede el límite de memoria de la CI regularmente.
+  - El nuevo parámetro permite configurar un timeout personalizado para pruebas intensivas, evitando que falten por tiempo de ejecución.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+08d36af76a0f28c91d05059b4c24fb84eff5b375,"refactor(doc): eliminar documentación del cliente de TypeScript Go
+
+- Qué cambia: Se eliminó la documentación del cliente de TypeScript Go de los archivos `architecture.md` y `codebase-map.md`.
+- Por qué: El cliente de TypeScript Go no se utiliza en el código y su documentación es innecesaria.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c54dc3b76b916a5737a4d1a70908af4c08ed4ca8,"refactor(cli_parser): mejorar manejo de errores y pruebas en `ignore_scripts_value`
+
+- Qué cambia:
+  - La función `ignore_scripts_value` ahora devuelve un `Result` con `CliError` en caso de error.
+  - Se añaden pruebas para verificar que la función maneja correctamente diferentes casos de entrada y proporciona mensajes de error precisos.
+- Por qué:
+  - Para mejorar la robustez y la claridad del código, añadiendo manejo de errores y pruebas para asegurar que la función `ignore_scripts_value` maneje correctamente diferentes casos de entrada y proporcione mensajes de error precisos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f7822238cab635a3a19f99f493f675fa81a7f9d8,"refactor(cli_parser): simplificar lógica de subcomandos ""deploy"" y ""sandbox""
+
+- Qué cambia:
+  - Eliminó la redundancia en la llamada a la función `deploy_parse` en los subcomandos ""deploy"" y ""sandbox"".
+  - Ajustó la firma de la función `deploy_parse` para eliminar el parámetro `result` que ya no es necesario.
+  - Añadió pruebas unitarias para verificar el comportamiento de los subcomandos ""deploy"" y ""sandbox"".
+- Por qué:
+  - Para reducir la redundancia y mejorar la claridad del código, eliminando la llamada duplicada a `deploy_parse` y simplificando su firma. Además, las pruebas aseguran que el comportamiento de los subcomandos no se altere.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8dbb56a5e6341b75a4945f5d992d6f1e83bc1ae4,"fix(cli): agregar pruebas unitarias para verificar el comportamiento del tipo de checker en el modo `TypeCheckMode::All`
+
+- Qué cambia:
+  - Se agregaron pruebas unitarias en `tests/specs/transpile_declaration_custom_lib/__test__.jsonc` para verificar el comportamiento del tipo de checker en el modo `TypeCheckMode::All`.
+  - Se crearon archivos de salida de prueba en `tests/specs/transpile_declaration_custom_lib/declaration_emit.out` y `tests/specs/transpile_declaration_custom_lib/type_error.out`.
+  - Se agregaron archivos de configuración de compilador en `tests/specs/transpile_declaration_custom_lib/deno.json`.
+  - Se crearon archivos de prueba en `tests/specs/transpile_declaration_custom_lib/main.ts` y `tests/specs/transpile_declaration_custom_lib/type_error.ts`.
+
+- Por qué:
+  - Se necesitaban pruebas unitarias para asegurar que el tipo de checker en el modo `TypeCheckMode::All` no reporte errores en las declaraciones empaquetadas de Deno (`asset:///`) y que solo reporte errores en el código del usuario.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+baca93a73975d805dd6c6975487d496a53377c5c,"fix(cli_parser): corregir procesamiento de `--sourcemap` y añadir pruebas
+
+- Qué cambia:
+  - En `libs/cli_parser/src/convert.rs`: Modificamos la lógica de procesamiento de la opción `--sourcemap` para que no consuma accidentalmente el siguiente argumento como parte de su valor. Añadimos un valor predeterminado de ""linked"" si no se proporciona un valor.
+  - En `libs/cli_parser/src/defs.rs`: Actualizamos la definición de la opción `--sourcemap` para que sea opcional y requiera un valor con `=`. Añadimos un validador de valores permitidos.
+  - En `libs/cli_parser/src/tests_full.rs`: Añadimos pruebas para verificar que `--sourcemap` se procesa correctamente, que acepta valores válidos y que rechaza valores inválidos.
+
+- Por qué:
+  - El error original causaba que `--sourcemap` consumiera accidentalmente el siguiente argumento como parte de su valor, lo que llevaba a problemas en el procesamiento de los entrypoints. La corrección asegura que `--sourcemap` se procese correctamente y que los entrypoints no sean afectados. Las pruebas aseguran que el comportamiento sea consistente y que los valores válidos y inválidos sean manejados correctamente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+122bd673209f9464016bb2fe6e87e9749f8afba1,"feat(workflows): permitir ejecución manual del flujo de trabajo
+
+- Qué cambia:
+  - Se añade un input `version` al workflow `post_publish.generated.yml` y `post_publish.ts` para permitir la ejecución manual del flujo de trabajo con una versión específica.
+  - Se actualiza el script para obtener la versión del input en lugar de `GITHUB_REF` cuando se ejecuta manualmente.
+  - Se agrega una validación para asegurar que la versión sea una etiqueta de lanzamiento válida (comienza con ""v"" seguida de números).
+
+- Por qué:
+  - Permite la re ejecución del flujo de trabajo en caso de fallos parciales, facilitando la corrección de errores sin necesidad de volver a publicar una versión completa.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c0834ee37aa951f52b9fa083b9a0ccc19c90165c,"fix(check_node_builtin_modules): corregir tipo de argumento en fs.readFileSync
+
+- Qué cambia: Cambia el argumento `123` en `fs.readFileSync` por un tipo válido como `BufferEncoding` o `ReadFileSyncOptions`.
+- Por qué: El tipo `123` no es asignable al parámetro de `fs.readFileSync`, lo que causa un error de tipo. El cambio corrige este error, asegurando que el argumento sea de un tipo válido.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+19e7a9ed1402732a7cfdbc5c9e8deb45b2a336aa,"test(lsp_tests, repl_tests): mejorar la robustez de las pruebas
+
+- Qué cambia:
+  - En `tests/integration/lsp_tests.rs`, se añade un bucle para reintentar la obtención de diagnósticos si no están disponibles inmediatamente.
+  - En `tests/integration/repl_tests.rs`, se espera a que la declaración se evalúe antes de continuar con la siguiente entrada en el REPL.
+- Por qué:
+  - Evitar que los diagnósticos de errores no se actualicen correctamente debido a la carga asincrónica de los paquetes npm.
+  - Asegurar que las pruebas de la consola interactiva (REPL) funcionen correctamente en entornos donde la entrada del usuario puede ser procesada de manera inesperada.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+293074f2a26d132a5ab7e82e1727f5d8aba5fc08,"refactor(ext/websocket/lib.rs): factorizar `op_ws_create` en `op_ws_create_inner` para medición de futuras operaciones
+
+- Qué cambia:
+  - Se ha factorizado el cuerpo de la función `op_ws_create` en una nueva función interna `op_ws_create_inner`.
+  - La función `op_ws_create` ahora simplemente invoca a `op_ws_create_inner` y devuelve su resultado.
+  - Se ha añadido una función de prueba `op_ws_create_future_is_small` para medir el tamaño del futuro de `op_ws_create_inner` y asegurar que no exceda 1024 bytes.
+
+- Por qué:
+  - El factorizado de `op_ws_create` en `op_ws_create_inner` permite que el futuro de la operación pueda ser medido por pruebas.
+  - La función `op_ws_create_inner` ha sido optimizada para que su futuro esté en el montón en lugar de ser inlined en el futuro de la operación, lo que reduce el tamaño del futuro y beneficia el rendimiento general del sistema.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4b987eaeff0c446ee205feebc0ff20e6a92e4c38,"refactor(ext/napi/lib.rs): mejorar el diagnóstico de errores al cargar módulos nativos
+
+- Qué cambia:
+  - Se añade una función `fmt_lib_load_source` que renderiza la causa subyacente del error del sistema operativo de un `libloading::Error`.
+  - Se actualiza la definición de `NApiError::LibLoading` para incluir la causa subyacente del error y la ruta del archivo.
+  - Se modifica la función `op_napi_open` para capturar y manejar errores de carga de módulos nativos, utilizando la nueva definición de `NApiError::LibraryLoad`.
+  - Se añade un nuevo test en `tests/napi/init_test.js` para verificar que los errores de carga de módulos nativos incluyan la causa subyacente del error del sistema operativo y la ruta del archivo.
+
+- Por qué:
+  - El cambio mejora la claridad y el diagnóstico de errores al cargar módulos nativos, proporcionando información detallada sobre la causa subyacente del error del sistema operativo y la ruta del archivo. Esto facilita la identificación y solución de problemas de carga de módulos nativos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+6ba8619c575d2183605055cd291cf16ee8f3f1e1,"test(ext/net/ops.rs): manejar tipos de registros DNS no soportados al formatear las respuestas
+
+- Qué cambia: Añadí manejo de tipos de registros DNS no soportados al formatear las respuestas, ignorando registros no soportados cuando se solicita un tipo de registro `ANY`.
+- Por qué: Antes, los registros no soportados causaban errores al formatear las respuestas. Ahora, estos registros son ignorados, asegurando que la función funcione correctamente incluso con tipos de registros desconocidos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+e00b10cde467977abea4161506a4d809ec88271f,"test(http2): ajustar tamaño de encabezados HTTP/2 por defecto
+
+- Qué cambia:
+  - ext/fetch/lib.rs: Añadir `DEFAULT_HTTP2_MAX_HEADER_LIST_SIZE` y configurar el cliente HTTP para usarlo.
+  - tests/unit/fetch_test.ts: Añadir pruebas de regresión para verificar el tamaño de encabezados HTTP/2 por defecto.
+  - tests/util/server/servers/mod.rs: Ajustar el tamaño de encabezados para probar el nuevo límite.
+
+- Por qué:
+  - El tamaño de encabezados HTTP/2 por defecto de hyper es demasiado pequeño (16KB), lo que causa rechazo de respuestas con encabezados grandes. Los navegadores usan un tamaño de encabezados más grande (256KB), por lo que se ajusta el valor por defecto para mantener la interoperabilidad con los servidores HTTP/2.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+0d760eeeef29d0a72a1c848e105f2396009d11df,"test(08_text_encoding.js): mejorar seguridad y consistencia al decodificar cadenas de texto en SharedArrayBuffer
+
+- Qué cambia:
+  - En `ext/web/08_text_encoding.js`, se clona el `SharedArrayBuffer` en un `Uint8Array` privado antes de pasarlo a Rust, asegurando que los cambios en el buffer no afecten futuras llamadas a `decode()`.
+  - Se añaden pruebas en `tests/unit/text_encoding_test.ts` para verificar que el decodificador funcione correctamente con `SharedArrayBuffer` y vistas de desplazamiento (`DataView`).
+
+- Por qué:
+  - El cambio es necesario para evitar que los cambios en un `SharedArrayBuffer` afecten a futuras llamadas a `decode()`, lo que podría corromper la memoria nativa.
+  - Se añaden pruebas para asegurar que el decodificador funcione correctamente con `SharedArrayBuffer` y vistas de desplazamiento, lo que mejora la seguridad y la consistencia del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d63aa221e6e36647eead0a2a8179a88a61b32c47,"chore(historico/.github/workflows/ci.generated.yml, historico/.github/workflows/ci.ts): aumentar timeout para pasos de configuración
+
+- Qué cambia:
+  - Añadir `timeout-minutes: 10` a los pasos de configuración en `ci.generated.yml`.
+  - Añadir `timeoutMinutes: 10` a la configuración de `sysRootConfig` en `ci.ts`.
+
+- Por qué:
+  - Evitar que el paso de configuración se bloquee indefinidamente si `apt-get update` falla debido a un mirror inaccesible, lo que desperdicia el tiempo del trabajo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+b90cd5c3a93c303b220cee020d452a136caa7b9f,"test(runtime/subprocess_windows/src/lib.rs, runtime/subprocess_windows/src/process.rs, runtime/subprocess_windows/src/tests.rs): rechazar argumentos con caracteres nulos para mejorar la seguridad
+
+- Qué cambia:
+  - En `runtime/subprocess_windows/src/lib.rs`, se eliminó el manejo de errores genérico para `make_program_args`.
+  - En `runtime/subprocess_windows/src/process.rs`, se añadió una función `ensure_no_nuls` que verifica la presencia de caracteres nulos en los argumentos y se llamó en `make_program_args`.
+  - En `runtime/subprocess_windows/src/tests.rs`, se añadieron pruebas que verifican que `make_program_args` y `spawn` rechazan argumentos con caracteres nulos.
+
+- Por qué:
+  - Para evitar posibles inyecciones o comportamientos inesperados en el sistema operativo, es crucial rechazar argumentos que contienen caracteres nulos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8c76f75af7219059efc78c524ba8d843212e948b,"fix(ext/node/ops/v8.rs, ext/node/polyfills/v8.ts, tests/unit_node/v8_test.ts): agregar validación y manejo de errores en la deserialización de objetos de host
+
+- Qué cambia:
+  - ext/node/ops/v8.rs: Añadir campo `len` a `DeserBuffer` y modificar la función `op_v8_read_raw_bytes` para manejar errores y verificar la longitud de los datos.
+  - ext/node/polyfills/v8.ts: Modificar la clase `Deserializer` para lanzar una excepción cuando `ReadRawBytes()` falla.
+  - tests/unit_node/v8_test.ts: Añadir pruebas para verificar la deserialización de objetos de host con desplazamientos no cero y manejo de errores de lectura truncada.
+
+- Por qué:
+  - Evitar la lectura de datos fuera de los límites del buffer, lo que podría causar errores de seguridad.
+  - Proporcionar un manejo adecuado de errores en la deserialización, mejorando la robustez del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f2980253e40ea479601df6b02468471e11c97682,"test(node/dns): agregar pruebas unitarias para validar puertos como cadenas
+
+- Qué cambia:
+  - Añadida una nueva prueba unitaria `lookupService accepts string ports` en `tests/unit_node/dns_test.ts`.
+  - Modificación de la función `validatePort` en `ext/node/polyfills/internal/validators.mjs` para manejar correctamente puertos representados como cadenas.
+
+- Por qué:
+  - La función `validatePort` no estaba preparada para manejar puertos representados como cadenas, lo que podría causar errores en la validación de puertos.
+  - Las pruebas unitarias faltantes no aseguraban que la función `lookupService` maneje correctamente puertos como cadenas, lo que podría llevar a comportamientos inesperados en el código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a680e4429469de7385b6d782ecf273426052b136,"test(transfer): añadir pruebas para verificar el cierre del `MessagePort` cuando se cancela un `ReadableStream` transferido mientras sigue abierto
+
+- Qué cambia:
+  - Añadida una nueva prueba en `tests/unit/streams_test.ts` que verifica que cuando se cancela un `ReadableStream` transferido mientras sigue abierto, el `MessagePort` interno de la transferencia también se cierre.
+- Por qué:
+  - Para asegurar que el `MessagePort` interno de la transferencia se cierre cuando se cancela un `ReadableStream` transferido mientras sigue abierto, evitando así la detección de fugas de recursos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+135485c700ac068cae542878b9e95a6acbb617fd,"refactor(core): refactorizar `SafeArrayIterator` y añadir pruebas
+
+- Qué cambia:
+  - Refactorizar `SafeArrayIterator` para que sea más robusta y segura, incluyendo el uso de una clase con métodos `next` y `SymbolIterator`.
+  - Añadir una prueba para validar el comportamiento de `SafeArrayIterator` cuando el array subyacente cambia de tamaño.
+
+- Por qué:
+  - El iterador actual no maneja correctamente el cambio de tamaño del array subyacente, lo que puede llevar a comportamientos inesperados o inseguros.
+  - Añadir pruebas garantiza que el iterador funcione correctamente incluso cuando el array cambia de tamaño, mejorando la robustez y seguridad del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1fa856da2ae0727563a4682223eef9e4c8608a18,"test(http): añadir soporte para `text/x-component` en pruebas
+
+- Qué cambia: Añadir `text/x-component` a la lista de tipos de contenido comprimibles y actualizar las pruebas correspondientes.
+- Por qué: Para asegurar que el servidor pueda comprimir correctamente el tipo de contenido `text/x-component`, que es común en aplicaciones web.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+72516b645fb3c6801ab490d1eb12711cdfe80ac1,"fix(tools/release/03_publish_crates.ts): añadir opción `--no-verify` al comando de publicación de las cajas de dependencia
+
+- Qué cambia: Se añade la opción `--no-verify` al comando de publicación de las cajas de dependencia en `tools/release/03_publish_crates.ts`.
+- Por qué: Las cajas de dependencia no pueden ser compiladas por sí mismas debido a dependencias específicas que causan problemas en la selección del motor V8. La opción `--no-verify` permite publicar las cajas sin verificar el motor V8, lo que permite el proceso de publicación a continuar.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+ec98b031ffa15290fe8933423ef3df37fe62134c,"fix(tools/release/01_bump_crate_versions.ts): corregir error en la automatización de la versión de las cajas (crates)
+
+- Qué cambia:
+  - Añade el manejo de cajas con nombres renombrados en el archivo `Cargo.toml`.
+  - Introduce la función `incrementRenamedCrateMinor` para incrementar la versión de estas cajas.
+  - Actualiza el archivo `Cargo.toml` y el propio manifiesto de la caja para reflejar la nueva versión.
+
+- Por qué:
+  - El sistema de automatización fallaba al intentar actualizar las versiones de las cajas con nombres renombrados en el archivo `Cargo.toml`.
+  - Este cambio permite que las cajas con nombres renombrados se actualicen correctamente, evitando errores en el proceso de versión.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+de9e251829c6267f9b0bdf3909dd167d5987393c,"fix(tests/specs/npm/pkg_json_imports/__test__.jsonc): eliminar redundancia de ""tempDir""
+
+- Qué cambia: Elimino la propiedad ""tempDir"" repetida en diferentes bloques de pruebas.
+- Por qué: Para mejorar la claridad y evitar redundancia en el archivo de pruebas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+98bcf8375eb9f9a8fa7d83fb2f7885ef38244219,"fix(ext/node/polyfills/internal/dgram.ts): asegurar que `node:process` esté cargado antes de programar un `nextTick`
+
+- Qué cambia:
+  - Se añade la carga del módulo `node:process` antes de programar un `nextTick` en `ext/node/polyfills/internal/dgram.ts`.
+  - Se crea una función `defaultLookup` que verifica si la dirección IP es válida y, en ese caso, carga `node:process` antes de llamar al callback.
+
+- Por qué:
+  - Evita que los callbacks sean silenciosamente descartados hasta que el módulo `node:process` haya sido arrancado, asegurando que todos los callbacks sean procesados correctamente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+e3fb03a3b415d304097344d4efdd21c5d83aeb33,"refactor(ext/node/polyfills/_util/async.ts): eliminar módulo
+
+- Qué cambia: Eliminado el archivo `ext/node/polyfills/_util/async.ts` ya que no era necesario y estaba desactualizado.
+- Por qué: El módulo `ext:deno_node/_util/async.ts` no era utilizado y estaba desactualizado, lo que lo hace innecesario en el proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+51c48cf65e96f0c098c7924313af48311f36958e,"refactor(ext/napi, ext/node/polyfills): reorganizar rutas de archivos
+
+- Qué cambia:
+  - `ext/napi/README.md`: Actualiza la ruta del archivo `symbol_exports.json`.
+  - `ext/napi/sym/README.md`: Actualiza la ruta del archivo `symbol_exports.json` y corrige la referencia a `build.rs`.
+  - `ext/node/polyfills/README.md`: Actualiza la ruta del archivo `README.md` y corrige la referencia a los resultados de las pruebas.
+
+- Por qué:
+  - Para mejorar la claridad y coherencia del proyecto, facilitando la navegación y mantenimiento del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c439c90d890ad07c2bf4eaa8582cf7389142f97e,"refactor(CLAUDE.md): actualiza la ruta de los tests de integración
+
+- Qué cambia: Se actualiza la ruta de los tests de integración de `cli/tests/` a `tests/integration/`.
+- Por qué: Para mantener la consistencia y claridad en la documentación de los tipos de pruebas, y para evitar confusiones futuras.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+0c965f5e5f7105bd6d3fe0d1f696f2c7a3bc6899,"perf(refactor): optimizar rendimiento eliminando llamadas entre Rust y JavaScript
+
+- Qué cambia:
+  - En `libs/core/runtime/jsrealm.rs`, se añade la función `has_rejection_to_warn` para verificar si hay rechazos de promesas pendientes sin necesidad de llamadas entre Rust y JavaScript.
+  - En `libs/core/runtime/jsruntime.rs`, se optimiza la función `drain_next_tick_and_macrotasks` para evitar llamadas entre Rust y JavaScript cuando no hay ticks o rechazos de promesas pendientes.
+
+- Por qué:
+  - Elimina la necesidad de llamadas entre Rust y JavaScript en casos donde no hay ticks o rechazos de promesas pendientes, lo que mejora el rendimiento y la eficiencia del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+936d9009b07939caa1dfa6560d3f7654d3120ad6,"refactor(ext/fs/std_fs.rs, tests/unit_node/_fs/_fs_rmdir_test.ts):
+
+- Qué cambia:
+  - En `ext/fs/std_fs.rs`, se ha refactorizado la función `open` y `read_to_end` para ejecutarse en un pool de tareas bloqueantes utilizando `spawn_blocking`. Esto asegura que no interfieran con el hilo de ejecución del runtime.
+  - En `tests/unit_node/_fs/_fs_rmdir_test.ts`, se ha actualizado la función de escritura de archivos para usar `writeTextFileSync` y `writeTextFile` de forma asíncrona, respectivamente, para mantener la consistencia con la refactorización en `ext/fs/std_fs.rs`.
+
+- Por qué:
+  - Evitar que las operaciones de archivo bloqueantes interfieran con el hilo de ejecución del runtime, mejorando la escalabilidad y la respuesta de la aplicación.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8bf9ed4fbd069ed668d42f23c90625d0e8c8784f,"fix(runtime/transpile.rs): mantener nombres de variables originales durante la minificación
+
+- Qué cambia: Se añade la opción `keepNames: true` en la configuración de mangle para la función `minifySync`.
+- Por qué: Evitar la obfuscación de los nombres de las variables durante el proceso de minificación, manteniendo la legibilidad y el mantenimiento del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+57e67f110482486429194345cf88d149ee356c6e,"test(cli/tools/framework.rs): habilitar HMR con `deno_task_dev()`
+
+- Qué cambia: Se cambia `hmr_command` de `None` a `Some(deno_task_dev())` en la función `Deno.serve` y se agregan pruebas para verificar que el comando HMR se configura correctamente.
+- Por qué: Se necesita habilitar el comando de HMR utilizando `deno_task_dev()` para mejorar la experiencia de desarrollo al permitir el recarga automática de módulos en el navegador. Las pruebas aseguran que el comando HMR se configura correctamente y se comporta como se espera.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+208e85f35ee7a10e5d8960d994f37e8164d5263c,"refactor(ext/node/ops/stream_wrap.rs): optimizar el manejo de lecturas parciales
+
+- Qué cambia:
+  - Se ha modificado la función `on_uv_read` para manejar lecturas parciales. Ahora, si se realiza una lectura parcial, se copian solo los bytes leídos en un nuevo `ArrayBuffer` para evitar que el slab permanezca ocupado y para que el `Buffer` de JavaScript no pinche la asignación completa de 64KB.
+  - Se ha eliminado la creación de un `backing store` directamente desde el `uv_buf_t` original y se ha añadido una verificación para manejar el caso de lectura parcial.
+- Por qué:
+  - El cambio es necesario para optimizar el manejo de lecturas parciales en el código. Al copiar solo los bytes leídos en un nuevo `ArrayBuffer`, se reduce la asignación de memoria innecesaria y se mejora el rendimiento al evitar que el slab permanezca ocupado. Además, esto evita que el `Buffer` de JavaScript pinche la asignación completa de 64KB, lo que puede mejorar el rendimiento en aplicaciones que realizan muchas lecturas parciales.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f8d8cffac3f7fc05872e3a7ea93e98c579e62be5,"test(cli/args/flags.rs, libs/cli_parser/src/defs.rs, libs/cli_parser/src/tests_full.rs): añadir pruebas para soporte de la plataforma aarch64-pc-windows-msvc
+
+- Qué cambia:
+  - Añadida prueba `compile_target_aarch64_windows` en `cli/args/flags.rs` para verificar el soporte de la plataforma aarch64-pc-windows-msvc.
+  - Añadida prueba `compile_target_aarch64_windows` en `libs/cli_parser/src/tests_full.rs` para verificar el soporte de la plataforma aarch64-pc-windows-msvc.
+  - Actualizado `SUPPORTED_OS` en `libs/cli_parser/src/defs.rs` para incluir la plataforma aarch64-pc-windows-msvc.
+
+- Por qué:
+  - Para asegurar que la plataforma aarch64-pc-windows-msvc sea correctamente soportada y que el sistema de pruebas detecte cualquier problema relacionado con esta plataforma.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+7e571f0709275bc99842699399ee1a5c9c227ec3,"fix(tools/util.js): implementar reintentos con retroalimentación en la descarga de herramientas precompiladas
+
+- Qué cambia: Se añade una función `fetchPrebuilt` que implementa un mecanismo de reintentos con retroalimentación y limitación de retraso para la descarga de herramientas precompiladas.
+- Por qué: Se necesita mejorar la resiliencia del proceso de descarga de herramientas precompiladas, implementando un mecanismo de reintentos con retroalimentación y limitación de retraso para manejar errores temporales y mejorar la confiabilidad del proceso.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+708abac95465165e0a918c80ced7a0cf2ae4a7ac,"refactor(cli/args/flags.rs): añadir argumentos de permiso
+
+- Qué cambia:
+  - Añadido el argumento `--allow-import` para especificar hosts permitidos para la importación de tipos remotos.
+  - Añadido el argumento `--deny-import` para especificar hosts denegados para la importación de tipos remotos.
+  - Actualizado la documentación del subcomando `sync-types` para explicar la nueva funcionalidad.
+  - Añadida una prueba para verificar el comportamiento del argumento `--allow-import`.
+
+- Por qué:
+  - Para mejorar la seguridad y la flexibilidad al controlar qué tipos se pueden importar desde diferentes fuentes.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+7e89f805539ae8ec601dc5b3f9effeafc60e2260,"feat(historico/.github/workflows): permitir clasificación de versiones
+
+- Qué cambia:
+  - Añade la propiedad `prerelease` a los trabajos de CI en `ci.generated.yml` y `ci.ts`.
+  - Actualiza la lista de opciones de `version_bump.generated.yml` y `version_bump.ts` para incluir `alpha` y `beta`.
+
+- Por qué:
+  - Facilita la gestión de versiones beta y alpha al permitir la clasificación de versiones como pre-release cuando el nombre de la rama contiene un guion.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9132d1fa4793e662601b3537a2b8c556287a353e,"fix(historico/.github/workflows/promote_to_release.generated.yml, historico/.github/workflows/promote_to_release.ts): optimizar la sincronización de archivos S3
+
+- Qué cambia:
+  - En `promote_to_release.generated.yml` y `promote_to_release.ts`, se reemplaza `aws s3 sync` con un bucle `for` que solo sube archivos `.zip` promovidos, excluyendo submódulos y archivos de prueba.
+- Por qué:
+  - Evitar la sincronización de todo el repositorio, lo que corrige el problema de subir archivos no deseados y corrige el error causado por un enlace simbólico roto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c3d9d446e7adba181090244efb87181f65c4bf71,"test(cli): agregar alias para `--minimum-dependency-age`
+
+- Qué cambia:
+  - En `cli/args/flags.rs`, se añade el alias `--min-dep-age` para el argumento `--minimum-dependency-age`.
+  - En `cli/lib.rs`, se actualiza la documentación para incluir el alias `--min-dep-age`.
+  - En `tests/integration/pm_tests.rs`, se añade una prueba que verifica el uso del alias `--min-dep-age`.
+  - En `tests/specs/npm/npmrc_min_release_age/install.out`, se actualiza el mensaje de error para incluir el alias `--min-dep-age`.
+
+- Por qué:
+  - Para mejorar la compatibilidad y la usabilidad al permitir que los usuarios utilicen tanto `--minimum-dependency-age` como `--min-dep-age`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9cc446325f354f7114a4ac1dcbd34e1f7869019d,"refactor(node_compat): simplificar argumentos de pruebas
+
+- Qué cambia: Eliminar opciones no necesarias de los argumentos de las pruebas `run` y `test`.
+- Por qué: Reducir la complejidad de los argumentos, manteniendo solo las configuraciones esenciales.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c35cef0d2c2393f4d9eddde1fc3d8e0a6ef460f3,"refactor(ext/node_sqlite/statement.rs): optimizar acceso a propiedades
+
+- Qué cambia:
+  - Reemplazamos `set` por `create_data_property` para evitar transiciones de clases ocultas y reducir llamadas FFI innecesarias.
+  - Almacenamos nombres de columnas una vez y reutilizamos en todas las filas.
+
+- Por qué:
+  - Reducir transiciones de clases ocultas y FFI innecesarias mejoraba el rendimiento.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+5e48ef4e1c57c7892312e0db5e2aaf5e4b301b3d,"perf(ext/web/lib.rs): evitar copia innecesaria en `op_base64_atob`
+
+- Qué cambia: La función `op_base64_atob` ahora devuelve directamente los bytes decodificados, evitando una copia innecesaria en el buffer de entrada.
+- Por qué: Reducir allocations/memoria y evitar trabajo innecesario al evitar una copia de los bytes decodificados.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8d905a56e80030c141a71a32c0c4cb870e90470a,"fix(lib/definitions/errors.js): ocultar URL del repositorio autenticada
+
+- Qué cambia: Se añade el parámetro `originalRepositoryURL` a la función `EGITNOPERMISSION` y se utiliza para ocultar la URL del repositorio autenticada en el error `EGITNOPERMISSION`. Se actualizan los imports y se incluyen pruebas unitarias para verificar el comportamiento.
+- Por qué: Para mejorar la seguridad al ocultar la URL del repositorio autenticada en el error `EGITNOPERMISSION`, proporcionando solo la URL no autenticada para evitar revelar credenciales.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1114416a5b36811a7657c0c16947bb7510ae0c4d,"chore(README.md): eliminar imagen de versión ""next"" de npm","{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,0,0,1,1,1
+0a60004a6adbbb0e143397f3d7f9a6f81c48999a,"chore(lib/git.js): asegurar que `message` y `gitTags` sean tratados como cadenas
+
+- Qué cambia: Se añade un valor por defecto (`""""`) a `message` y `gitTags` para evitar errores si estos valores son `undefined`, y se aplica `trim()` a ambos.
+- Por qué: Evitar posibles errores si `message` o `gitTags` son `undefined`, asegurando que siempre se traten como cadenas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+973d763c2e2527bc044540ae4d3c0f5586804824,"feat(lib/hide-sensitive.js, test/hide-sensitive.test.js): expandir rango de variables sensibles ocultas
+
+- Qué cambia:
+  - En `lib/hide-sensitive.js`, se ha actualizado la expresión regular para incluir patrones adicionales como ""key"", ""auth"", y ""webhook"".
+  - En `test/hide-sensitive.test.js`, se han añadido pruebas para verificar el correcto ocultamiento de valores como ""API_KEY"", ""AUTH"", ""WEBHOOK"", y otros patrones comunes.
+
+- Por qué:
+  - Para expandir el rango de variables sensibles que se ocultan, incluyendo patrones adicionales como ""key"", ""auth"", y ""webhook"", para asegurar una mayor protección contra la revelación de información confidencial.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+fc9382cd42fa7ea8cbc898e36e622a9c37bc6a49,fix(README.md): corregir extensión del archivo de plantilla,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+97c21aa4f738f0378aae18f7266aece81a15e530,"fix(e2e.compose.yml): actualizar versiones de imágenes de Docker
+
+- Qué cambia: Actualizar versiones de imágenes de Docker en `e2e.compose.yml`.
+- Por qué: Mejorar la estabilidad y compatibilidad de las pruebas e2e.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+3a01a87308d560c64ddf3f569a74360e928e3d68,"fix(e2e.compose.yml): especificar SHA-256 hashes para las imágenes Docker
+
+- Qué cambia: Se especifican SHA-256 hashes para las imágenes Docker en el archivo `e2e.compose.yml`.
+- Por qué: Para mejorar la seguridad al asegurar que se esté utilizando una versión específica de las imágenes Docker, evitando problemas potenciales con actualizaciones inesperadas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+38abd1e157462b21d1fa032cbda9988f19b68826,"feat(test/helpers/gitbox.js): añadir función para asegurar la finalización de procesos de ejecución de comandos en Docker
+
+- Qué cambia: Se añade la función `startAndDrainExec` que inicia un proceso de ejecución de Docker y espera a que finalice antes de continuar.
+- Por qué: Se necesita asegurar que los procesos de ejecución de comandos en Docker sean completados antes de continuar, mejorando la confiabilidad y el control del flujo de trabajo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4e476dee14bb9ee4c20aebd51970efc827769e68,"refactor(README.md): documentar adopción de `@semantic-release/core`
+
+- Qué cambia: Se añade una sección en el README.md que documenta la adopción de `@semantic-release/core` como el nuevo motor de lanzamiento de `semantic-release`.
+- Por qué: El cambio es necesario para informar a los usuarios sobre la nueva arquitectura y su compatibilidad con versiones antiguas, facilitando la transición y el mantenimiento del proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4f464a72ae102fd1f4ffc2633fbb04ed0b220054,"feat(test): añadir pruebas unitarias para el módulo principal del proyecto
+
+- Qué cambia:
+  - Se creó el archivo `test/index.test.js` con pruebas unitarias utilizando el framework de pruebas AVA y las herramientas de doblado de pruebas testdouble.
+  - Se importaron las dependencias necesarias (`ava` y `testdouble`).
+  - Se definieron dos pruebas serializadas (`wrapper forwards environment params and delegates to core` y `wrapper computes dry-run policy upstream before calling core`).
+  - Se configuraron las pruebas para verificar el comportamiento del módulo principal del proyecto.
+
+- Por qué:
+  - Se añadieron pruebas unitarias para asegurar que el código funcione correctamente y para facilitar el mantenimiento y la evolución del software.
+  - Las pruebas cubren diferentes escenarios y verifican que el módulo principal del proyecto se comporte como se espera en diferentes situaciones.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+7d71f2eb14a7986f9c757874ec095af9139af432,chore(definitions/constants.js): añadir configuración predeterminada para semantic-release,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+8f57c55f71cab4cb50eac235db86af1d020399a4,"fix(test/helpers/git-utils.js, test/integration.test.js): agregar función para empujar referencias de notas al repositorio remoto
+
+- Qué cambia:
+  - En `test/helpers/git-utils.js`: Se añade la función `gitPushNotes` que empuja todas las referencias de notas al repositorio remoto.
+  - En `test/integration.test.js`: Se actualizan las pruebas para incluir la llamada a `gitPushNotes` después de agregar notas.
+
+- Por qué:
+  - Se necesita una función para empujar las referencias de notas al repositorio remoto para mantener la sincronización entre las notas Git y el repositorio remoto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+79400fcffd5d84f0259b11cb123007547e1133af,"feat(test): actualizar versiones de Node.js en pruebas
+
+- Qué cambia: Se actualizan las versiones de Node.js a 22.14.0, 24.3.0 y 24 en el archivo .github/workflows/test.yml.
+- Por qué: Se requieren las últimas versiones de Node.js para asegurar compatibilidad y evitar problemas de incompatibilidad en el futuro.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d2e4c4d303a33fe7aefd8786b23e802a30506027,"fix(semantic-release): mejorar la claridad y proporcionar contexto en los informes de errores
+
+- Qué cambia:
+  - Añadido archivo `.github/ISSUE_TEMPLATE/config.yml` con enlaces de contacto para soporte de uso y configuración.
+  - Actualizado el archivo `.github/ISSUE_TEMPLATE/01_bug_report.yml` para proporcionar más contexto y instrucciones en los campos de entrada.
+
+- Por qué:
+  - Para mejorar la claridad y proporcionar contexto en los informes de errores, facilitando la solución de problemas relacionados con `semantic-release`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+07f2672e25626b7f8c7329216496bfa962b3c6e9,style(lib/utils.js): ajustar expresión regular en `isMaintenanceRange`,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+5dac74eaf714f445323fbfa1e36007578a7f51bf,"refactor(test): renombrar archivo de pruebas de integración y ajustar configuración de Ava
+
+- Qué cambia:
+  - Renombra `test/index.test.js` a `test/integration.test.js`.
+  - Ajusta la configuración de Ava en `package.json` para que apunte al nuevo archivo de pruebas de integración.
+
+- Por qué:
+  - Para mantener una estructura de directorios más clara y coherente.
+  - Para evitar confusiones futuras sobre qué tipo de pruebas se encuentran en cada archivo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4875a431a68913266928c33cbe7aa1ad5fc2e376,"refactor(test): renombrar archivo de pruebas de integración a ""e2e.test.js"" y actualizar configuración en ""package.json""
+
+- Qué cambia:
+  - Renombrar `test/integration.test.js` a `test/e2e.test.js`.
+  - Actualizar la configuración en `package.json` para reflejar el nuevo nombre del archivo de pruebas.
+
+- Por qué:
+  - El archivo de pruebas de integración se renombra a ""e2e.test.js"" para mejorar la claridad y coherencia en el nombre del archivo.
+  - Se actualiza la configuración en `package.json` para que apunte al nuevo nombre del archivo de pruebas, asegurando que los scripts de prueba sigan funcionando correctamente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d9af3f6d8d6efb71185ad9d26768de7ff87026ec,"chore(package.json): dividir pruebas de integración en grupos
+
+- Qué cambia:
+  - Añade la excepción `!test/index.test.js` en la configuración de `ava` para las pruebas de integración tradicionales.
+  - Añade la nueva tarea `test:e2e` para ejecutar las pruebas de e2e.
+- Por qué:
+  - Para mejorar la organización y la ejecución de las pruebas, separando las pruebas de integración tradicionales de las pruebas de e2e.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+da191c25208f321d39df1a2023304496ebe0cbfe,"perf(historico): actualizar comando de auditoría de firmas de npm
+
+- Qué cambia:
+  - En `release.yml`, `test.yml`, y `package.json`, se ha actualizado el comando `npm audit signatures` a `corepack npm audit signatures`.
+- Por qué:
+  - `corepack` permite una mejor gestión de versiones de npm y sus dependencias, mejorando la consistencia y la seguridad del entorno de desarrollo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1e29d01474769078768a954f0f0eb319fc6fd280,"fix(lib/get-git-auth-url.js, lib/get-release-to-add.js, test/integration.test.js): corregir errores ortográficos y mejorar la claridad del código
+
+- Qué cambia:
+  - Corregir errores ortográficos en los comentarios y mensajes de error.
+  - Ajustar la claridad y consistencia del código.
+
+- Por qué:
+  - Corregir errores ortográficos para una mejor legibilidad y evitar confusiones.
+  - Mejorar la claridad del código para facilitar su mantenimiento y comprensión.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+842c0eb8bc40359ad8c1652c4018a4abb1ddb02b,"perf(test.yml): eliminar pasos de configuración y ejecución de pruebas redundantes
+
+- Qué cambia: Se eliminaron los pasos de configuración y ejecución de pruebas redundantes.
+- Por qué: Para simplificar el flujo de trabajo de GitHub Actions y mejorar la eficiencia del proceso de pruebas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+aaed2f4a6f76eb22ee931bdd91d51524a580da3a,"style(README): agregar anotaciones TODO para reescribir
+
+- Qué cambia:
+  - Añadí anotaciones TODO en `CONTRIBUTING.md` para reescribir las documentaciones de las pruebas y los commits.
+- Por qué:
+  - Las documentaciones de los commits están desactualizadas y necesitan limpieza.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+87f0c12cf65c5109e68ea4a4d8cd513e3e56dae2,"chore(test): configurar colores en mensajes de salida y mejorar estado del flujo de trabajo
+
+- Qué cambia:
+  - Añadir variables de entorno `FORCE_COLOR` y `NPM_CONFIG_COLOR` para forzar el color en los mensajes de salida.
+  - Añadir pasos adicionales en el job `test` para verificar el estado del flujo de trabajo basado en los resultados de las pruebas.
+- Por qué:
+  - Para mejorar la visibilidad de los resultados de las pruebas en el flujo de trabajo de GitHub Actions, asegurando que los mensajes de salida estén coloreados.
+  - Para que el flujo de trabajo termine con un estado correcto basado en el resultado de las pruebas, evitando que el flujo de trabajo finalice con un estado incorrecto si alguna de las pruebas falla.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+72ab317bb0c6333c643f457f5658c318b78e4740,"chore(package.json): actualizar la propiedad ""main"" para que sea relativa
+
+- Qué cambia: Añadir la propiedad ""exports"" y actualizar ""main"" a ""./index.js"".
+- Por qué: Mejora la compatibilidad con sistemas que requieren rutas relativas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f8a41a9af4a68e9f71b8669fe7d246353a81d40e,chore(licencia): eliminar espacio en blanco innecesario,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,0,0,1,1,1
+6fd45e865fa1599cdcc30ccf25b42b321ffcfde5,"style: actualizar versión de Prettier a v3 y agregar nota de estilo
+
+- Qué cambia: Se actualizó la versión de Prettier a la 3 y se agregó una nota de estilo correspondiente.
+- Por qué: Se necesitaba la última versión de Prettier para mantener la consistencia del código y mejorar la calidad de la formateación.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+272af210523804de782b3076f05e56bcb4aeeb8f,"refactor(test/helpers/git-utils.js): eliminar línea innecesaria
+
+- Qué cambia: Se eliminó una línea innecesaria en la función `gitCommits` de `test/helpers/git-utils.js`.
+- Por qué: La línea eliminada no era necesaria y estaba causando redundancia en el código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+e4229f9c6805c11984e383c48a43c235876886f3,"fix(lib/get-last-release.js, test/get-last-release.test.js, test/get-next-version.test.js): mejorar la detección y manejo de versiones prerelease
+
+- Qué cambia:
+  - Se añade una condición adicional para seleccionar la versión prerelease correcta cuando otras versiones prerelease comparten el mismo HEAD de Git.
+  - Se crean pruebas adicionales para verificar el comportamiento en situaciones donde otras prereleases comparten el mismo HEAD.
+
+- Por qué:
+  - Evitar la selección incorrecta de versiones prerelease cuando otras versiones prerelease comparten el mismo HEAD de Git, lo que podría llevar a versiones incorrectas o inestables.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9ebabe1266d813587af5a2ce2a09b264c1eeadb8,"fix(historico): integrar herramienta OpenSSF Scorecard y agregar enlace
+
+- Qué cambia:
+  - Se ha creado un nuevo archivo `.github/workflows/scorecard.yml` con una configuración de GitHub Actions para realizar análisis de seguridad y cumplimiento utilizando la herramienta OpenSSF Scorecard.
+  - Se ha actualizado el archivo `README.md` para incluir un enlace que muestra el resultado del análisis de seguridad realizado por OpenSSF Scorecard.
+
+- Por qué:
+  - Se necesita integrar la herramienta OpenSSF Scorecard para realizar análisis de seguridad y cumplimiento en el repositorio, lo que ayuda a identificar y mitigar riesgos de seguridad.
+  - Se necesita agregar un enlace en el README.md para facilitar la visualización del resultado del análisis de seguridad, lo que mejora la transparencia y la confianza en la seguridad del proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+e39ae90ae2c3d56c02014f1b50d393b2262ef2cc,"refactor(test): optimizar el proceso de inicialización de pruebas
+
+- Qué cambia:
+  - `test/helpers/gitbox.js`, `test/helpers/mockserver.js`, `test/helpers/npm-registry.js`: Se eliminó la dependencia innecesaria de `get-stream` y se refactorizaron las funciones `start` para que llamen a una nueva función `pull` que maneja la descarga del Docker image y el seguimiento del progreso.
+  - `test/integration.test.js`: Se modificó el bloque `test.before` para que llame a `Promise.all` con las funciones `pull` de `gitbox`, `npmRegistry` y `mockServer` antes de iniciar los contenedores.
+
+- Por qué:
+  - Se eliminó la dependencia innecesaria de `get-stream` para reducir las dependencias y mejorar la claridad del código.
+  - Se refactorizaron las funciones `start` para que sean más modulares y reutilizables.
+  - Se aseguró que todos los servicios necesarios se descarguen y arranquen en paralelo para mejorar el rendimiento de las pruebas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4bf763f2644bbe1d178cd0d409cd445e6b7e6bd3,"fix(test/index.test.js): capturar y verificar error específico
+
+- Qué cambia: Se añade un bloque `try-catch` para capturar el error generado por la función `semanticRelease` y se verifica su código de error específico.
+- Por qué: Se necesita capturar el error generado por la función `semanticRelease` y verificar su código de error específico para asegurar que el comportamiento de la prueba sea correcto y que se esté manejando adecuadamente el error.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+fa133f2a9df956b89cd2a7062b18f151ffb56e6c,"chore(release.yml): fijar versión de `semantic-release` a 21.0.2
+
+- Qué cambia: Se ha actualizado la versión de `semantic-release` a `21.0.2` en el archivo `release.yml`.
+- Por qué: Para evitar problemas potenciales con versiones inestables de `semantic-release`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+ef998acd4d96af4252df0f8436e35d81aacbadc2,"perf(historico/.github/workflows): mejorar la seguridad
+
+- Qué cambia:
+  - En `release.yml`, reemplazamos `npm ci` por `npm clean-install` y agregamos `npm audit signatures`.
+  - En `test.yml`, agregamos `npm audit signatures` después de `npm clean-install`.
+- Por qué:
+  - Evitar la instalación de dependencias duplicadas y optimizar el proceso de instalación.
+  - Verificar las firmas de las auditorías de seguridad para asegurar la integridad de las dependencias.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+2d7f607649089b723573cfcf458406b3469eff13,chore(release.yml): ajustar espacios innecesarios entre comentarios,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+91eae117edc21e20bfd885b80a0dc2a75eb08b58,"chore(release): habilitar OIDC para la provisión de npm
+
+- Qué cambia:
+  - En `release.yml`, se ha añadido la permisión `id-token: write` para permitir el uso de OIDC en la publicación de paquetes npm.
+  - En `package.json`, se ha añadido la opción `provenance: true` en `publishConfig` para habilitar la provisión de npm.
+
+- Por qué:
+  - Para mejorar la seguridad y la integridad de las publicaciones de paquetes npm al habilitar la provisión de OIDC.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c71d5d94ce1fccf5a29d8e9a02f25fa45d9cc8c4,"fix(test/integration.test.js): ajustar rutas de archivos en pruebas
+
+- Qué cambia:
+  - Añadir escape adicional a las rutas de archivos en las pruebas de integración para sistemas operativos Windows.
+  - Añadir la variable de entorno `GIT_CONFIG_PARAMETERS` con valor `""'credential.helper='""` en las pruebas de integración.
+
+- Por qué:
+  - Para asegurar que las pruebas de integración funcionen correctamente en sistemas operativos Windows, donde la sintaxis de las rutas puede requerir escape adicional.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c04e8277572a66b12574d8ec25ab1ee495ac261c,"refactor(test/helpers): agrupar configuraciones de Docker en `HostConfig` y separar puertos expuestos
+
+- Qué cambia:
+  - `test/helpers/gitbox.js`: Añadido `HostConfig` y `ExposedPorts` al objeto de configuración de Docker.
+  - `test/helpers/mockserver.js`: Añadido `HostConfig` y `ExposedPorts` al objeto de configuración de Docker.
+  - `test/helpers/npm-registry.js`: Añadido `HostConfig` y `ExposedPorts` al objeto de configuración de Docker.
+- Por qué:
+  - Para mejorar la claridad y la estructura del código al agrupar las configuraciones de Docker en el objeto `HostConfig` y separar las puertos expuestos en un objeto separado `ExposedPorts`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+6ead75bf73b99cb075ae77f7404e1367567e6ec2,"refactor(test): asegurar que los mocks se restablezcan y las pruebas se ejecuten en serie
+
+- Qué cambia: Añadí `test.afterEach.always` para restablecer los mocks después de cada prueba y `test.serial` para ejecutar las pruebas en serie.
+- Por qué: Esto mejora la limpieza y organización de las pruebas, evitando conflictos y asegurando que los mocks no interfieran entre pruebas.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d170f73e0b2a8a853a7bc58977a6b4b0887d8f17,"refactor(lib/plugins/utils.js): refactorizar la función `loadPlugin` para soportar ESM con exportaciones nombradas
+
+- Qué cambia:
+  - Se ha modificado la función `loadPlugin` para manejar tanto CJS como ESM con exportaciones nombradas.
+  - Se han añadido pruebas para verificar el comportamiento de la función con ESM.
+
+- Por qué:
+  - Para asegurar que la función `loadPlugin` funcione correctamente con módulos ES, incluyendo exportaciones nombradas.
+  - Para mejorar la compatibilidad y la robustez del código al soportar diferentes tipos de módulos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+be2e1965aef750ffca2aaf00bb99113c2fc37eef,"chore(historico): configurar permisos mínimos en workflows de GitHub
+
+- Qué cambia:
+  - En `release.yml`: Añadir `permissions` para `contents: write`, `issues: write`, y `pull-requests: write`.
+  - En `test.yml`: Añadir `permissions` para `contents: read`.
+- Por qué:
+  - Para asegurar que las workflows tengan los permisos mínimos necesarios para funcionar correctamente, evitando así problemas de seguridad y fallos en la ejecución de las acciones.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+caa8b95f7b5b28674e7c2d5318539b93efa94194,"style(npm-registry): actualizar imagen de Docker y agregar token
+
+- Qué cambia:
+  - `test/helpers/npm-registry.js`: Cambia la imagen de Docker a `verdaccio/verdaccio:5` y agrega la creación de un token de autenticación.
+  - `test/integration.test.js`: Modifica el entorno de variables para incluir el token de autenticación.
+
+- Por qué:
+  - La imagen de Docker anterior (`verdaccio/verdaccio:4`) ha sido descontinuada y se requiere actualizar a la versión 5 para mantener la compatibilidad.
+  - Se necesita un token de autenticación para las pruebas de integración, ya que la versión 5 de Verdaccio requiere autenticación para ciertas operaciones.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+cf6befa2e87759321f0707019b9c2326689307e4,fix(index.js): actualizar nombre de función importada de 'hook-std,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+1b6254880cac8c2dce3767801fb424ad809c2915,"fix(test): nombrar la función `noop` explícitamente
+
+- Qué cambia: Cambio la función anónima `pluginNoop` por una función nombrada `noop` en `test/fixtures/plugin-noop.cjs` y actualizo la referencia en `test/index.test.js`.
+- Por qué: Mejora la legibilidad y la claridad del código al nombrar explícitamente la función `noop`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+3bbf08c9d0a5fe83c3ea272937ecc161ff3a56e4,"refactor(test): actualizar imagen de Docker y corregir error ortográfico
+
+- Qué cambia:
+  - En `test/helpers/gitbox.js`, cambia la imagen de Docker de `pvdlg/docker-gitbox:latest` a `semanticrelease/docker-gitbox:latest`.
+  - En `test/helpers/mockserver.js`, corrige el error ortográfico en el comentario de la función `stop`.
+- Por qué:
+  - La imagen de Docker `pvdlg/docker-gitbox:latest` no es la más reciente y puede causar problemas de compatibilidad. La imagen `semanticrelease/docker-gitbox:latest` es la versión más actualizada y compatible.
+  - El error ortográfico en el comentario de la función `stop` puede causar confusión y dificultar la lectura del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+58a226f29c04ee56bbb02cc661f020d568849cad,"fix(index.js): añadir propiedad `originalRepositoryURL` a los objetos de configuración
+
+- Qué cambia: Se añade la propiedad `originalRepositoryURL` a los objetos de configuración en `index.js` y `test/index.test.js`.
+- Por qué: Para mantener una referencia al repositorio original incluso cuando se realiza un cambio de contexto o configuración.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+09bcf7a86d39f1345001aeeb4fc269c7011f59b5,chore(README.md): actualizar badge de semantic-release para indicar estilo angular,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,0,1,1,1,1
+03aa7d0d50d603d78da01bbee313344534f07ce5,"chore(README.md): simplificar badge de semantic-release y eliminar emoji innecesario
+
+- Qué cambia: Elimino el emoji innecesario y simplifico la URL del logotipo del badge.
+- Por qué: Mejora la legibilidad del badge en el README.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+20034829d9957555579217830356aab26e8ea915,refactor(release.yml): especificar versión de Node.js a utilizar,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+a4f0ff70fe6fad14812854cd5aab9222d285e9cd,"perf(historico/.github/workflows): reemplazar `bahmutov/npm-install` por `npm ci` y habilitar el caché de npm
+
+- Qué cambia:
+  - En `release.yml`, reemplazamos `bahmutov/npm-install` por `npm ci` y activamos el caché de npm.
+  - En `test.yml`, reemplazamos `bahmutov/npm-install` por `npm ci` y activamos el caché de npm.
+- Por qué:
+  - Mejorar el rendimiento de las pruebas y la instalación de dependencias al utilizar `npm ci` en lugar de `bahmutov/npm-install`, que es más rápido y garantiza la consistencia del entorno de desarrollo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+3ecc196d8ad735f6ab30b81b8f5d8b6d095e1da8,"fix(lib/get-config.js, test/get-config.test.js): permitir formatos adicionales de archivos de configuración
+
+- Qué cambia:
+  - En `lib/get-config.js`: Eliminó la lista de archivos de configuración específicos y utilizó `cosmiconfig` sin parámetros para buscar cualquier archivo de configuración.
+  - En `test/get-config.test.js`: Añadió pruebas para verificar la lectura de opciones desde archivos de configuración adicionales como `.releaserc.cjs` y `release.config.cjs`.
+
+- Por qué:
+  - El cambio permite que el sistema de configuración funcione con formatos adicionales de archivos de configuración, mejorando la flexibilidad y la adaptabilidad del sistema.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+096ed52322db0e5da68189351df47f9e977002b4,"perf(release.yml): actualizar permisos de flujo de trabajo de GitHub
+
+- Qué cambia: Añadir permisos específicos para la acción de GitHub.
+- Por qué: Asegurar que las acciones tengan acceso adecuado a los recursos necesarios, evitando problemas de autorización en futuras ejecuciones del flujo de trabajo.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+48e4b8b1c951d0853a96bb7c2cf7b81c8c97f9ec,"fix(engines): actualizar versiones de Node.js soportadas y mejorar precisión del comando de git
+
+- Qué cambia:
+  - En `jobs/build.yml`: Se actualizan las versiones de Node.js soportadas a 18, 20 y 22.
+  - En `package.json`: Se actualiza la versión mínima de Node.js a 18.
+  - En `src/git/whatChanged.js`: Se cambia el comando de `git whatchanged` a `git log --raw --no-merges` para mejorar la precisión y evitar problemas con versiones modernas de Git.
+
+- Por qué:
+  - Se rompe el soporte para versiones de Node.js obsoletas y no se cumplen las políticas de seguridad.
+  - El comando `git whatchanged` ha sido descontinuado en versiones modernas de Git, lo que causa problemas en el pipeline de construcción.
+  - Mejorar la precisión del comando de git para obtener los cambios en el repositorio.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+3c08866d9a8788c25798035f2dee7feaa6c03287,chore(README.md): actualizar enlace a los patrocinadores,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+2e57fd02a5fd2b2dcf89d3235a6956edaeaf672c,"perf(jobs/build.yml): instalar y configurar pnpm para mejorar la gestión de dependencias
+
+- Qué cambia: Se añade un paso para instalar y configurar pnpm en el proceso de construcción.
+- Por qué: Instalar pnpm permite una gestión más eficiente de las dependencias, reduciendo el tiempo de instalación y optimizando el uso de memoria.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+09399106b43f8e00191ab921a42797049725b73b,fix(historico): añadir workflow de lanzamiento de versiones,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+218d4547643b241ed38ff27e3870e1ef8ae627d7,"fix(historico): eliminar configuración de Travis CI
+
+- Qué cambia: Se eliminó el archivo `.travis.yml`.
+- Por qué: La configuración de Travis CI no estaba siendo utilizada y se eliminó para simplificar el proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4a493ec688b7d4d8bba36984509773475e157805,"refactor(README.md): eliminar insignias de estado de construcción
+
+- Qué cambia: Eliminé las insignias de estado de construcción y cobertura del README.md.
+- Por qué: Estas insignias no son relevantes para la documentación del proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+04e4b4d0e55da045fe6565a36aac5aa0eaee0764,"chore(README.md): agregar opción `cz-commitlint` a la lista
+
+- Qué cambia: Añadir `cz-commitlint` a la lista de herramientas de commitizen.
+- Por qué: Proporcionar más opciones personalizadas y estándares de commit.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+95a20d45d4af05eace9693a346e45d8bc9eabc2c,"fix(bin/git-cz.js): añadir manejo de señal SIGINT
+
+- Qué cambia: Se añade un manejador para la señal SIGINT (Ctrl+C) que permite una salida limpia del proceso.
+- Por qué: Evitar que el proceso se cierre de manera abrupta y no limpie correctamente los recursos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a97e808d893cf0608dbb8a0135b91bb0b120cce9,"fix(README.md): añadir prefijo `sh` a bloques de código de terminal
+
+- Qué cambia: Añado el prefijo `sh` a los bloques de código que representan comandos de terminal en el archivo README.md.
+- Por qué: Facilita la lectura y ejecución de estos comandos, mejorando la consistencia y claridad del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1b813ce151ad540049ed1845dc4cdbf882b77ccd,"style(README.md): actualizar enlaces y estructura de proyectos
+
+- Qué cambia: Actualizo los enlaces de `commitlint` y ajusto la estructura de la sección de proyectos relacionados.
+- Por qué: Los enlaces anteriores estaban obsoletos y la estructura no reflejaba la versión más reciente del proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+994f3b042222081870f124984da9d14acd7024b7,"chore(src/git/commit.js): actualizar la ruta al archivo COMMIT_EDITMSG
+
+- Qué cambia: Se ha actualizado la ruta al archivo `COMMIT_EDITMSG` utilizando `git rev-parse --absolute-git-dir` en lugar de una ruta relativa.
+- Por qué: La ruta relativa podría no funcionar en todos los entornos, mientras que `git rev-parse --absolute-git-dir` garantiza la ruta absoluta correcta, lo que mejora la precisión y la portabilidad del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+29543032f8042014f2ee96623e2d5fe0662bed6a,"docs(README.md): añadir configuración de commitizen en `.czrc`
+
+- Qué cambia: Se añade una sección en el README.md explicando cómo configurar commitizen a través de un archivo `.czrc`.
+- Por qué: Para mejorar la claridad y la consistencia en la documentación del README, explicando cómo configurar commitizen a través de un archivo `.czrc`.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+be08907b1b549800e5735eb758d66366566452f7,"feat(src/configLoader/loader.js): hacer que el parámetro `cwd` sea opcional
+
+- Qué cambia: Se ha modificado la función `loader` para que el parámetro `cwd` sea opcional. Si no se proporciona, se utilizará el directorio de trabajo actual (`process.cwd()`).
+- Por qué: Para mejorar la flexibilidad de la función `loader`, permitiendo que los usuarios no especifiquen explícitamente el directorio de trabajo cuando no es necesario.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a6adb3b1f7cc19c5a8f011d2c189de0dc03bfceb,"refactor(commitizen): modularizar la carga de configuración en un archivo separado
+
+- Qué cambia:
+  - Se ha creado un nuevo archivo `configLoader.js` en el directorio `src/commitizen/` que contiene la lógica para cargar la configuración.
+  - Se han actualizado los imports en `commitizen.js` y `init.js` para incluir el nuevo archivo `configLoader.js`.
+  - Se ha refactorizado la función `loadAdapterConfig` en `init.js` para utilizar la nueva función `load` de `configLoader.js`.
+  - Se ha actualizado la función `loader` en `configLoader/loader.js` para aceptar un parámetro obligatorio `config`.
+
+- Por qué:
+  - La modularización de la carga de configuración mejora la organización del código y facilita su reutilización.
+  - La refactorización de la función `loadAdapterConfig` simplifica la lógica de carga de configuración y la hace más fácil de mantener.
+  - La actualización de los imports y funciones asegura que el nuevo código funcione correctamente y que no se rompa ninguna funcionalidad existente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+607d514a46c77a837904359224f15cae78a0d0f8,"chore(azure-pipelines.yml): actualizar imágenes de máquina virtual
+
+- Qué cambia: Cambia las imágenes de máquina virtual de `macOS-10.13` a `macOS-latest` y de `vs2017-win2016` a `windows-latest`.
+- Por qué: Para utilizar las versiones más recientes y actualizadas disponibles de macOS y Windows en los pipelines de Azure, lo que asegura que los tests se ejecuten en entornos más modernos y compatibles.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+9ae386c7e4eb751bf4f409180ccecd8bfb78f2c0,"fix(historico): migrar configuración de Babel a archivo separado
+
+- Qué cambia: Se ha creado un nuevo archivo `babel.config.js` con la configuración de Babel y se ha eliminado la configuración de Babel en `package.json`.
+- Por qué: Para mejorar la organización y la legibilidad del proyecto, es mejor mantener la configuración de Babel en un archivo separado.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+8950d5cad7a128f7376c2f55d2399352b81e2f46,"feat(README.md): añadir `|| true` para evitar que el script falle si `git cz` no está instalado
+
+- Qué cambia: Se añade `|| true` al final del comando `git cz --hook` en el archivo `README.md` para que el script no falle si `git cz` no está instalado.
+- Por qué: Evitar que el script falle si `git cz` no está instalado, lo que permite que el commit siga siendo realizado incluso sin el comando de commit convencional instalado.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+270cb5c5c11f6fbf37f36c580737b13b3122fe26,"fix(historico): deshabilitar pruebas de cobertura y mejorar la cobertura de pruebas
+
+- Qué cambia:
+  - Deshabilita la ejecución de `npm run check-coverage` en `.travis.yml`.
+  - Añade la anotación `/* istanbul ignore file */` a los archivos `commitizen.js`, `configLoader.js`, `git.js` y `init.js`.
+  - Añade una nueva prueba en `test/tests/init.js` para verificar la instalación de `cz-conventional-changelog` y `commitizen` con la opción `includeCommitizen`.
+
+- Por qué:
+  - La ejecución de pruebas de cobertura interfiera con el código bajo prueba, afectando la precisión de los resultados.
+  - La nueva prueba asegura que `cz-conventional-changelog` y `commitizen` se instalen correctamente con la opción `includeCommitizen`, mejorando la cobertura de pruebas y la confiabilidad del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f7982d38c0882e7e91a011bfd409e2262858bfb1,"fix(cli): permitir parámetro `argv` opcional en funciones `bootstrap`
+
+- Qué cambia:
+  - En `commitizen.js` y `git-cz.js`, la función `bootstrap` ahora acepta un parámetro `argv` opcional, que por defecto es `process.argv`.
+  - Se añade una prueba en `cli.js` para verificar que `bootstrap` utiliza el parámetro `argv` sobrescrito.
+
+- Por qué:
+  - Para permitir la sobrescritura de los argumentos de línea de comandos durante las pruebas, lo que facilita la simulación de diferentes escenarios sin modificar el código principal.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+75b940dedf8860be9b53ccd13f8597c413cf225a,"fix(configLoader): manejar archivos JSON con diferentes conjuntos de caracteres
+
+- Qué cambia:
+  - Se añade la dependencia `is-utf8` para verificar si un archivo es UTF-8.
+  - Se añade la dependencia `strip-bom` para eliminar la BOM (Byte Order Mark) de los archivos.
+  - Se modifica la función `readConfigContent` para leer el contenido del archivo, verificar su codificación y eliminar la BOM si es necesario.
+  - Se añade un nuevo archivo de prueba `invalid-charset.json` con un conjunto de caracteres no UTF-8.
+  - Se actualiza el archivo de prueba `configLoader.js` para incluir una nueva prueba que verifica el manejo de archivos JSON con caracteres no UTF-8.
+
+- Por qué:
+  - Para mejorar la capacidad de la aplicación para manejar archivos JSON con diferentes conjuntos de caracteres, incluyendo la detección de caracteres no UTF-8 y la eliminación de la BOM (Byte Order Mark).","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+04b7d41b1f563c3f7f0a1fb7fb40923e6fcb48c5,"fix(package.json, src/configLoader/getContent.js, test/tests/configLoader.js): eliminar dependencia y pruebas de ""strip-bom""
+
+- Qué cambia:
+  - Eliminación de ""strip-bom"" de `package.json`.
+  - Eliminación de importaciones y funciones relacionadas con ""strip-bom"" en `src/configLoader/getContent.js`.
+  - Eliminación de pruebas relacionadas con ""invalid-charset.json"" en `test/tests/configLoader.js`.
+
+- Por qué:
+  - La dependencia ""strip-bom"" no era necesaria y causaba problemas en el proyecto. Eliminarla simplifica el código y elimina pruebas innecesarias.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c74eeb9e6b11c5740ca7b714579c5870334b3149,"fix(configLoader): agregar soporte para archivos JSON con BOM
+
+- Qué cambia:
+  - Se añade la dependencia `strip-bom` para eliminar el Byte Order Mark (BOM) de los archivos JSON.
+  - Se actualizan los imports para incluir `is-utf8` y `strip-bom`.
+  - Se crea la función `readConfigFileContent` que lee el contenido del archivo JSON, verifica si el charset es UTF-8 y elimina el BOM si es necesario.
+  - Se actualiza la función `readConfigContent` para utilizar `readConfigFileContent` en lugar de `fs.readFileSync`.
+  - Se añade un archivo de prueba `invalid-charset.json` con un charset no UTF-8.
+  - Se actualiza la prueba `configLoader.js` para incluir una prueba que verifica el manejo de archivos JSON con charset no UTF-8.
+
+- Por qué:
+  - El cambio es necesario para mejorar la robustez del cargador de configuraciones, permitiendo que el sistema funcione correctamente con archivos JSON que contienen BOM o caracteres de codificación no UTF-8.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+7c4703bb2afc8bbb8a910aa958a855cad2f6beb7,"fix(staging.js): considerar cambios en el área de preparación y directorio de trabajo
+
+- Qué cambia: 
+  - En `src/commitizen/staging.js`, se ha modificado la función `isClean` para incluir `git diff --no-ext-diff --name-only && git diff --no-ext-diff --cached --name-only` en el comando `exec`, asegurando que se consideren tanto los cambios en el área de preparación como los archivos modificados en el directorio de trabajo.
+  - En `test/tests/staging.js`, se ha añadido una prueba que verifica que `isClean` devuelve `false` cuando hay cambios en el área de preparación y en el directorio de trabajo.
+
+- Por qué: 
+  - El problema existía porque la función `isClean` solo consideraba los cambios en el área de preparación, ignorando los archivos modificados en el directorio de trabajo. Esto causaba que la función no detectara correctamente los cambios cuando estos existían en ambos lugares. El cambio soluciona este problema asegurando que se consideren todos los cambios relevantes.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c3764c8c1d2b05597a6c604c13b6a11731c47281,"fix(jobs/build.yml, src/git/commit.js): configurar usuario de Git globalmente y mejorar gestión de errores
+
+- Qué cambia:
+  - En `jobs/build.yml`, se añaden comandos para configurar el usuario de Git globalmente.
+  - En `src/git/commit.js`, se mejora la gestión de errores al detectar el código de salida 128, que indica que el usuario de Git no está configurado.
+
+- Por qué:
+  - Evitar el error de configuración de Git al intentar hacer un commit sin configuración previa.
+  - Mejorar la experiencia del usuario al proporcionar un mensaje claro sobre cómo configurar el usuario de Git.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f1150c83a62048831fe6d94836f52242fdc9831e,fix(jobs): añadir archivo de configuración de trabajo para CI,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 0,
+  ""Logicality"": 0
+}",True,0,0,0,0,0
+f0595edca921b68913e2ce2ca1bbad75abe71515,"refactor(azure-pipelines.yml): dividir la configuración del pipeline en plantillas
+
+- Qué cambia:
+  - Se eliminaron las configuraciones específicas para macOS, Linux y Windows en el archivo `azure-pipelines.yml`.
+  - Se agregaron referencias a plantillas (`jobs/build.yml`) con parámetros para cada plataforma (`macOS`, `Linux`, `Windows`).
+  - Se añadió un paso adicional de firma en la plantilla para Windows.
+
+- Por qué:
+  - Para facilitar la gestión y la reutilización del código del pipeline.
+  - Para evitar duplicación de configuraciones y facilitar la actualización en un solo lugar.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+4693079d0400ad1a914af86c6027f83d18cde74d,"chore(azure-pipelines.yml): agregar archivo de configuración
+
+- Qué cambia: Se ha añadido el archivo `azure-pipelines.yml` en la raíz del proyecto.
+- Por qué: Este archivo es necesario para configurar un pipeline de integración continua y entrega continua (CI/CD) en Azure DevOps, utilizando Node.js y npm para construir el proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d5b8bc587770e4a7efd6a36962abaa0425931181,"docs(README.md): añadir alternativas para usar Commitizen con NPM 5.2+
+
+- Qué cambia: Se añaden instrucciones para usar `npx` en README.md.
+- Por qué: Para facilitar la configuración de Commitizen para usuarios con NPM 5.2+ y mejorar la documentación.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+0023958e2152dcbf6bcd6b0c87367c4bf281bb10,feat(package.json): actualizar versión de lodash a 4.17.5,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,0,0,1,1,1
+d74b9200c2da9657d8580c5d1f2c38b87ea2c3c6,feat: añadir archivo .editorconfig para standardizar configuración,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,0,0,0,1,1
+4b322358fa58219b9999a71f8b214a2c8ec2e0ec,"fix(README.md): actualizar enlaces y ajustar indentación
+
+- Qué cambia:
+  - Añadir enlace a las convenciones específicas de Angular commit.
+  - Cambiar la indentación de 4 espacios a 2 espacios.
+- Por qué:
+  - Mejorar la claridad y consistencia en las directrices de contribución.
+  - Asegurar que los commits sigan las convenciones de Angular para una mejor colaboración.
+  - Reducir la confusión y errores en la indentación del código.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+f2f04539a64df8805efae326018b7d5e3d480031,"chore(README.md): añadir enlaces a proyectos relacionados
+
+- Qué cambia: Se añaden enlaces a proyectos relacionados en la sección ""Related projects"" del archivo README.md.
+- Por qué: Para mejorar la visibilidad y el conocimiento sobre herramientas complementarias que pueden ser útiles en proyectos que utilizan commitizen.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+53719a42fabde1940af14a3e19195ea0d62b9728,"fix(bin/git-cz.js): capturar excepciones no capturadas
+
+- Qué cambia: Se añade un manejador de excepciones para capturar cualquier error no capturado en el script `git-cz.js`. Si ocurre un error, se registra el mensaje de error y el proceso termina con un código de error 1.
+- Por qué: Para asegurar que cualquier error no capturado en el script `git-cz.js` se registre y el proceso termine correctamente, evitando que el script continúe ejecutándose en un estado inconsistente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+1d3139f002fce37695a5fdd9b01c97676d6c3057,"feat(src/git/commit.js): simplificar construcción de cadena de comandos
+
+- Qué cambia: Se reemplaza el uso de `split` y `map` por una construcción más directa de la cadena de comandos.
+- Por qué: Reducir la complejidad del código y eliminar la necesidad de procesar cada línea individualmente.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a97e3f846b049e138fb20b3057b0c6fff78d4c92,"style(src/commitizen/adapter.js, src/git/commit.js, test/tests/adapter.js, test/tests/commit.js): añadir soporte para el sistema de control de versiones Git y mejorar la cobertura de pruebas para el adaptador de commitizen
+
+- Qué cambia:
+  - Añadido ""cz-conventional-changelog-default-export"" a package.json.
+  - Añadida función de prueba para verificar el adaptador de commitizen.
+  - Añadido bloque de código para ignorar pruebas en src/commitizen/adapter.js y src/git/commit.js.
+  - Añadido bloque de código para ignorar pruebas en test/tests/adapter.js y test/tests/commit.js.
+
+- Por qué:
+  - Para integrar el soporte para el sistema de control de versiones Git y mejorar la cobertura de pruebas para el adaptador de commitizen.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+6d282be2e474002e7e31d3d4ef24f90a0de557c6,chore(appveyor.yml): desactivar envío de artefactos de prueba a AppVeyor,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,0,0,1,1,1
+f9a78e39a0f7f793afd32275568f11e78da2cf4e,chore(appveyor.yml): deshabilitar publicación de artefactos de prueba,"{
+  ""Rationality"": 0,
+  ""Comprehensiveness"": 0,
+  ""Non-redundancy"": 0,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,0,0,0,1,1
+a65530894982cc038894a1047db50db10932a93d,"fix(appveyor.yml): actualizar versión de Node.js y aumentar timeout
+
+- Qué cambia: Actualizo la versión de Node.js a ""4"" en appveyor.yml y aumento el timeout máximo a 240000 en test/config.js.
+- Por qué: La versión de Node.js ""0.12"" está obsoleta y los tests fallaban debido a tiempos de espera insuficientes.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+02021b9fe93770b91dbb22d745ca8321ba99d477,"chore(historico): actualizar versión de `semantic-release` a 6.3.5
+
+- Qué cambia: Se actualiza la versión de `semantic-release` en `package.json` de la versión 4.3.5 a la versión 6.3.5.
+- Por qué: La versión 6.3.5 de `semantic-release` incluye nuevas características y mejoras de seguridad, lo que mejora la gestión de versiones y la seguridad del proyecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+0ddfa20c9906963660be68c8a47e78484ccc9cce,"feat(src/common/util.js, src/configLoader/loader.js): añadir función `isInTest` para determinar si el código se está ejecutando en un entorno de prueba.
+
+- Qué cambia:
+  - Añadida función `isInTest` en `src/common/util.js`.
+  - Utilización de la función `isInTest` en `src/configLoader/loader.js` para evitar cargar configuraciones estándar en entornos de prueba.
+- Por qué:
+  - Necesitamos una forma de determinar si el código se está ejecutando en un entorno de prueba para evitar cargar configuraciones estándar en entornos de prueba.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+cec582a28320361f70b86c19274f264ac5bd5630,"refactor(test): añade pruebas para resolver rutas de adaptadores
+
+- Qué cambia:
+  - Añade pruebas en `test/tests/adapter.js` para verificar el correcto funcionamiento del adaptador con rutas de alcance (scoped).
+- Por qué:
+  - Para asegurar que el adaptador pueda resolver rutas de adaptadores con alcance (scoped) correctamente, evitando futuros errores en este aspecto.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+6fa09a235fb80597ad9abd6d91301994ed96ebf7,"feat(historico): actualizar .npmignore para incluir archivos de configuración de pruebas y herramientas de cobertura
+
+- Qué cambia: Se añaden archivos de configuración de pruebas y herramientas de cobertura al archivo `.npmignore`.
+- Por qué: Para asegurar que estos archivos no sean incluidos en el paquete npm, evitando así la exposición de información sensible y optimizando el tamaño del paquete.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+45bdd76d5fa3dab634c962f4eef353cf501d8fb2,"fix(src/commitizen/adapter.js): importar y utilizar la biblioteca `shelljs` para mejorar la funcionalidad de los comandos de shell
+
+- Qué cambia: Se importa y utiliza la biblioteca `shelljs` para mejorar la funcionalidad de los comandos de shell en el adaptador de commitizen.
+- Por qué: Antes, el código no tenía la capacidad de ejecutar comandos de shell de manera eficiente. Con la adición de `shelljs`, se pueden ejecutar comandos de shell de manera más sencilla y segura, lo que mejora la funcionalidad del adaptador.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+a666ce8815283a4c8b1865d066c5ff0633c0906b,"docs(historico): añadir guía de contribución para commitizen
+
+- Qué cambia: Se añade un archivo `CONTRIBUTING.md` con directrices sobre el estilo de codificación, las convenciones de commit y el proceso de creación de versiones.
+- Por qué: Para mejorar la colaboración y la calidad del código, es necesario establecer una guía clara y consistente para los contribuyentes.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+deb1f42254e4a93c888ca3553c489c369aeb81fa,"chore(package.json): asegurar que `prepublish` solo se ejecute durante la instalación
+
+- Qué cambia: Se añade la dependencia `in-publish` y se modifica el script `prepublish` para que solo se ejecute durante la instalación del paquete.
+- Por qué: Evitar que el script `prepublish` se ejecute durante la instalación de dependencias, lo que podría causar problemas de compilación innecesarias.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+d4af33a94c9ab145220b9153b3c37a7613c3d87f,"fix(historico): asegurar versiones exactas de dependencias en `package.json`
+
+- Qué cambia: Añade `.npmrc` con `save-exact = true` y corrige las versiones de las dependencias en `package.json` para que sean exactas.
+- Por qué: Para asegurar que las versiones exactas de las dependencias sean guardadas en el archivo `package.json` al instalarlas, evitando problemas de incompatibilidad entre diferentes entornos.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+03be955c0350296a665f70384be078bb9c8f1315,"docs(README.md): agregar instrucciones para configurar `commitizen` como utilidad global
+
+- Qué cambia: Se añaden instrucciones detalladas sobre cómo configurar y usar `commitizen` como una utilidad global para crear mensajes de commit convencionales.
+- Por qué: Mejora la consistencia y calidad de los commits en proyectos de software.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+eeff91fbfd73ae04da884cb7842596e710cb9204,"feat(README.md): agregar sección sobre front-end personalizado para Commitizen en proyectos multi-repositorio
+
+- Qué cambia: Se añade una sección al README.md que explica cómo crear y usar un front-end personalizado para Commitizen en proyectos multi-repositorio.
+- Por qué: Para standardizar el formato de mensajes de commit en proyectos multi-repositorio.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
+c6d2fdbf1571e1bad898e2bb95e40bcfed57f7da,"refactor(cli): añadir soporte para configuraciones personalizadas en `git-cz` y mejorar cobertura de pruebas
+
+- Qué cambia:
+  - Añadida la dependencia `proxyquire` y `sinon` en `package.json`.
+  - Actualizado el archivo `src/cli/git-cz.js` para aceptar una configuración personalizada en el método `bootstrap`.
+  - Añadido un nuevo archivo de prueba `test/tests/cli.js` para verificar el comportamiento de `git-cz` con configuraciones personalizadas.
+
+- Por qué:
+  - El cambio permite que `git-cz` funcione con configuraciones personalizadas, mejorando así su flexibilidad y adaptabilidad.
+  - La adición de pruebas asegura que el nuevo comportamiento funcione correctamente y que no se rompa en el futuro.","{
+  ""Rationality"": 1,
+  ""Comprehensiveness"": 1,
+  ""Non-redundancy"": 1,
+  ""Authenticity"": 1,
+  ""Logicality"": 1
+}",True,1,1,1,1,1
