@@ -20,7 +20,7 @@ class GeneradorMensajes:
         print("Inicializando el LLM (Ollama Local) y compilando el grafo del Agente...")
         
         llm = ChatOllama(
-            model="tavernari/git-commit-message:sp_commit",
+            model="qwen2.5-coder:7b",
             temperature=0.0,
             keep_alive="5m",
             num_ctx=4096
