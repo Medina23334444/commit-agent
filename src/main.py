@@ -31,7 +31,7 @@ from agent.state import AgentState
 
 def build_llm():
     return ChatOllama(
-        model="tavernari/git-commit-message:sp_commit",  # Apunta al nombre exacto de la etiqueta
+        model="qwen2.5-coder:7b",
         temperature=0.0,
         keep_alive="5m",
         num_ctx=4096
